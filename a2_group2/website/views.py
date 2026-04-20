@@ -4,4 +4,4 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
-    return '<h1>Starter code for assignment 3<h1>'
+    return '<h1>Starter code for assignment 3. Testing ading some changes. <h1>'
