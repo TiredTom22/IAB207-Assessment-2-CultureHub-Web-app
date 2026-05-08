@@ -44,8 +44,9 @@ body {
     color: white;
 }
 
-/* ── Footer ── */
+/* ── Event Cards ── */
 .event-card {
+    background-color: #f5d3d4;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     overflow: hidden;
@@ -64,6 +65,19 @@ body {
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 600;
+}
+
+.card-description {
+    font-size: 0.82rem;
+    margin-bottom: 0.6rem;
+    line-height: 1.5;
+}
+
+.card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.85rem;
 }
 
 /* ── Footer ── */
