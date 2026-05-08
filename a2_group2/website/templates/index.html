@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block header %}
-<!-- Carousel section -->
+<!-- Hero section with Carousel -->
  <div id="culturalCarousel" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#culturalCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -89,38 +89,29 @@
     </div>
   </div>
 
-  <!-- Card section -->
-  <div class="card-group mb-5">
-    <div class="card mx-3">
-        <img class="card-img-top"
-          src="https://media-cdn.tripadvisor.com/media/photo-s/0e/9c/a0/02/eiffel-tower.jpg" alt="France">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This card has supporting text below as a natural lead-in to additional content.
-          </p>
+  <!-- Event grid -->
+   <section class="event-cards">
+    <div class="container">
+      <div class="mb-3">
+        <h4 class="mb-4">Upcoming Events</h4>
+      </div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+
+        <!-- Placeholder for event cards - Will be dynamically generated -->
+        <div class="card-group mb-5">
+          <div class="card mx-3">
+              <img class="card-img-top"
+                src="https://media-cdn.tripadvisor.com/media/photo-s/0e/9c/a0/02/eiffel-tower.jpg" alt="France">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.
+                </p>
+              </div>
+              <div class="card-footer"><small class="text-muted">Last updated 3 mins ago</small></div>
+          </div>
+          <!-- Add more event cards as needed -->
         </div>
-        <div class="card-footer"><small class="text-muted">Last updated 3 mins ago</small></div>
-    </div>
-    <div class="card mx-3">
-        <img class="card-img-top" src="https://media-cdn.tripadvisor.com/media/photo-s/12/44/87/23/london.jpg"
-          alt="United Kingdom">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This card has supporting text below as a natural lead-in to additional content.
-          </p>
-        </div>
-        <div class="card-footer"><small class="text-muted">Last updated 3 mins ago</small></div>
-    </div>
-    <div class="card mx-3">
-        <img class="card-img-top" src="https://media-cdn.tripadvisor.com/media/photo-s/12/44/6e/a0/rome.jpg"
-          alt="Italy">
-        <div class="card-body">
-          <h5 class="card-title">Nice place</h5>
-          <p class="card-text">This card has supporting text below as a natural lead-in to additional content.
-          </p>
-        </div>
-        <div class="card-footer"><small class="text-muted">Last updated 3 mins ago</small></div>
-    </div>
-  </div>
+      </div>
+   </section>
 </div>
 {% endblock %}
