@@ -9,12 +9,31 @@
 
 <body>
     <!-- Header -->
-    <header>
+   <header class="bg-light border-bottom">
 
-        <!-- Navbar -->
-        <nav>
-            <!-- Your navbar should go here -->
-        </nav>
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+         <div class="container">
+
+            <!-- Your Travel App Name or Logo -->
+            <a href="/" class="navbar-brand">My Travel App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+               data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+               aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+               <div class="navbar-nav ml-auto">
+                  <a class="nav-item nav-link" href="#">Destinations</a>
+                  <a class="nav-item nav-link" href="#">Bookings</a>
+               </div>
+            </div>
+         </div>
+      </nav>
+
+
         <!-- Code for using Flask flash -->
         <div class="container-fluid">
             {% with messages = get_flashed_messages() %}
