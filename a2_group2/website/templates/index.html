@@ -12,7 +12,7 @@
   <div class="carousel-inner">
     <!-- Carousel 1 -->
     <div class="carousel-item active">
-      <img src="https://placehold.co/1200x500" class="d-block w-100" alt="Page 1">
+      <img src="https://placehold.co/1200x500" class="d-block w-100" alt="Page 1"> <!-- Placeholder image -->
       <div class="carousel-caption d-none d-md-block">
         <!-- Placeholder for carousel caption -->
         <h5>Welcome to Our Cultural Hub</h5>
@@ -61,15 +61,35 @@
 {% endblock %}
 
 {% block content %}
-<!-- Main content - Placeholders -->
+<!-- Main section -->
  <div class="container">
   <div class="row mt-5 mb-5 justify-content-center">
-    <div class="col-md-10">
-        <h2 class="text-center mb-4">Search Bar Goes Here</h2>
-        <p class="lead text-center">Category filter here</p>
+    <div class="col-md-6">
+      <!-- Search bar -->
+      <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for events...">
+          <button class="btn btn-primary" type="button">Search</button>
+      </div>
+      <!-- Category filter -->
+      <div class="filter-section" id="events">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+            <span class="filter-label">Filter by Category:</span>
+            <button class="btn btn-outline-secondary btn-sm">All</button>
+            <button class="btn btn-outline-secondary btn-sm">Food</button>
+            <button class="btn btn-outline-secondary btn-sm">Dance</button>
+            <button class="btn btn-outline-secondary btn-sm">Language</button>
+            <button class="btn btn-outline-secondary btn-sm">Ceremony</button>
+            <button class="btn btn-outline-secondary btn-sm">Art</button>
+            <button class="btn btn-outline-secondary btn-sm">Music</button>
+            <button class="btn btn-outline-secondary btn-sm">Festival</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
+  <!-- Card section -->
   <div class="card-group mb-5">
     <div class="card mx-3">
         <img class="card-img-top"
