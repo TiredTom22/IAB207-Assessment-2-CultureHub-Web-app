@@ -19,3 +19,12 @@ body {
     color: #007bff;
     font-weight: bold;
 }
+
+footer {
+    background-color: #f5d3d4;
+}
+
+.footer-bottom {
+    background-color: #e8b4b8;
+    border-top: 1px solid white;
+}
