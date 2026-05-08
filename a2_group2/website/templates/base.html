@@ -14,7 +14,10 @@
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg">
          <div class="container">
-            <a href="/" class="navbar-brand">CultureHub</a>
+            <a href="/" class="navbar-brand">
+                <!-- Using Bootstrap globe icon for the logo as placeholder -->
+                <i class="bi bi-globe"></i> CultureHub
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                aria-label="Toggle navigation">  
@@ -50,6 +53,7 @@
             {% endif %}
             {% endwith %}
         </div>
+
         {% block header %}
 
         {% endblock %}
