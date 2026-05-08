@@ -1,7 +1,9 @@
+/* ── Core ── */
 body {
     font-family: 'Montserrat', sans-serif;
 }
 
+/* ── Navbar ── */
 .navbar {
     background-color: #f5d3d4;
     padding: 15px 0;  
@@ -20,6 +22,29 @@ body {
     font-weight: bold;
 }
 
+/* ── Filter - Placeholder ── */
+.filter-section {
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.filter-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.filter-section .btn-outline-secondary {
+    border-color: #007bff;
+    color: #007bff;
+    border-radius: 20px;
+}
+
+.filter-section .btn-outline-secondary:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* ── Footer ── */
 footer {
     background-color: #f5d3d4;
 }
