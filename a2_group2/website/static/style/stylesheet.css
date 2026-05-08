@@ -45,6 +45,28 @@ body {
 }
 
 /* ── Footer ── */
+.event-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.card-img-wrap {
+    position: relative;
+}
+
+.status-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* ── Footer ── */
 footer {
     background-color: #f5d3d4;
 }
