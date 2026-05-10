@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container profile-page my-4">
+    <!-- Profile Header -->
+    <section class="profile-header shadow-sm">
+        <div class="profile-cover"></div>
+
+        <div class="profile-info">
+            <img src="https://placehold.co/120x120" alt="Profile photo" class="profile-photo" />
+
+            <div class="profile-details">
+                <h2>Maria Santos</h2>
+                <p class="email">mariasantos101@email.com</p>
+                <p class="bio">
+                    Cultural enthusiast passionate about experiencing and sharing diverse
+                    traditions from around the world.
+                </p>
+
+                <div class="profile-stats">
+                    <span>Member since January 2021</span>
+                    <span>13 events attended</span>
+                    <span>13 reviews written</span>
+                    <span>7 Events Hosted</span>
+                </div>
+            </div>
+
+            <a href="#" class="btn btn-primary edit-profile-btn">Edit Profile</a>
+        </div>
+    </section>
+
+    <!-- Summary Cards -->
+    <section class="row text-center my-4">
+        <div class="col-md-4 mb-3">
+            <div class="summary-card shadow-sm">13 Events Attended</div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="summary-card shadow-sm">7 Events Hosted</div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="summary-card shadow-sm">1 Event Saved</div>
+        </div>
+    </section>
+
+    <!-- Upcoming Events -->
+    <h4 class="section-title">Upcoming Events</h4>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="event-card profile-event-card shadow-sm">
+
+                <div class="card-img-wrap">
+                    <img src="https://placehold.co/400x220" class="card-img-top" alt="Event image">
+
+                    <span class="origin-tag">Filipino</span>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">Filipino Culture Night</h5>
+
+                    <div class="host-info">
+                        <img src="https://placehold.co/45x45" alt="Host photo">
+
+                        <span>Hosted by: Maria Santos</span>
+                    </div>
+
+                    <p class="event-date">
+                        Tuesday, 05 May 2026<br>
+                        7:30 pm to 10:30 pm<br>
+                        Southbank Ground Park<br>
+                        55 / 100 attending
+                    </p>
+                </div>
+
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <span>4.9 (34 views and rating)</span>
+                    <strong>$35.00 aud</strong>
+                </div>
+
+                <div class="card-actions">
+                    <a href="#" class="btn btn-primary btn-sm">View Details</a>
+                    <a href="#" class="btn btn-light btn-sm">Cancel</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Saved Events -->
+    <h4 class="section-title">Saved Events</h4>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <!-- Add saved event card here later -->
+        </div>
+    </div>
+
+    <!-- Past Events -->
+    <h4 class="section-title">Past Events</h4>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <!-- Add past event card here later -->
+        </div>
+    </div>
+
+    <!-- Booking History -->
+    <h4 class="section-title">Booking History</h4>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <!-- Add booking history card here later -->
+        </div>
+    </div>
+</div>
+
+<style>
+    /* ── Profile Page ── */
+    .profile-page {
+        color: #222;
+    }
+
+    .profile-header {
+        background-color: #fff3f3;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid #ddd;
+    }
+
+    .profile-cover {
+        height: 95px;
+        background-color: #4b35f5;
+    }
+
+    .profile-info {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        padding: 0 40px 25px 40px;
+        position: relative;
+    }
+
+    .profile-photo {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 6px solid #fff3f3;
+        object-fit: cover;
+        margin-top: -55px;
+    }
+
+    .profile-details h2 {
+        color: #5b4bff;
+        font-weight: bold;
+        margin-bottom: 0;
+    }
+
+    .profile-details .email {
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .profile-details .bio {
+        margin-bottom: 8px;
+    }
+
+    .profile-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 35px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .edit-profile-btn {
+        margin-left: auto;
+        min-width: 150px;
+    }
+
+    .summary-card {
+        background-color: #fff3f3;
+        border-radius: 8px;
+        padding: 25px;
+        color: #5b4bff;
+        font-size: 1.3rem;
+        font-weight: bold;
+        border: 1px solid #ddd;
+    }
+
+    .section-title {
+        color: #5b4bff;
+        font-weight: bold;
+        margin: 25px 0 15px;
+    }
+
+    /* ── Profile Event Cards ── */
+    .profile-event-card {
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: #f5d3d4;
+        border: 1px solid #ddd;
+
+        max-width: 340px;
+        margin: auto;
+    }
+
+    .profile-event-card .card-img-top {
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .profile-event-card .card-title {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .host-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin: 12px 0;
+    }
+
+    .host-info img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .event-date {
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-left: 52px;
+    }
+
+    .profile-event-card .card-footer {
+        font-size: 0.75rem;
+        background-color: #f5d3d4;
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .card-actions .btn {
+        flex: 1;
+        font-weight: bold;
+    }
+
+    /* ── Mobile responsive ── */
+    @media (max-width: 768px) {
+        .profile-info {
+            flex-direction: column;
+            text-align: center;
+            padding: 0 20px 25px;
+        }
+
+        .edit-profile-btn {
+            margin-left: 0;
+        }
+
+        .profile-stats {
+            justify-content: center;
+            gap: 15px;
+        }
+    }
+</style>
+
+{% endblock %}
