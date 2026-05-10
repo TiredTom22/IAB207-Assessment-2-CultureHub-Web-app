@@ -5,44 +5,60 @@ from .models import User
 from .forms import LoginForm, RegisterForm
 from . import db
 
-# Create a blueprint - make sure all BPs have unique names
 auth_bp = Blueprint('auth', __name__)
+
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    # NOTE: While the login page uses hardcoded JS auth, this route just renders the template.
-    # When real backend auth is ready: uncomment the LoginForm block below and remove the JS
-    # hardcoded check in login.html (see the TODO comment there).
-
-    # -- Uncomment this block when switching to real Flask-Login auth --
-    # login_form = LoginForm()
-    # error = None
-    # if login_form.validate_on_submit():
-    #     user_name = login_form.user_name.data
-    #     password = login_form.password.data
-    #     user = db.session.scalar(db.select(User).where(User.name == user_name))
-    #     if user is None:
-    #         error = 'Incorrect user name'
-    #     elif not check_password_hash(user.password_hash, password):
-    #         error = 'Incorrect password'
-    #     if error is None:
-    #         login_user(user)
-    #         nextp = request.args.get('next')
-    #         if nextp is None or not nextp.startswith('/'):  # BUG FIX: was 'next is None'
-    #             return redirect(url_for('main.index'))
-    #         return redirect(nextp)
-    #     else:
-    #         flash(error)
-    # return render_template('login.html', form=login_form)
-
-    return render_template('login.html')
+    login_form = LoginForm()
+    if login_form.validate_on_submit():
+        user_name = login_form.user_name.data
+        password = login_form.password.data
+        user = db.session.scalar(db.select(User).where(User.name == user_name))
+        if user is None:
+            flash('Incorrect username.')
+        elif not check_password_hash(user.password_hash, password):
+            flash('Incorrect password.')
+        else:
+            login_user(user)
+            nextp = request.args.get('next')
+            if nextp is None or not nextp.startswith('/'):
+                return redirect(url_for('main.index'))
+            return redirect(nextp)
+    return render_template('login.html', form=login_form)
 
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
-    # Stub — register page template to be built separately
     register_form = RegisterForm()
-    return render_template('user.html', form=register_form, heading='Register')
+    if register_form.validate_on_submit():
+        # Check if username already taken
+        existing_user = db.session.scalar(db.select(User).where(User.name == register_form.user_name.data))
+        if existing_user:
+            flash('Username already taken. Please choose another.')
+            return render_template('register.html', form=register_form)
+
+        # Check if email already registered
+        existing_email = db.session.scalar(db.select(User).where(User.email == register_form.email.data))
+        if existing_email:
+            flash('An account with that email already exists.')
+            return render_template('register.html', form=register_form)
+
+        # Create and save new user
+        new_user = User(
+            name=register_form.user_name.data,
+            email=register_form.email.data,
+            phone=register_form.phone.data,
+            address=register_form.address.data,
+            password_hash=generate_password_hash(register_form.password.data).decode('utf-8')
+        )
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash('Account created successfully! Please log in.')
+        return redirect(url_for('auth.login'))
+
+    return render_template('register.html', form=register_form)
 
 
 @auth_bp.route('/logout')
