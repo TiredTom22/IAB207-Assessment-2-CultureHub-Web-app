@@ -1,0 +1,131 @@
+﻿/* ── Core ── */
+body {
+    font-family: 'Montserrat', sans-seri
+}
+
+/* ── Navbar ── */
+.navbar {
+    background-color: #f5d3d4;
+    padding: 15px 0;  
+}
+
+.navbar .nav-link {
+    color: #007bff;
+}
+
+.navbar .nav-link:hover {
+    color: #2196F3;
+}
+
+.navbar-brand {
+    color: #007bff;
+    font-weight: bold;
+}
+
+/* ── Filter - Placeholder ── */
+.filter-section {
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.filter-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.filter-section .btn-outline-secondary {
+    border-color: #007bff;
+    color: #007bff;
+    border-radius: 20px;
+}
+
+.filter-section .btn-outline-secondary:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* ── Event Cards ── */
+.event-card {
+    background-color: #f5d3d4;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-img-wrap {
+    position: relative;
+}
+
+.status-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: #198754;
+    color: white;
+}
+
+.origin-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: #ffffff;
+    color: #333;
+}
+
+.card-hosted {
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.85rem;
+}
+
+.event-price {
+    font-weight: bold;
+}
+
+.card-footer {
+    background-color: #f8f8f8;
+    border-top: 1px solid #e0e0e0;
+    padding: 10px 15px;
+}
+
+/* ── Footer ── */
+footer {
+    background-color: #f5d3d4;
+}
+
+.footer-bottom {
+    background-color: #e8b4b8;
+    border-top: 1px solid white;
+}
+
+.footer-top h5 {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.footer-top a {
+    color: #007bff;
+}
+
+.footer-top a:hover {
+    color: #0056b3;
+}

@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block header %}
+<!-- Hero section with Carousel -->
+ <div id="culturalCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#culturalCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#culturalCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#culturalCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#culturalCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+  </div>
+  <div class="carousel-inner">
+    <!-- Carousel 1 -->
+    <div class="carousel-item active">
+      <img src="https://placehold.co/1200x500" class="d-block w-100" alt="Page 1"> <!-- Placeholder image -->
+      <div class="carousel-caption d-none d-md-block">
+        <!-- Placeholder for carousel caption -->
+        <h5>Welcome to Our Cultural Hub</h5>
+        <p>Discover the rich tapestry of cultures from around the world.</p>
+        <a href="#" class="btn btn-primary">Plan Your Event</a>
+      </div>
+    </div>
+    <!-- Carousel 2 -->
+    <div class="carousel-item">
+      <img src="https://placehold.co/1200x500" class="d-block w-100" alt="Page 2">
+      <div class="carousel-caption d-none d-md-block">
+        <!-- Placeholder for carousel caption -->
+        <h5>Explore Different Traditions</h5>
+        <p>Immerse yourself in the diverse traditions and customs of various cultures.</p>
+      </div>
+    </div>
+    <!-- Carousel 3 -->
+    <div class="carousel-item">
+      <img src="https://placehold.co/1200x500" class="d-block w-100" alt="Page 3">
+      <div class="carousel-caption d-none d-md-block">
+        <!-- Placeholder for carousel caption -->
+        <h5>Experience Cultural Festivals</h5>
+        <p>Join us in celebrating the vibrant festivals that showcase cultural richness.</p>
+      </div>
+    </div>
+    <!-- Carousel 4 -->
+    <div class="carousel-item">
+      <img src="https://placehold.co/1200x500" class="d-block w-100" alt="Page 4">
+      <div class="carousel-caption d-none d-md-block">
+        <!-- Placeholder for carousel caption -->
+        <h5>Connect with Local Communities</h5>
+        <p>Engage with local communities and learn about their way of life.</p>
+      </div>
+    </div>
+    <!-- Add more carousel items as needed -->
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#culturalCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#culturalCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Main section -->
+ <div class="container">
+  <div class="row mt-5 mb-5 justify-content-center">
+    <div class="col-md-6">
+      <!-- Search bar -->
+      <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for events...">
+          <button class="btn btn-primary" type="button">Search</button>
+      </div>
+      <!-- Category filter -->
+      <div class="filter-section" id="events">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+            <span class="filter-label">Filter by Category:</span>
+            <button class="btn btn-outline-secondary btn-sm">All</button>
+            <button class="btn btn-outline-secondary btn-sm">Food</button>
+            <button class="btn btn-outline-secondary btn-sm">Dance</button>
+            <button class="btn btn-outline-secondary btn-sm">Language</button>
+            <button class="btn btn-outline-secondary btn-sm">Ceremony</button>
+            <button class="btn btn-outline-secondary btn-sm">Art</button>
+            <button class="btn btn-outline-secondary btn-sm">Music</button>
+            <button class="btn btn-outline-secondary btn-sm">Festival</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Event grid -->
+   <section class="event-cards">
+    <div class="container">
+      <div class="mb-3">
+        <h4 class="mb-4">Upcoming Events</h4>
+      </div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+
+        <!-- Placeholder for event cards - Will be dynamically generated -->
+        <div class="col">
+          <div class="event-card">
+            <!-- Image with status badge -->
+            <div class="card-img-wrap">
+              <span class="status-badge">Open</span>
+              <img src="https://placehold.co/400x200" class="card-img-top" alt="Event Image">
+              <span class="origin-tag">Filipino</span>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+              <h5 class="card-title">Filipino Culture Night</h5>
+              <p class="card-description">Hosted by: John Filipino</p>
+              <div class="card-meta">
+                <span><i class="bi bi-calendar3 mi"></i> Sat 9 May 2026, 12:00 PM</span>
+                <span><i class="bi bi-geo-alt mi"></i> Southbank Ground Park</span>
+                <span><i class="bi bi-ticket mi"></i> 50 tickets left</span>
+              </div>
+            </div>
+            <!-- Card footer -->
+              <div class="card-footer d-flex justify-content-between align-items-center">
+                <span class="event-price">$15.00</span>
+                <a href="#" class="btn btn-primary btn-sm">View Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+          <!-- Add more event cards as needed -->
+        </div>
+      </div>
+   </section>
+</div>
+{% endblock %}

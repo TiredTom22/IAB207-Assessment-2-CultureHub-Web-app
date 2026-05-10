@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="login-wrapper">
+
+  <!-- Decorative side panel -->
+  <div class="login-side d-none d-lg-flex">
+    <div class="login-side-inner">
+      <div class="login-globe-icon">
+        <i class="bi bi-globe2"></i>
+      </div>
+      <h2 class="login-side-title">Every culture<br>has a story.</h2>
+      <p class="login-side-sub">Sign in to discover, host, and celebrate cultural experiences in your community.</p>
+      <div class="login-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login form panel -->
+  <div class="login-form-panel">
+    <div class="login-form-inner">
+
+      <!-- Brand mark (mobile only) -->
+      <div class="login-brand-mobile d-lg-none mb-4">
+        <i class="bi bi-globe"></i> CultureHub
+      </div>
+
+      <h3 class="login-heading">Welcome back</h3>
+      <p class="login-subheading">Log in to your CultureHub account</p>
+
+      <!-- Flask flash messages (wrong username/password errors) -->
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <i class="bi bi-exclamation-circle me-2"></i>{{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <!-- Real Flask login form (POST to /login) -->
+      <form method="POST" action="{{ url_for('auth.login') }}" novalidate>
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+          <label for="user_name" class="form-label">Username</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-person"></i></span>
+            {{ form.user_name(class="form-control", id="user_name", placeholder="Enter your username", autocomplete="username") }}
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-lock"></i></span>
+            {{ form.password(class="form-control", id="password", placeholder="Enter your password", autocomplete="current-password") }}
+            <button class="btn btn-outline-secondary" type="button" id="togglePassword" aria-label="Show/hide password">
+              <i class="bi bi-eye" id="toggleIcon"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="rememberMe">
+            <label class="form-check-label text-muted small" for="rememberMe">Remember me</label>
+          </div>
+          <a href="#" class="login-forgot-link small">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 login-btn">
+          Log In
+        </button>
+      </form>
+
+      <div class="login-divider">
+        <span>or</span>
+      </div>
+
+      <p class="text-center login-register-text">
+        New to CultureHub?
+        <a href="{{ url_for('auth.register') }}" class="login-register-link">Create an account</a>
+      </p>
+
+      <!-- Demo credentials hint -->
+      <div class="login-demo-hint mt-3 text-center">
+        <small class="text-muted">
+          <i class="bi bi-info-circle me-1"></i>
+          Demo credentials: <code>admin</code> / <code>password</code>
+        </small>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Styles scoped to login page -->
+<style>
+  .login-wrapper {
+    display: flex;
+    min-height: calc(100vh - 140px);
+  }
+
+  .login-side {
+    width: 42%;
+    background: linear-gradient(145deg, #f5d3d4 0%, #e8b4b8 60%, #d49499 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .login-side::before {
+    content: '';
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.3);
+    top: -80px;
+    right: -80px;
+  }
+  .login-side::after {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.2);
+    bottom: 40px;
+    left: -60px;
+  }
+
+  .login-side-inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #5a2d30;
+  }
+
+  .login-globe-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    color: #007bff;
+    opacity: 0.85;
+  }
+
+  .login-side-title {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+    color: #3d1a1c;
+  }
+
+  .login-side-sub {
+    font-size: 0.95rem;
+    color: #6b3840;
+    line-height: 1.6;
+    max-width: 280px;
+    margin: 0 auto 2rem;
+  }
+
+  .login-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+  .login-dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(0,123,255,0.5);
+    display: inline-block;
+  }
+  .login-dots span:first-child { background: #007bff; }
+
+  .login-form-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    background: #fff;
+  }
+
+  .login-form-inner {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .login-brand-mobile {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #007bff;
+  }
+
+  .login-heading {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 0.3rem;
+  }
+
+  .login-subheading {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .input-group-text {
+    background-color: #f5d3d4;
+    border-color: #dee2e6;
+    color: #007bff;
+  }
+
+  .form-control:focus {
+    border-color: #f5d3d4;
+    box-shadow: 0 0 0 0.2rem rgba(245, 211, 212, 0.5);
+  }
+
+  .form-label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #333;
+  }
+
+  .login-btn {
+    background-color: #007bff;
+    border-color: #007bff;
+    font-weight: 600;
+    padding: 0.65rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+  }
+
+  .login-btn:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-1px);
+  }
+
+  .login-btn:active {
+    transform: translateY(0);
+  }
+
+  .login-forgot-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .login-forgot-link:hover { text-decoration: underline; }
+
+  .login-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    color: #ccc;
+    font-size: 0.85rem;
+  }
+  .login-divider::before,
+  .login-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e0e0e0;
+  }
+
+  .login-register-text {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+  }
+  .login-register-link {
+    color: #007bff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .login-register-link:hover { text-decoration: underline; }
+
+  .login-demo-hint code {
+    background: #f5d3d4;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #3d1a1c;
+  }
+</style>
+
+<!-- Password show/hide toggle only — no more JS auth logic -->
+<script>
+  document.getElementById('togglePassword').addEventListener('click', function () {
+    const pwField = document.getElementById('password');
+    const icon = document.getElementById('toggleIcon');
+    if (pwField.type === 'password') {
+      pwField.type = 'text';
+      icon.className = 'bi bi-eye-slash';
+    } else {
+      pwField.type = 'password';
+      icon.className = 'bi bi-eye';
+    }
+  });
+</script>
+
+{% endblock %}
