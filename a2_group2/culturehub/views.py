@@ -9,3 +9,7 @@ def index():
 @main_bp.route('/profile')
 def profile():
     return render_template('events/profile.html')
+
+@main_bp.route('/edit-profile')
+def edit_profile():
+    return render_template('events/edit_profile.html')
