@@ -1,0 +1,393 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container my-4">
+
+    <!-- Profile Banner -->
+    <section class="profile-header shadow-sm mb-4">
+
+        <div class="profile-cover"></div>
+
+        <div class="edit-profile-banner text-center">
+
+            <div class="profile-image-wrapper">
+                <img src="https://placehold.co/160x160"
+                     alt="Profile photo"
+                     class="edit-profile-photo">
+
+                <button class="camera-btn">
+                    📷
+                </button>
+            </div>
+
+            <p class="upload-text">
+                Click camera icon to change photo
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- Edit Form -->
+    <section class="edit-profile-form shadow-sm">
+
+        <h2 class="form-title">Edit Profile</h2>
+
+        <form>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Full Name</label>
+
+                    <input type="text"
+                           class="form-control"
+                           value="Maria Santos">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Email Address</label>
+
+                    <input type="email"
+                           class="form-control"
+                           value="mariasantos101@email.com">
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Phone Number</label>
+
+                    <input type="text"
+                           class="form-control"
+                           value="N/A">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Mobile Number</label>
+
+                    <input type="text"
+                           class="form-control"
+                           value="0412 345678">
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Bio</label>
+
+                <textarea class="form-control"
+                          rows="4">
+Cultural enthusiast passionate about experiencing and sharing diverse traditions from around the world.
+                </textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Languages Spoken</label>
+
+                <input type="text"
+                       class="form-control"
+                       placeholder="e.g. English, Tagalog, Spanish">
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Cultural Interest</label>
+
+                <input type="text"
+                       class="form-control"
+                       placeholder="e.g. Japanese Tea Ceremony, Mexican Cuisine">
+            </div>
+
+            <!-- Preferences -->
+            <h3 class="preferences-title">Preferences</h3>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input"
+                       type="checkbox"
+                       checked>
+
+                <label class="form-check-label">
+                    Email me about upcoming events in my area
+                </label>
+            </div>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input"
+                       type="checkbox">
+
+                <label class="form-check-label">
+                    Send me recommendations based on my interests
+                </label>
+            </div>
+
+            <div class="form-check mb-4">
+                <input class="form-check-input"
+                       type="checkbox">
+
+                <label class="form-check-label">
+                    Allow hosts to contact me directly
+                </label>
+            </div>
+
+            <!-- Buttons -->
+            <div class="row">
+
+                <div class="col-md-6 mb-2">
+                    <button type="submit"
+                            class="btn btn-primary w-100">
+                        Save Changes
+                    </button>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <a href="{{ url_for('main.profile') }}"
+                       class="btn btn-light w-100">
+                       Cancel
+                    </a>
+                </div>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</div>
+
+<style>
+/* ── Profile Page ── */
+    .profile-page {
+        color: #222;
+    }
+
+    .profile-header {
+        background-color: #fff3f3;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid #ddd;
+    }
+
+    .profile-cover {
+        height: 95px;
+        background-color: #4b35f5;
+    }
+
+    .profile-info {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        padding: 0 40px 25px 40px;
+        position: relative;
+    }
+
+    .profile-photo {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 6px solid #fff3f3;
+        object-fit: cover;
+        margin-top: -55px;
+    }
+
+    .profile-details h2 {
+        color: #5b4bff;
+        font-weight: bold;
+        margin-bottom: 0;
+    }
+
+    .profile-details .email {
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .profile-details .bio {
+        margin-bottom: 8px;
+    }
+
+    .profile-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 35px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .edit-profile-btn {
+        margin-left: auto;
+        min-width: 150px;
+    }
+
+    .summary-card {
+        background-color: #fff3f3;
+        border-radius: 8px;
+        padding: 25px;
+        color: #5b4bff;
+        font-size: 1.3rem;
+        font-weight: bold;
+        border: 1px solid #ddd;
+    }
+
+    .section-title {
+        color: #5b4bff;
+        font-weight: bold;
+        margin: 25px 0 15px;
+    }
+
+    /* ── Profile Event Cards ── */
+    .profile-event-card {
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: #f5d3d4;
+        border: 1px solid #ddd;
+
+        max-width: 340px;
+        margin: auto;
+    }
+
+    .profile-event-card .card-img-top {
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .profile-event-card .card-title {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .host-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin: 12px 0;
+    }
+
+    .host-info img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .event-date {
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-left: 52px;
+    }
+
+    .profile-event-card .card-footer {
+        font-size: 0.75rem;
+        background-color: #f5d3d4;
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .card-actions .btn {
+        flex: 1;
+        font-weight: bold;
+    }
+
+    /* ── Mobile responsive ── */
+    @media (max-width: 768px) {
+        .profile-info {
+            flex-direction: column;
+            text-align: center;
+            padding: 0 20px 25px;
+        }
+
+        .edit-profile-btn {
+            margin-left: 0;
+        }
+
+        .profile-stats {
+            justify-content: center;
+            gap: 15px;
+        }
+    }
+
+
+/* ── Edit Profile ── */
+.edit-profile-form {
+    background-color: #fff3f3;
+    border-radius: 12px;
+    padding: 35px;
+    border: 1px solid #ddd;
+}
+
+.form-title,
+.preferences-title {
+    color: #5b4bff;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.edit-profile-banner {
+    padding-bottom: 30px;
+}
+
+.profile-image-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-top: -70px;
+}
+
+.edit-profile-photo {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 6px solid #fff3f3;
+    object-fit: cover;
+}
+
+.camera-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 5px;
+
+    border: none;
+    border-radius: 50%;
+
+    width: 38px;
+    height: 38px;
+
+    background-color: black;
+    color: white;
+
+    cursor: pointer;
+}
+
+.upload-text {
+    margin-top: 12px;
+    color: #666;
+}
+
+.edit-profile-form .form-label {
+    color: #5b4bff;
+    font-weight: 600;
+}
+
+.edit-profile-form .form-control {
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.edit-profile-form .btn-primary {
+    background-color: #4b35f5;
+    border: none;
+}
+
+.edit-profile-form .btn-light {
+    border: 1px solid #ddd;
+    background-color: white;
+}
+</style>
+
+{% endblock %}
