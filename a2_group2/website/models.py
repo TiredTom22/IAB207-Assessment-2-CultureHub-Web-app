@@ -4,8 +4,11 @@ from flask_login import UserMixin
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    password_hash = db.Column(db.String(255))
+    name = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(150), unique=True, nullable=False)
+    phone = db.Column(db.String(20), nullable=False)
+    address = db.Column(db.String(255), nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
