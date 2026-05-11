@@ -36,7 +36,7 @@
                     <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">Log Out</a>
                   {% else %}
                     <!-- Shown when logged out -->
-                    <a class="nav-item nav-link" href="#">Sign Up</a>
+                    <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">Sign Up</a>
                     <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">Log In</a>
                   {% endif %}
                </div>
