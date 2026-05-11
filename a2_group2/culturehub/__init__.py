@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -63,3 +63,7 @@ def _seed_demo_users():
             db.session.add(new_user)
 
     db.session.commit()
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('errors/404.html'), 404
