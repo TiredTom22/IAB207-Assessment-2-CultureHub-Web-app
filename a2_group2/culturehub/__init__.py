@@ -33,6 +33,10 @@ def create_app():
     with app.app_context():
         db.create_all()
         _seed_demo_users()
+        
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('errors/404.html'), 404
 
     return app
 
@@ -63,7 +67,3 @@ def _seed_demo_users():
             db.session.add(new_user)
 
     db.session.commit()
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('errors/404.html'), 404
