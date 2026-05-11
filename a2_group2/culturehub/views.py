@@ -13,3 +13,11 @@ def profile():
 @main_bp.route('/edit-profile')
 def edit_profile():
     return render_template('events/edit_profile.html')
+
+@main_bp.route('/404')
+def not_found():
+    return render_template('errors/404.html'), 404
+
+@main_bp.route('/500')
+def internal_error():
+    return render_template('errors/500.html'), 500
