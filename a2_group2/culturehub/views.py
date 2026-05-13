@@ -10,7 +10,7 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
-    events = db.session.scalar(db.select(Event)).all()
+    events = Event.query.all()
     return render_template('events/index.html', events=events)
 
 @main_bp.route('/profile')
@@ -52,3 +52,8 @@ def create_event():
         return redirect(url_for('main.index'))
     
     return render_template('events/create.html', form=form)
+
+@main_bp.route('/event/<int:event_id>')
+def event_detail(event_id):
+    event = db.session.get(Event, event_id)
+    return render_template('events/detail.html', event=event)
