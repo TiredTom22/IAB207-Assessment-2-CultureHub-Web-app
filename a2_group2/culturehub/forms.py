@@ -35,3 +35,29 @@ class RegisterForm(FlaskForm):
         InputRequired('Please confirm your password')
     ])
     submit = SubmitField("Create Account")
+
+# Event creation form
+class EventForm(FlaskForm):
+    name = StringField("Event Title", validators=[InputRequired()])
+    category = SelectField("Event Category", choices=[
+        ('food', 'Food'),
+        ('dance', 'Dance'),
+        ('language', 'Language'),
+        ('ceremony', 'Ceremony'),
+        ('art', 'Art'),
+        ('music', 'Music'),
+        ('festival', 'Festival')
+    ])
+
+    date = DateTimeLocalField("Event Date and Time", format='%Y-%m-%dT%H:%M', validators=[InputRequired()])
+    location = StringField("Event Location", validators=[InputRequired()])
+    description = TextAreaField("Event Description", validators=[InputRequired()])
+    image = FileField("Event Image", validators=[FileAllowed(['jpg', 'png'])])
+    ticket_available = IntegerField("Total Tickets Available", validators=[InputRequired(), NumberRange(min=1)])
+    price = FloatField("Ticket Price ($)", validators=[InputRequired(), NumberRange(min=0)])
+    acknowledgement = SelectField("Acknowledgement of Country", choices=[
+        ("none", "No Acknowledgement"),
+        ("generic", "Generic Acknowledgement"),
+        ("enhanced", "Enhanced Acknowledgement")
+    ])
+    submit = SubmitField("Create Event")
