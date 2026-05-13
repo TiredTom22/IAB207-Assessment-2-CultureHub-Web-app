@@ -10,6 +10,17 @@
       {{ form.hidden_tag() }}
 
       <!-- Form fields will be rendered here -->
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          {{ form.name.label(class="form-label") }}
+          {{ form.name(class="form-control", placeholder="e.g., Japanese Tea Ceremony") }}
+        </div>
+        <div class="col-md-6 mb-3">
+          {{ form.category.label(class="form-label") }}
+          {{ form.category(class="form-control") }}
+        </div>
+      </div>
+       
     </form>
   </div>
 </main>
