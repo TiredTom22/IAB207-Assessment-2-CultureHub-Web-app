@@ -55,9 +55,9 @@ class EventForm(FlaskForm):
     image = FileField("Event Image", validators=[FileAllowed(['jpg', 'png'])])
     tickets_available = IntegerField("Total Tickets Available", validators=[InputRequired(), NumberRange(min=1)])
     price = FloatField("Ticket Price ($)", validators=[InputRequired(), NumberRange(min=0)])
-    acknowledgment = SelectField("Acknowledgement of Country", choices=[
-        ("none", "No Acknowledgement"),
-        ("generic", "Generic Acknowledgement"),
-        ("enhanced", "Enhanced Acknowledgement")
+    acknowledgement = SelectField("acknowledgement of Country", choices=[
+        ("none", "No acknowledgement "),
+        ("generic", "Generic acknowledgement "),
+        ("enhanced", "Enhanced acknowledgement ")
     ])
     submit = SubmitField("Create Event")
