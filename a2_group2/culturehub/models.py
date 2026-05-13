@@ -9,14 +9,38 @@ class User(db.Model, UserMixin):
     phone = db.Column(db.String(20), nullable=False)
     address = db.Column(db.String(255), nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
+    events = db.relationship('Event', backref='user', lazy=True)
+    comments = db.relationship('Comment', backref='user', lazy=True)
+    orders = db.relationship('Order', backref='user', lazy=True)
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
+    name = db.Column(db.String(100), nullable=False)
+    category = db.Column(db.String(50), nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+    location = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    image = db.Column(db.String(255))
+    status = db.Column(db.String(20), default='Open')
+    tickets_available = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    acknowledgement  = db.Column(db.String(20), default='none')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    comments = db.relationship('Comment', backref='event', lazy=True)
+    orders = db.relationship('Order', backref='event', lazy=True)
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(255))
+    content = db.Column(db.String(255), nullable=False)
+    date = db.Column(db.DateTime, default=datetime.now)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    quantity = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    date = db.Column(db.DateTime, default=datetime.now)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
+
