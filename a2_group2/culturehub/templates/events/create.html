@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="container">
+  <h3 class="page-title">Host a Cultural Event</h3>
+  <p class="subtitle">Share your culture and traditions with the community. Create meaningful connections through storytelling and shared experiences.</p>
+
+  <div class="form-card">
+    <form method="POST" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+
+      <!-- Form fields will be rendered here -->
+    </form>
+  </div>
+</main>
+{% endblock %}
