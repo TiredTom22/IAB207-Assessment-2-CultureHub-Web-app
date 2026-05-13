@@ -13,13 +13,13 @@ def index():
     events = Event.query.all()
     return render_template('events/index.html', events=events)
 
-@main_bp.route('/profile')
+@main_bp.route('/user/profile')
 def profile():
-    return render_template('events/profile.html')
+    return render_template('user/profile.html')
 
-@main_bp.route('/edit-profile')
+@main_bp.route('/user/edit-profile')
 def edit_profile():
-    return render_template('events/edit_profile.html')
+    return render_template('user/edit_profile.html')
 
 @main_bp.route('/event/create', methods=['GET', 'POST'])
 @login_required
