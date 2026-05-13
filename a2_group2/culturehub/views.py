@@ -13,11 +13,11 @@ def index():
     events = Event.query.all()
     return render_template('events/index.html', events=events)
 
-@main_bp.route('/profile')
+@main_bp.route('user/profile')
 def profile():
     return render_template('events/profile.html')
 
-@main_bp.route('/edit-profile')
+@main_bp.route('user/edit-profile')
 def edit_profile():
     return render_template('events/edit_profile.html')
 
@@ -31,6 +31,7 @@ def create_event():
         if form.image.data:
             image_file = form.image.data
             image_filename = secure_filename(image_file.filename)
+            # TODO: Update path before deployment - currently hardcoded to local structure
             image_file.save(os.path.join('culturehub/static/images', image_filename))
 
         # Create new event
