@@ -33,18 +33,41 @@
         </div>
       </div>
 
-        <!-- Ticket and Price -->
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            {{ form.tickets_available.label(class="form-label") }}
-            {{ form.tickets_available(class="form-control", placeholder="e.g., 100") }}
-          </div>
-          <div class="col-md-6 mb-3">
-            {{ form.price.label(class="form-label") }}
-            {{ form.price(class="form-control", placeholder="e.g., 35.00") }}
-          </div>
+      <!-- Ticket and Price -->
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          {{ form.tickets_available.label(class="form-label") }}
+          {{ form.tickets_available(class="form-control", placeholder="e.g., 100") }}
         </div>
-       
+        <div class="col-md-6 mb-3">
+          {{ form.price.label(class="form-label") }}
+          {{ form.price(class="form-control", placeholder="e.g., 35.00") }}
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        {{ form.description.label(class="form-label") }}
+        {{ form.description(class="form-control", placeholder="e.g., Describe what attendees will experience at your event...") }}
+      </div>
+      
+      <!-- Image Upload -->
+      <div class="mb-3">
+        {{ form.image.label(class="form-label") }}
+        {{ form.image(class="form-control") }}
+      </div>
+
+      <!-- Acknowledgment -->
+      <div class="mb-3">
+        {{ form.acknowledgment.label(class="form-label") }}
+        {{ form.acknowledgment(class="form-control") }}
+      </div>
+
+      <!-- Submit Button -->
+      <div class="mt-4">
+        {{ form.submit(class="btn btn-primary w-100") }}
+      </div>
+
     </form>
   </div>
 </main>
