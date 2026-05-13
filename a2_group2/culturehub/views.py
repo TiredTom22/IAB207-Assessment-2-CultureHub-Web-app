@@ -26,9 +26,11 @@ def create_event():
     form = EventForm()
     if form.validate_on_submit():
         # Handle image upload
-        image_file = form.image.data
-        image_filename = secure_filename(image_file.filename)
-        image_file.save(os.path.join('culturehub/static/images', image_filename))
+        image_filename = None
+        if form.image.data:
+            image_file = form.image.data
+            image_filename = secure_filename(image_file.filename)
+            image_file.save(os.path.join('culturehub/static/images', image_filename))
 
         # Create new event
         event = Event(
