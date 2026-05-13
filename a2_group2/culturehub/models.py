@@ -15,7 +15,17 @@ class User(db.Model, UserMixin):
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
+    name = db.Column(db.String(100), nullable=False)
+    category = db.Column(db.String(50), nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+    location = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    image = db.Column(db.String(255))
+    status = db.Column(db.String(20), default='Open')
+    tickets_available = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    acknowledgement = db.Column(db.String(20), default='none')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     comments = db.relationship('Comment', backref='event', lazy=True)
     orders = db.relationship('Order', backref='event', lazy=True)
 
