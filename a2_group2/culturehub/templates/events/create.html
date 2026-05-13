@@ -9,7 +9,7 @@
     <form method="POST" enctype="multipart/form-data">
       {{ form.hidden_tag() }}
 
-      <!-- Form fields will be rendered here -->
+      <!-- Event Details -->
       <div class="row">
         <div class="col-md-6 mb-3">
           {{ form.name.label(class="form-label") }}
@@ -20,6 +20,30 @@
           {{ form.category(class="form-control") }}
         </div>
       </div>
+
+      <!-- Date and Location -->
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          {{ form.date.label(class="form-label") }}
+          {{ form.date(class="form-control") }}
+        </div>
+        <div class="col-md-6 mb-3">
+          {{ form.location.label(class="form-label") }}
+          {{ form.location(class="form-control", placeholder="e.g., Queen Street, Brisbane CBD") }}
+        </div>
+      </div>
+
+        <!-- Ticket and Price -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            {{ form.tickets_available.label(class="form-label") }}
+            {{ form.tickets_available(class="form-control", placeholder="e.g., 100") }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.price.label(class="form-label") }}
+            {{ form.price(class="form-control", placeholder="e.g., 35.00") }}
+          </div>
+        </div>
        
     </form>
   </div>
