@@ -24,15 +24,23 @@ class Event(db.Model):
     status = db.Column(db.String(20), default='Open')
     tickets_available = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)
-    acknowledgement = db.Column(db.String(20), default='none')
+    acknowledgment  = db.Column(db.String(20), default='none')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     comments = db.relationship('Comment', backref='event', lazy=True)
     orders = db.relationship('Order', backref='event', lazy=True)
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(255))
+    content = db.Column(db.String(255), nullable=False)
+    date = db.Column(db.DateTime, default=datetime.now)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    quantity = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    date = db.Column(db.DateTime, default=datetime.now)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
 
