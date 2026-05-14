@@ -9,9 +9,13 @@ from werkzeug.utils import secure_filename
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
-def index():
-    events = Event.query.all()
-    return render_template('events/index.html', events=events)
+@main_bp.route('/category/<category>')
+def index(category=None):
+    if category:
+        events = Event.query.filter_by(category=category).all()
+    else:
+        events = Event.query.all()
+    return render_template('events/index.html', events=events, current_category=category)
 
 @main_bp.route('/user/profile')
 def profile():
