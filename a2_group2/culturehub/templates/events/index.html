@@ -47,7 +47,6 @@
         <p>Engage with local communities and learn about their way of life.</p>
       </div>
     </div>
-    <!-- Add more carousel items as needed -->
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#culturalCarousel" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -75,14 +74,14 @@
         <div class="container">
           <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
             <span class="filter-label">Filter by Category:</span>
-            <button class="btn btn-outline-secondary btn-sm">All</button>
-            <button class="btn btn-outline-secondary btn-sm">Food</button>
-            <button class="btn btn-outline-secondary btn-sm">Dance</button>
-            <button class="btn btn-outline-secondary btn-sm">Language</button>
-            <button class="btn btn-outline-secondary btn-sm">Ceremony</button>
-            <button class="btn btn-outline-secondary btn-sm">Art</button>
-            <button class="btn btn-outline-secondary btn-sm">Music</button>
-            <button class="btn btn-outline-secondary btn-sm">Festival</button>
+            <a href="{{ url_for('main.index') }}#events" class="btn btn-sm {% if not current_category %}btn-primary{% else %}btn-outline-secondary{% endif %}">All</a>
+            <a href="{{ url_for('main.index', category='food') }}#events" class="btn btn-sm {% if current_category == 'food' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Food</a>
+            <a href="{{ url_for('main.index', category='dance') }}#events" class="btn btn-sm {% if current_category == 'dance' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Dance</a>
+            <a href="{{ url_for('main.index', category='language') }}#events" class="btn btn-sm {% if current_category == 'language' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Language</a>
+            <a href="{{ url_for('main.index', category='ceremony') }}#events" class="btn btn-sm {% if current_category == 'ceremony' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Ceremony</a>
+            <a href="{{ url_for('main.index', category='art') }}#events" class="btn btn-sm {% if current_category == 'art' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Art</a>
+            <a href="{{ url_for('main.index', category='music') }}#events" class="btn btn-sm {% if current_category == 'music' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Music</a>
+            <a href="{{ url_for('main.index', category='festival') }}#events" class="btn btn-sm {% if current_category == 'festival' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Festival</a>
           </div>
         </div>
       </div>
@@ -90,7 +89,7 @@
   </div>
 
   <!-- Event grid -->
-  <section class="event-cards">
+  <section class="event-cards" id="events">
     <div class="container">
       <div class="mb-3">
         <h4 class="mb-4">Upcoming Events</h4>
