@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
 from .forms import EventForm
-from .models import Event
+from .models import Event, Comment
 from . import db
 import os
 from werkzeug.utils import secure_filename
@@ -35,7 +35,11 @@ def create_event():
         if form.image.data:
             image_file = form.image.data
             image_filename = secure_filename(image_file.filename)
-            image_file.save(os.path.join('culturehub/static/images', image_filename))
+
+            # Build absolute path so it works on any OS
+            images_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'images')
+            os.makedirs(images_dir, exist_ok=True)  # Create folder if it doesn't exist
+            image_file.save(os.path.join(images_dir, image_filename))
 
         # Create new event
         event = Event(
@@ -54,10 +58,27 @@ def create_event():
         db.session.commit()
         flash('Event created successfully!')
         return redirect(url_for('main.index'))
-    
+
     return render_template('events/create.html', form=form)
 
 @main_bp.route('/event/<int:event_id>')
 def event_detail(event_id):
     event = db.session.get(Event, event_id)
     return render_template('events/detail.html', event=event)
+
+@main_bp.route('/event/<int:event_id>/comment', methods=['POST'])
+@login_required
+def add_comment(event_id):
+    content = request.form.get('content', '').strip()
+    if not content:
+        flash('Comment cannot be empty.')
+        return redirect(url_for('main.event_detail', event_id=event_id))
+
+    comment = Comment(
+        content=content,
+        user_id=current_user.id,
+        event_id=event_id
+    )
+    db.session.add(comment)
+    db.session.commit()
+    return redirect(url_for('main.event_detail', event_id=event_id) + '#comments')
