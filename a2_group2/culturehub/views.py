@@ -18,12 +18,14 @@ def index(category=None):
     return render_template('events/index.html', events=events, current_category=category)
 
 @main_bp.route('/user/profile')
+@login_required
 def profile():
-    return render_template('user/profile.html')
+    return render_template('user/profile.html', user=current_user)
 
 @main_bp.route('/user/edit-profile')
+@login_required
 def edit_profile():
-    return render_template('user/edit_profile.html')
+    return render_template('user/edit_profile.html', user=current_user)
 
 @main_bp.route('/event/create', methods=['GET', 'POST'])
 @login_required
