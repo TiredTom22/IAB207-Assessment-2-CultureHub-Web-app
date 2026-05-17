@@ -20,7 +20,9 @@ def index(category=None):
 @main_bp.route('/user/profile')
 @login_required
 def profile():
-    return render_template('user/profile.html', user=current_user)
+    hosted_events = Event.query.filter_by(user_id=current_user.id).all()
+    orders = Order.query.filter_by(user_id=current_user.id).all()
+    return render_template('user/profile.html', user=current_user, hosted_events=hosted_events, orders=orders)
 
 @main_bp.route('/user/edit-profile')
 @login_required

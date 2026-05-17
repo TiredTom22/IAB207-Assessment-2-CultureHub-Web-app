@@ -11,20 +11,20 @@
             <img src="https://placehold.co/120x120" alt="Profile photo" class="profile-photo" />
 
             <div class="profile-details">
-                <h2>Maria Santos</h2>
-                <span class="email">mariasantos101@email.com</span>
-                <span class="phone">+61 412 345 678</span>
-                <span class="address">This is a street, Somewhere city</span>
+                <h2>{{ user.name }}</h2>
+                <span class="email">{{ user.email }}</span>
+                <span class="phone">{{ user.phone }}</span>
+                <span class="address">{{ user.address }}</span>
                 <p class="bio">
                     Cultural enthusiast passionate about experiencing and sharing diverse
                     traditions from around the world.
                 </p>
 
                 <div class="profile-stats">
-                    <span>Member since January 2021</span>
-                    <span>13 events attended</span>
+                    <span>Member since January 2021</span> 
+                    <span>{{ orders|length }} events attended</span>
                     <span>13 reviews written</span>
-                    <span>7 Events Hosted</span>
+                    <span>{{ hosted_events|length }} events hosted</span>
                 </div>
             </div>
 
