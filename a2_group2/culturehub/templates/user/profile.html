@@ -12,7 +12,9 @@
 
             <div class="profile-details">
                 <h2>Maria Santos</h2>
-                <p class="email">mariasantos101@email.com</p>
+                <span class="email">mariasantos101@email.com</span>
+                <span class="phone">+61 412 345 678</span>
+                <span class="address">This is a street, Somewhere city</span>
                 <p class="bio">
                     Cultural enthusiast passionate about experiencing and sharing diverse
                     traditions from around the world.
@@ -156,7 +158,10 @@
         margin-bottom: 0;
     }
 
-    .profile-details .email {
+    .profile-details .email,
+    .profile-details .phone,
+    .profile-details .address {
+        display: flex;
         font-weight: 600;
         margin-bottom: 8px;
     }
