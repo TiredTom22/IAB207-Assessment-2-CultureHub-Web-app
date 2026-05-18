@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask_wtf.csrf import generate_csrf
 from flask_login import login_required, current_user
 from .forms import EventForm
 from .models import Event, Comment
@@ -64,7 +65,7 @@ def create_event():
 @main_bp.route('/event/<int:event_id>')
 def event_detail(event_id):
     event = db.session.get(Event, event_id)
-    return render_template('events/detail.html', event=event)
+    return render_template('events/detail.html', event=event, csrf_token=generate_csrf())
 
 @main_bp.route('/event/<int:event_id>/comment', methods=['POST'])
 @login_required
