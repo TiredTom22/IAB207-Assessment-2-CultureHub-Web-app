@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
-from .forms import EventForm
+from .forms import EditProfileForm, EventForm
 from .models import Event, Comment, Order
 from . import db
 import os
@@ -45,7 +45,19 @@ def profile():
 @main_bp.route('/user/edit-profile')
 @login_required
 def edit_profile():
-    return render_template('user/edit_profile.html', user=current_user)
+    form = EditProfileForm(obj=current_user)
+    if form.validate_on_submit():
+        current_user.name = form.name.data
+        current_user.email = form.email.data
+        current_user.phone = form.phone.data
+        current_user.address = form.address.data
+        current_user.bio = form.bio.data
+        current_user.language = form.language.data
+        current_user.cultural_interests = form.cultural_interests.data
+        db.session.commit()
+        flash('Profile updated successfully!')
+        return redirect(url_for('main.profile'))
+    return render_template('user/edit_profile.html', form=form)
 
 @main_bp.route('/event/create', methods=['GET', 'POST'])
 @login_required
