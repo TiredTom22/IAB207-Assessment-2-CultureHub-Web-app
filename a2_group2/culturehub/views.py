@@ -42,7 +42,7 @@ def profile():
                            upcoming_events=upcoming_events,
                            past_events=past_events)
 
-@main_bp.route('/user/edit-profile')
+@main_bp.route('/user/edit-profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
     form = EditProfileForm(obj=current_user)
@@ -52,7 +52,7 @@ def edit_profile():
         current_user.phone = form.phone.data
         current_user.address = form.address.data
         current_user.bio = form.bio.data
-        current_user.language = form.language.data
+        current_user.languages = form.languages.data
         current_user.cultural_interests = form.cultural_interests.data
         db.session.commit()
         flash('Profile updated successfully!')

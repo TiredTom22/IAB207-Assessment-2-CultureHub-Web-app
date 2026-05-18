@@ -46,6 +46,11 @@
             </div>
 
             <div class="mb-3">
+                {{ form.address.label(class="form-label") }}
+                {{ form.address(class="form-control") }}
+            </div>
+
+            <div class="mb-3">
                     {{ form.bio.label(class="form-label") }}
                     {{ form.bio(class="form-control") }}
             </div>
@@ -56,8 +61,8 @@
             </div>
 
             <div class="mb-4">
-                {{ form.cultural_interest.label(class="form-label") }}
-                {{ form.cultural_interest(class="form-control") }}
+                {{ form.cultural_interests.label(class="form-label") }}
+                {{ form.cultural_interests(class="form-control") }}
             </div>
 
             <!-- Preferences -->
