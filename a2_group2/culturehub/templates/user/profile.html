@@ -57,25 +57,11 @@
                             {{ event.date.strftime("%A, %d %B %Y") }}
                             {{ event.location }}
                         </p>
-                        {% comment %} <div class="host-info">
-                            <img src="https://placehold.co/45x45" alt="Host photo">
-                            <span>Hosted by: Maria Santos</span>
-                        </div>
-                        <p class="event-date">
-                            Tuesday, 05 May 2026<br>
-                            7:30 pm to 10:30 pm<br>
-                            Southbank Ground Park<br>
-                            55 / 100 attending
-                        </p> {% endcomment %}
-                    </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center">
-                        <span>4.9 (34 views and rating)</span>
-                        <strong>$35.00 aud</strong>
                     </div>
                     <div class="card-actions">
                         <a href="{{ url_for('main.event_detail', event_id=event.id) }}"
-                         class="btn btn-primary btn-sm">View Details</a>
-                        {# <a href="#" class="btn btn-light btn-sm">Cancel</a> #}
+                         class="btn btn-primary btn-sm">View Details
+                        </a>
                     </div>
                 </div>
             </div>
@@ -83,7 +69,7 @@
         {% else %}
             <p class="text-muted">No upcoming events booked yet.</p>
         {% endif %}
-        </div>
+    </div>
 
     <!-- Saved Events -->
     <h4 class="section-title">Saved Events</h4>

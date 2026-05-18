@@ -26,12 +26,12 @@ def profile():
     
     now = datetime.now()
     upcoming_events = Event.query.filter(
-        Event.user.id == current_user.id,
+        Event.user_id == current_user.id,
         Event.date >= now
     ).all()
     
-    pass_events = Event.query.filter(
-        Event.user.id == current_user.id,
+    past_events = Event.query.filter(
+        Event.user_id == current_user.id,
         Event.date < now
     ).all()
     
@@ -40,7 +40,7 @@ def profile():
                            hosted_events=hosted_events, 
                            orders=orders,
                            upcoming_events=upcoming_events,
-                           past_events=pass_events)
+                           past_events=past_events)
 
 @main_bp.route('/user/edit-profile')
 @login_required
