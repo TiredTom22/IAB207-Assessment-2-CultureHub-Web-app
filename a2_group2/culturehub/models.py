@@ -12,6 +12,10 @@ class User(db.Model, UserMixin):
     events = db.relationship('Event', backref='user', lazy=True)
     comments = db.relationship('Comment', backref='user', lazy=True)
     orders = db.relationship('Order', backref='user', lazy=True)
+    bio = db.Column(db.Text, nullable=True)  # Optional field for user biography
+    language = db.Column(db.String(255), nullable=True)  # Optional field for user's preferred language
+    cultural_interests = db.Column(db.String(255), nullable=True)  # Optional field for user's cultural interests
+    created_at = db.Column(db.DateTime, default=datetime.now)  # Timestamp for when the user account was created
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)

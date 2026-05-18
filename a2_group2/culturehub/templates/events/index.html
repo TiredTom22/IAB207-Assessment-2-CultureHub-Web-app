@@ -95,6 +95,7 @@
         <h4 class="mb-4">Upcoming Events</h4>
       </div>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+        
         <!-- Event cards will be dynamically generated here -->
         {% if events %}
         {% for event in events %}
@@ -115,12 +116,11 @@
                 <span><i class="bi bi-ticket mi"></i> {{ event.tickets_available }} tickets remaining</span>
               </div>
             </div>
-              <!-- Card footer -->
+            <!-- Card footer -->
               <div class="card-footer d-flex justify-content-between align-items-center">
                 <span class="event-price">${{ event.price }}</span>
                 <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-primary btn-sm">View Details</a>
               </div>
-            </div>
           </div>
         </div>
         {% endfor %}

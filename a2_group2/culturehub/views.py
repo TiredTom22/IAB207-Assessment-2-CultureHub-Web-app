@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_wtf.csrf import generate_csrf
 from flask_login import login_required, current_user
-from .forms import EventForm
-from .models import Event, Comment
+from .forms import EditProfileForm, EventForm
+from .models import Event, Comment, Order
 from . import db
 import os
 from werkzeug.utils import secure_filename
+from datetime import datetime
 
 main_bp = Blueprint('main', __name__)
 
@@ -19,12 +20,45 @@ def index(category=None):
     return render_template('events/index.html', events=events, current_category=category)
 
 @main_bp.route('/user/profile')
+@login_required
 def profile():
-    return render_template('user/profile.html')
+    hosted_events = Event.query.filter_by(user_id=current_user.id).all()
+    orders = Order.query.filter_by(user_id=current_user.id).all()
+    
+    now = datetime.now()
+    upcoming_events = Event.query.filter(
+        Event.user_id == current_user.id,
+        Event.date >= now
+    ).all()
+    
+    past_events = Event.query.filter(
+        Event.user_id == current_user.id,
+        Event.date < now
+    ).all()
+    
+    return render_template('user/profile.html', 
+                           user=current_user, 
+                           hosted_events=hosted_events, 
+                           orders=orders,
+                           upcoming_events=upcoming_events,
+                           past_events=past_events)
 
-@main_bp.route('/user/edit-profile')
+@main_bp.route('/user/edit-profile', methods=['GET', 'POST'])
+@login_required
 def edit_profile():
-    return render_template('user/edit_profile.html')
+    form = EditProfileForm(obj=current_user)
+    if form.validate_on_submit():
+        current_user.name = form.name.data
+        current_user.email = form.email.data
+        current_user.phone = form.phone.data
+        current_user.address = form.address.data
+        current_user.bio = form.bio.data
+        current_user.languages = form.languages.data
+        current_user.cultural_interests = form.cultural_interests.data
+        db.session.commit()
+        flash('Profile updated successfully!')
+        return redirect(url_for('main.profile'))
+    return render_template('user/edit_profile.html', form=form)
 
 @main_bp.route('/event/create', methods=['GET', 'POST'])
 @login_required

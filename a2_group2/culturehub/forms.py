@@ -61,3 +61,14 @@ class EventForm(FlaskForm):
         ("enhanced", "Enhanced acknowledgement ")
     ])
     submit = SubmitField("Create Event")
+    
+# Edit profile form
+class EditProfileForm(FlaskForm):
+    name = StringField("Full Name", validators=[InputRequired()])
+    email = StringField("Email Address", validators=[InputRequired(), Email()])
+    phone = StringField("Phone Number", validators=[InputRequired()])
+    address = StringField("Address", validators=[InputRequired()])
+    bio = TextAreaField("Bio", validators=[Length(max=500)])
+    languages = StringField("Language(s) Spoken")
+    cultural_interests = StringField("Cultural Interests")
+    submit = SubmitField("Update Profile")
