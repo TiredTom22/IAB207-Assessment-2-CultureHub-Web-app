@@ -19,9 +19,7 @@
 
                 <div class="profile-stats">
                     <span>Member since {{ user.created_at.strftime("%B %Y") }}</span>
-                    <span>{{ orders|length }} events attended</span>
                     <span>13 reviews written</span>
-                    <span>{{ hosted_events|length }} events hosted</span>
                 </div>
             </div>
 
@@ -35,10 +33,10 @@
     <!-- Summary Cards -->
     <section class="row text-center my-4">
         <div class="col-md-4 mb-3">
-            <div class="summary-card shadow-sm">13 Events Attended</div>
+            <div class="summary-card shadow-sm">{{ orders|length }} events attended</div>
         </div>
         <div class="col-md-4 mb-3">
-            <div class="summary-card shadow-sm">7 Events Hosted</div>
+            <div class="summary-card shadow-sm">{{ hosted_events|length }} events hosted</div>
         </div>
         <div class="col-md-4 mb-3">
             <div class="summary-card shadow-sm">1 Event Saved</div>

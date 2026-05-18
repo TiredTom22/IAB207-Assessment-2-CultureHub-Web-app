@@ -5,6 +5,7 @@ from .models import Event, Comment, Order
 from . import db
 import os
 from werkzeug.utils import secure_filename
+from datetime import datetime
 
 main_bp = Blueprint('main', __name__)
 
@@ -22,7 +23,24 @@ def index(category=None):
 def profile():
     hosted_events = Event.query.filter_by(user_id=current_user.id).all()
     orders = Order.query.filter_by(user_id=current_user.id).all()
-    return render_template('user/profile.html', user=current_user, hosted_events=hosted_events, orders=orders)
+    
+    now = datetime.now()
+    upcoming_events = Event.query.filter(
+        Event.user.id == current_user.id,
+        Event.date >= now
+    ).all()
+    
+    pass_events = Event.query.filter(
+        Event.user.id == current_user.id,
+        Event.date < now
+    ).all()
+    
+    return render_template('user/profile.html', 
+                           user=current_user, 
+                           hosted_events=hosted_events, 
+                           orders=orders,
+                           upcoming_events=upcoming_events,
+                           past_events=pass_events)
 
 @main_bp.route('/user/edit-profile')
 @login_required
