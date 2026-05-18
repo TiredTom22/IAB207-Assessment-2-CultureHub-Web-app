@@ -68,5 +68,5 @@ class EditProfileForm(FlaskForm):
     email = StringField("Email", validators=[InputRequired(), Email()])
     phone = StringField("Phone", validators=[InputRequired()])
     address = StringField("Address", validators=[InputRequired()])
-    # bio = TextAreaField("Bio", validators=[InputRequired()]) - Optional field for user biography
+    bio = TextAreaField("Bio", validators=[InputRequired()])
     submit = SubmitField("Update Profile")

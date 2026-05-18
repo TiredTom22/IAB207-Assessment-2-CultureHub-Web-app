@@ -6,23 +6,19 @@
     <!-- Profile Header -->
     <section class="profile-header shadow-sm">
         <div class="profile-cover"></div>
-
         <div class="profile-info">
             <img src="https://placehold.co/120x120" alt="Profile photo" class="profile-photo" />
-
             <div class="profile-details">
                 <h2>{{ user.name }}</h2>
                 <span class="email">{{ user.email }}</span>
                 <span class="phone">{{ user.phone }}</span>
                 <span class="address">{{ user.address }}</span>
                 <p class="bio"> {{ user.bio or "No bio added yet." }} </p>
-
                 <div class="profile-stats">
                     <span>Member since {{ user.created_at.strftime("%B %Y") }}</span>
                     <span>13 reviews written</span>
                 </div>
             </div>
-
             <a href="{{ url_for('main.edit_profile') }}" 
                class="btn btn-primary edit-profile-btn">
                 Edit Profile
@@ -45,47 +41,49 @@
 
     <!-- Upcoming Events -->
     <h4 class="section-title">Upcoming Events</h4>
-
     <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="event-card profile-event-card shadow-sm">
-
-                <div class="card-img-wrap">
-                    <img src="https://placehold.co/400x220" class="card-img-top" alt="Event image">
-
-                    <span class="origin-tag">Filipino</span>
-                </div>
-
-                <div class="card-body">
-                    <h5 class="card-title">Filipino Culture Night</h5>
-
-                    <div class="host-info">
-                        <img src="https://placehold.co/45x45" alt="Host photo">
-
-                        <span>Hosted by: Maria Santos</span>
+        {% if upcoming_events %}
+            {% for event in upcoming_events %}
+            <div class="col-md-4 mb-4">
+                <div class="event-card profile-event-card shadow-sm">
+                    <div class="card-img-wrap">
+                        <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/400x220' }}" 
+                        class="card-img-top" alt="{{ event.name }}">
+                        <span class="origin-tag">{{ event.category }}</span>
                     </div>
-
-                    <p class="event-date">
-                        Tuesday, 05 May 2026<br>
-                        7:30 pm to 10:30 pm<br>
-                        Southbank Ground Park<br>
-                        55 / 100 attending
-                    </p>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.name }}</h5>
+                        <p class="event-date">
+                            {{ event.date.strftime("%A, %d %B %Y") }}
+                            {{ event.location }}
+                        </p>
+                        {% comment %} <div class="host-info">
+                            <img src="https://placehold.co/45x45" alt="Host photo">
+                            <span>Hosted by: Maria Santos</span>
+                        </div>
+                        <p class="event-date">
+                            Tuesday, 05 May 2026<br>
+                            7:30 pm to 10:30 pm<br>
+                            Southbank Ground Park<br>
+                            55 / 100 attending
+                        </p> {% endcomment %}
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <span>4.9 (34 views and rating)</span>
+                        <strong>$35.00 aud</strong>
+                    </div>
+                    <div class="card-actions">
+                        <a href="{{ url_for('main.event_detail', event_id=event.id) }}"
+                         class="btn btn-primary btn-sm">View Details</a>
+                        {# <a href="#" class="btn btn-light btn-sm">Cancel</a> #}
+                    </div>
                 </div>
-
-                <div class="card-footer d-flex justify-content-between align-items-center">
-                    <span>4.9 (34 views and rating)</span>
-                    <strong>$35.00 aud</strong>
-                </div>
-
-                <div class="card-actions">
-                    <a href="#" class="btn btn-primary btn-sm">View Details</a>
-                    <a href="#" class="btn btn-light btn-sm">Cancel</a>
-                </div>
-
             </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No upcoming events booked yet.</p>
+        {% endif %}
         </div>
-    </div>
 
     <!-- Saved Events -->
     <h4 class="section-title">Saved Events</h4>
