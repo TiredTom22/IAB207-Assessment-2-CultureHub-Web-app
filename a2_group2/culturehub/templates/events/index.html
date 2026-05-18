@@ -116,12 +116,11 @@
                 <span><i class="bi bi-ticket mi"></i> {{ event.tickets_available }} tickets remaining</span>
               </div>
             </div>
-              <!-- Card footer -->
+            <!-- Card footer -->
               <div class="card-footer d-flex justify-content-between align-items-center">
                 <span class="event-price">${{ event.price }}</span>
                 <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-primary btn-sm">View Details</a>
               </div>
-            </div>
           </div>
         </div>
         {% endfor %}
