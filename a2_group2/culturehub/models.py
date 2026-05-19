@@ -9,6 +9,7 @@ class User(db.Model, UserMixin):
     phone = db.Column(db.String(20), nullable=False)
     address = db.Column(db.String(255), nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
+    profile_image = db.Column(db.String(255), nullable=True)
     events = db.relationship('Event', backref='user', lazy=True)
     comments = db.relationship('Comment', backref='user', lazy=True)
     orders = db.relationship('Order', backref='user', lazy=True)
