@@ -25,7 +25,7 @@ def index(category=None):
 def profile():
     hosted_events = Event.query.filter_by(user_id=current_user.id).all()
     orders = Order.query.filter_by(user_id=current_user.id).all()
-    comments_count = Comment.query.filter_by(user_id=current_user.id).count()
+    comments = Comment.query.filter_by(user_id=current_user.id).all()
     
     now = datetime.now()
     upcoming_events = Event.query.filter(
@@ -44,7 +44,7 @@ def profile():
                            orders=orders,
                            upcoming_events=upcoming_events,
                            past_events=past_events,
-                           comments_count=comments_count)
+                           comments=comments)
 
 @main_bp.route('/user/edit-profile', methods=['GET', 'POST'])
 @login_required

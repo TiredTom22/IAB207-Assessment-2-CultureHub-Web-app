@@ -18,7 +18,7 @@
                 <p class="bio"> {{ user.bio or "No bio added yet." }} </p>
                 <div class="profile-stats">
                     <span>Member since {{ user.created_at.strftime("%B %Y") }}</span>
-                    <span>{{ comments_count }} comments written</span>
+                    <span>{{ comments|length }} comments written</span>
                 </div>
             </div>
             <a href="{{ url_for('main.edit_profile') }}" class="btn btn-primary edit-profile-btn">
