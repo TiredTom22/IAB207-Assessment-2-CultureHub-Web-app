@@ -22,7 +22,27 @@ body {
     font-weight: bold;
 }
 
-/* ── Filter - Placeholder ── */
+/* ── Carousel ── */
+.carousel-item img {
+    height: 550px;
+    object-fit: cover;
+    filter: brightness(85%);
+}
+
+.carousel-item h5 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.carousel-item p {
+    font-size: 1.2rem;
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* ── Filter - update later ── */
 .filter-section {
     padding: 15px 0;
     border-bottom: 1px solid #e0e0e0;
@@ -111,6 +131,57 @@ body {
     background-color: #f8f8f8;
     border-top: 1px solid #e0e0e0;
     padding: 10px 15px;
+}
+
+/* ── Acknowledgement ── */
+.ack-header {
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #007bff;
+}
+
+.ack-header h2, .ack-section h3, .ack-section h4 {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.ack-card {
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    height: 100%;
+}
+
+.ack-card h5 {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.ack-section {
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.ack-list {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.ack-banner {
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.generic-ack {
+    background-color: #f0f4ff;
+}
+
+.enhanced-ack {
+    background-color: #e8f5e9;
+    border-left: 4px solid #28a745;
 }
 
 /* ── Footer ── */

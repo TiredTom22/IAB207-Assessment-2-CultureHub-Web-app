@@ -141,3 +141,7 @@ def add_comment(event_id):
     db.session.add(comment)
     db.session.commit()
     return redirect(url_for('main.event_detail', event_id=event_id) + '#comments')
+
+@main_bp.route('/acknowledgement')
+def acknowledgement():
+    return render_template('events/acknowledgement.html')
