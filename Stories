@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="community-page">
+  <h1>Stories</h1>
+  <p>
+    Read stories from our community members and discover how cultural events
+    bring people together.
+  </p>
+
+  <div class="story-card">
+    <h3>Community Story</h3>
+    <p>
+      Share your experiences, favourite events, and memorable moments with the
+      CultureHub community.
+    </p>
+  </div>
+</section>
+{% endblock %}
