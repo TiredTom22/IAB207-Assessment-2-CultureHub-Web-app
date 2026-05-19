@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="community-page">
+  <h1>About Us</h1>
+  <p>
+    CultureHub is a community space where people can discover cultural events,
+    connect with others, and share meaningful experiences.
+  </p>
+
+  <p>
+    Our goal is to bring people together through events, stories, and shared
+    cultural interests.
+  </p>
+</section>
+{% endblock %}
