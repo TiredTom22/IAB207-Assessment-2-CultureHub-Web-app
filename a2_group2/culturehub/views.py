@@ -7,6 +7,7 @@ from . import db
 import os
 from werkzeug.utils import secure_filename
 from flask import current_app
+from flask import request
 from datetime import datetime
 
 main_bp = Blueprint('main', __name__)
@@ -122,10 +123,10 @@ def create_event():
 
     return render_template('events/create.html', form=form)
 
-@main_bp.route('/event/<int:event_id>')
-def event_detail(event_id):
-    event = db.session.get(Event, event_id)
-    return render_template('events/detail.html', event=event, csrf_token=generate_csrf())
+# @main_bp.route('/event/<int:event_id>')
+# def event_detail(event_id):
+#     event = db.session.get(Event, event_id)
+#     return render_template('events/detail.html', event=event, csrf_token=generate_csrf())
 
 @main_bp.route('/event/<int:event_id>/comment', methods=['POST'])
 @login_required
@@ -151,3 +152,48 @@ def acknowledgement():
 @main_bp.route('/about')
 def about():
     return render_template('user/about-us.html')
+
+@main_bp.route('/event/<int:event_id>')
+def event_detail(event_id):
+    event = Event.query.get_or_404(event_id)
+    comments = Comment.query.filter_by(event_id=event.id).all()
+
+    return render_template(
+        'events/event-detail.html',
+        event=event,
+        comments=comments
+    )
+
+@main_bp.route('/event/<int:event_id>/book', methods=['POST'])
+@login_required
+def book_event(event_id):
+    event = Event.query.get_or_404(event_id)
+
+    quantity = int(request.form.get('quantity', 1))
+
+    if quantity < 1:
+        flash('Invalid ticket quantity.')
+        return redirect(url_for('main.event_detail', event_id=event.id))
+
+    if quantity > event.tickets_available:
+        flash('Not enough tickets available.')
+        return redirect(url_for('main.event_detail', event_id=event.id))
+
+    order = Order(
+        quantity=quantity,
+        price=event.price * quantity,
+        user_id=current_user.id,
+        event_id=event.id
+    )
+
+    event.tickets_available -= quantity
+
+    db.session.add(order)
+    db.session.commit()
+
+    return redirect(url_for(
+    'main.event_detail',
+    event_id=event.id,
+    booking='success',
+    order_id=order.id
+))
