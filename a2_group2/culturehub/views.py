@@ -147,3 +147,7 @@ def add_comment(event_id):
 @main_bp.route('/acknowledgement')
 def acknowledgement():
     return render_template('events/acknowledgement.html')
+
+@main_bp.route('/about')
+def about():
+    return render_template('user/about-us.html')
