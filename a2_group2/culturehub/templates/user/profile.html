@@ -6,26 +6,19 @@
     <!-- Profile Header -->
     <section class="profile-header shadow-sm">
         <div class="profile-cover"></div>
-
         <div class="profile-info">
             <img src="https://placehold.co/120x120" alt="Profile photo" class="profile-photo" />
-
             <div class="profile-details">
-                <h2>Maria Santos</h2>
-                <p class="email">mariasantos101@email.com</p>
-                <p class="bio">
-                    Cultural enthusiast passionate about experiencing and sharing diverse
-                    traditions from around the world.
-                </p>
-
+                <h2>{{ user.name }}</h2>
+                <span class="email">{{ user.email }}</span>
+                <span class="phone">{{ user.phone }}</span>
+                <span class="address">{{ user.address }}</span>
+                <p class="bio"> {{ user.bio or "No bio added yet." }} </p>
                 <div class="profile-stats">
-                    <span>Member since January 2021</span>
-                    <span>13 events attended</span>
+                    <span>Member since {{ user.created_at.strftime("%B %Y") }}</span>
                     <span>13 reviews written</span>
-                    <span>7 Events Hosted</span>
                 </div>
             </div>
-
             <a href="{{ url_for('main.edit_profile') }}" 
                class="btn btn-primary edit-profile-btn">
                 Edit Profile
@@ -36,58 +29,46 @@
     <!-- Summary Cards -->
     <section class="row text-center my-4">
         <div class="col-md-4 mb-3">
-            <div class="summary-card shadow-sm">13 Events Attended</div>
+            <div class="summary-card shadow-sm">{{ orders|length }} Event Attended</div>
         </div>
         <div class="col-md-4 mb-3">
-            <div class="summary-card shadow-sm">7 Events Hosted</div>
+            <div class="summary-card shadow-sm">{{ hosted_events|length }} Event Hosted</div>
         </div>
         <div class="col-md-4 mb-3">
-            <div class="summary-card shadow-sm">1 Event Saved</div>
+            <div class="summary-card shadow-sm">{{ saved_events|length }} Event Saved</div>
         </div>
     </section>
 
     <!-- Upcoming Events -->
     <h4 class="section-title">Upcoming Events</h4>
-
     <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="event-card profile-event-card shadow-sm">
-
-                <div class="card-img-wrap">
-                    <img src="https://placehold.co/400x220" class="card-img-top" alt="Event image">
-
-                    <span class="origin-tag">Filipino</span>
-                </div>
-
-                <div class="card-body">
-                    <h5 class="card-title">Filipino Culture Night</h5>
-
-                    <div class="host-info">
-                        <img src="https://placehold.co/45x45" alt="Host photo">
-
-                        <span>Hosted by: Maria Santos</span>
+        {% if upcoming_events %}
+            {% for event in upcoming_events %}
+            <div class="col-md-4 mb-4">
+                <div class="event-card profile-event-card shadow-sm">
+                    <div class="card-img-wrap">
+                        <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/400x220' }}" 
+                        class="card-img-top" alt="{{ event.name }}">
+                        <span class="origin-tag">{{ event.category }}</span>
                     </div>
-
-                    <p class="event-date">
-                        Tuesday, 05 May 2026<br>
-                        7:30 pm to 10:30 pm<br>
-                        Southbank Ground Park<br>
-                        55 / 100 attending
-                    </p>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.name }}</h5>
+                        <p class="event-date">
+                            {{ event.date.strftime("%A, %d %B %Y") }}
+                            {{ event.location }}
+                        </p>
+                    </div>
+                    <div class="card-actions">
+                        <a href="{{ url_for('main.event_detail', event_id=event.id) }}"
+                         class="btn btn-primary btn-sm">View Details
+                        </a>
+                    </div>
                 </div>
-
-                <div class="card-footer d-flex justify-content-between align-items-center">
-                    <span>4.9 (34 views and rating)</span>
-                    <strong>$35.00 aud</strong>
-                </div>
-
-                <div class="card-actions">
-                    <a href="#" class="btn btn-primary btn-sm">View Details</a>
-                    <a href="#" class="btn btn-light btn-sm">Cancel</a>
-                </div>
-
             </div>
-        </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No upcoming events booked yet.</p>
+        {% endif %}
     </div>
 
     <!-- Saved Events -->
@@ -126,16 +107,18 @@
         border-radius: 10px;
         overflow: hidden;
         border: 1px solid #ddd;
+        width: 100%;
     }
 
     .profile-cover {
         height: 95px;
         background-color: #4b35f5;
+        border-radius: 10px 10px 0 0;
     }
 
     .profile-info {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 25px;
         padding: 0 40px 25px 40px;
         position: relative;
@@ -147,7 +130,14 @@
         border-radius: 50%;
         border: 6px solid #fff3f3;
         object-fit: cover;
+        background-color: white;
+
         margin-top: -55px;
+        flex-shrink: 0;
+    }
+
+    .profile-details {
+        margin-top: 10px;
     }
 
     .profile-details h2 {
@@ -156,7 +146,10 @@
         margin-bottom: 0;
     }
 
-    .profile-details .email {
+    .profile-details .email,
+    .profile-details .phone,
+    .profile-details .address {
+        display: flex;
         font-weight: 600;
         margin-bottom: 8px;
     }
@@ -175,6 +168,7 @@
 
     .edit-profile-btn {
         margin-left: auto;
+        margin-top: 35px;
         min-width: 150px;
     }
 

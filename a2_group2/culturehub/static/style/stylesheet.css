@@ -57,6 +57,12 @@ body {
     padding: 15px;
 }
 
+.event-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
 .card-img-wrap {
     position: relative;
 }
@@ -105,6 +111,57 @@ body {
     background-color: #f8f8f8;
     border-top: 1px solid #e0e0e0;
     padding: 10px 15px;
+}
+
+/* ── Acknowledgement ── */
+.ack-header {
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #007bff;
+}
+
+.ack-header h2, .ack-section h3, .ack-section h4 {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.ack-card {
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    height: 100%;
+}
+
+.ack-card h5 {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.ack-section {
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.ack-list {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.ack-banner {
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.generic-ack {
+    background-color: #f0f4ff;
+}
+
+.enhanced-ack {
+    background-color: #e8f5e9;
+    border-left: 4px solid #28a745;
 }
 
 /* ── Footer ── */

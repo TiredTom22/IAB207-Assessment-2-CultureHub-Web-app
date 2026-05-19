@@ -61,7 +61,7 @@
 
 {% block content %}
 <!-- Main section -->
- <div class="container">
+<div class="container">
   <div class="row mt-5 mb-5 justify-content-center">
     <div class="col-md-6">
       <!-- Search bar -->
@@ -74,14 +74,14 @@
         <div class="container">
           <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
             <span class="filter-label">Filter by Category:</span>
-            <button class="btn btn-outline-secondary btn-sm">All</button>
-            <button class="btn btn-outline-secondary btn-sm">Food</button>
-            <button class="btn btn-outline-secondary btn-sm">Dance</button>
-            <button class="btn btn-outline-secondary btn-sm">Language</button>
-            <button class="btn btn-outline-secondary btn-sm">Ceremony</button>
-            <button class="btn btn-outline-secondary btn-sm">Art</button>
-            <button class="btn btn-outline-secondary btn-sm">Music</button>
-            <button class="btn btn-outline-secondary btn-sm">Festival</button>
+            <a href="{{ url_for('main.index') }}#events" class="btn btn-sm {% if not current_category %}btn-primary{% else %}btn-outline-secondary{% endif %}">All</a>
+            <a href="{{ url_for('main.index', category='food') }}#events" class="btn btn-sm {% if current_category == 'food' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Food</a>
+            <a href="{{ url_for('main.index', category='dance') }}#events" class="btn btn-sm {% if current_category == 'dance' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Dance</a>
+            <a href="{{ url_for('main.index', category='language') }}#events" class="btn btn-sm {% if current_category == 'language' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Language</a>
+            <a href="{{ url_for('main.index', category='ceremony') }}#events" class="btn btn-sm {% if current_category == 'ceremony' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Ceremony</a>
+            <a href="{{ url_for('main.index', category='art') }}#events" class="btn btn-sm {% if current_category == 'art' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Art</a>
+            <a href="{{ url_for('main.index', category='music') }}#events" class="btn btn-sm {% if current_category == 'music' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Music</a>
+            <a href="{{ url_for('main.index', category='festival') }}#events" class="btn btn-sm {% if current_category == 'festival' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Festival</a>
           </div>
         </div>
       </div>
@@ -89,43 +89,46 @@
   </div>
 
   <!-- Event grid -->
-   <section class="event-cards">
+  <section class="event-cards" id="events">
     <div class="container">
       <div class="mb-3">
         <h4 class="mb-4">Upcoming Events</h4>
       </div>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
-
-        <!-- Placeholder for event cards - Will be dynamically generated -->
+        
+        <!-- Event cards will be dynamically generated here -->
+        {% if events %}
+        {% for event in events %}
         <div class="col">
           <div class="event-card">
-            <!-- Image with status badge -->
             <div class="card-img-wrap">
-              <span class="status-badge">Open</span>
-              <img src="https://placehold.co/400x200" class="card-img-top" alt="Event Image">
-              <span class="origin-tag">Filipino</span>
+              <span class="status-badge">{{ event.status }}</span>
+              <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/400x200' }}" class="card-img-top" alt="{{ event.name }}">
+              <span class="origin-tag">{{ event.category }}</span>
             </div>
             <!-- Card body -->
             <div class="card-body">
-              <h5 class="card-title">Filipino Culture Night</h5>
-              <p class="card-description">Hosted by: John Filipino</p>
+              <h5 class="card-title">{{ event.name }}</h5>
+              <p class="card-description">Hosted by: {{ event.user.name }}</p>
               <div class="card-meta">
-                <span><i class="bi bi-calendar3 mi"></i> Sat 9 May 2026, 12:00 PM</span>
-                <span><i class="bi bi-geo-alt mi"></i> Southbank Ground Park</span>
-                <span><i class="bi bi-ticket mi"></i> 50 tickets left</span>
+                <span><i class="bi bi-calendar3 mi"></i> {{ event.date.strftime('%a %d %b %Y, %I:%M %p') }}</span>
+                <span><i class="bi bi-geo-alt mi"></i> {{ event.location }}</span>
+                <span><i class="bi bi-ticket mi"></i> {{ event.tickets_available }} tickets remaining</span>
               </div>
             </div>
             <!-- Card footer -->
               <div class="card-footer d-flex justify-content-between align-items-center">
-                <span class="event-price">$15.00</span>
-                <a href="#" class="btn btn-primary btn-sm">View Details</a>
+                <span class="event-price">${{ event.price }}</span>
+                <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-primary btn-sm">View Details</a>
               </div>
-            </div>
           </div>
         </div>
-          <!-- Add more event cards as needed -->
-        </div>
+        {% endfor %}
+      {% else %}
+        <P class="text-center mt-4">No Events available at the moment. Please check back later!</P>
+      {% endif %}
       </div>
-   </section>
+    </div>
+  </section>
 </div>
 {% endblock %}
