@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_wtf.csrf import generate_csrf
 from flask_login import login_required, current_user
 from .forms import EditProfileForm, EventForm
-from .models import Event, Comment, Order, User, Event, Order, Comment
+from .models import Event, Comment, Order, Event
 from . import db
 import os
 from werkzeug.utils import secure_filename
@@ -25,7 +25,7 @@ def index(category=None):
 def profile():
     hosted_events = Event.query.filter_by(user_id=current_user.id).all()
     orders = Order.query.filter_by(user_id=current_user.id).all()
-    comment_count = Comment.query.filter_by(user_id=current_user.id).count()
+    comments_count = Comment.query.filter_by(user_id=current_user.id).count()
     
     now = datetime.now()
     upcoming_events = Event.query.filter(
@@ -44,7 +44,7 @@ def profile():
                            orders=orders,
                            upcoming_events=upcoming_events,
                            past_events=past_events,
-                           comment_count=comment_count)
+                           comments_count=comments_count)
 
 @main_bp.route('/user/edit-profile', methods=['GET', 'POST'])
 @login_required
