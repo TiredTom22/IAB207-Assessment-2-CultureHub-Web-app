@@ -6,6 +6,7 @@ from .models import Event, Comment, Order
 from . import db
 import os
 from werkzeug.utils import secure_filename
+from flask import current_app
 from datetime import datetime
 
 main_bp = Blueprint('main', __name__)
@@ -48,17 +49,40 @@ def profile():
 def edit_profile():
     form = EditProfileForm(obj=current_user)
     if form.validate_on_submit():
+        print("FROM SUBMITTED")
+        print("PROFILE IMAGE DATA:", form.profile_image.data)
+
         current_user.name = form.name.data
         current_user.email = form.email.data
         current_user.phone = form.phone.data
         current_user.address = form.address.data
         current_user.bio = form.bio.data
-        current_user.languages = form.languages.data
+        current_user.language = form.languages.data
         current_user.cultural_interests = form.cultural_interests.data
+
+        if form.profile_image.data:
+            print("IMAGE FOUND")
+
+            image_file = form.profile_image.data
+            filename = secure_filename(image_file.filename)
+
+            upload_folder = os.path.join(
+                current_app.root_path,
+                'static',
+                'profile_pics'
+            )
+
+            os.makedirs(upload_folder, exist_ok=True)
+
+            image_path = os.path.join(upload_folder, filename)
+            image_file.save(image_path)
+
+            current_user.profile_image = filename
+
         db.session.commit()
         flash('Profile updated successfully!')
         return redirect(url_for('main.profile'))
-    return render_template('user/edit_profile.html', form=form)
+    return render_template('user/edit_profile.html', form=form, user=current_user)
 
 @main_bp.route('/event/create', methods=['GET', 'POST'])
 @login_required

@@ -71,4 +71,12 @@ class EditProfileForm(FlaskForm):
     bio = TextAreaField("Bio", validators=[Length(max=500)])
     languages = StringField("Language(s) Spoken")
     cultural_interests = StringField("Cultural Interests")
+
+    profile_image = FileField(
+        "Profile Image",
+        validators=[
+            FileAllowed(["jpg", "jpeg", "png"], "Images only!")
+        ]
+    )
+
     submit = SubmitField("Update Profile")
