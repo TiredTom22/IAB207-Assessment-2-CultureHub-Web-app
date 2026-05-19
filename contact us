@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="community-page">
+  <h1>Contact</h1>
+  <p>If you have any questions, please contact the CultureHub team.</p>
+
+  <form>
+    <label>Name</label>
+    <input type="text" placeholder="Your name">
+
+    <label>Email</label>
+    <input type="email" placeholder="Your email">
+
+    <label>Message</label>
+    <textarea placeholder="Write your message"></textarea>
+
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+{% endblock %}
