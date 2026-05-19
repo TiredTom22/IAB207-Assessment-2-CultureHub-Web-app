@@ -1,0 +1,545 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container event-detail-page my-4">
+
+    <!-- Hero Image -->
+    <section class="event-detail-hero">
+        <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/1200x450' }}"
+            alt="{{ event.name }}">
+
+        <span class="event-category-badge">{{ event.category }}</span>
+    </section>
+
+    <!-- Event Overview -->
+    <section class="event-detail-content my-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="section-title">Event Overview Details</h2>
+
+            <a href="{{ url_for('main.index') }}" class="back-link">
+                ← Back to Home Events
+            </a>
+        </div>
+
+        <h3 class="event-detail-title">{{ event.name }}</h3>
+        <p class="text-muted">4.9 (34 views and rating)</p>
+
+        <div class="event-info-card shadow-sm">
+            <div>
+                <strong>Date</strong><br>
+                {{ event.date.strftime("%A, %d %B %Y") }}
+            </div>
+
+            <div>
+                <strong>Time</strong><br>
+                {{ event.date.strftime("%I:%M %p") }}
+            </div>
+
+            <div>
+                <strong>Event Location</strong><br>
+                {{ event.location }}
+            </div>
+
+            <div>
+                <strong>Attendees</strong><br>
+                {{ event.tickets_available }} tickets available
+            </div>
+        </div>
+
+        <!-- About -->
+        <h4 class="section-title mt-4">About this Experience</h4>
+        <p>{{ event.description }}</p>
+
+        <!-- Story -->
+        <h4 class="section-title mt-4">The Story Behind It</h4>
+        <div class="story-box">
+            <p>
+                This event celebrates cultural traditions, storytelling, food, music, and community.
+                It is designed to help people connect, learn, and experience culture in a meaningful way.
+            </p>
+        </div>
+
+        <!-- Host Card -->
+        <div class="host-detail-card shadow-sm mt-4">
+            <img src="{{ url_for('static', filename='profile_pics/' + event.user.profile_image) if event.user.profile_image else 'https://placehold.co/80x80' }}"
+                alt="Host photo">
+
+            <div>
+                <h5>Hosted by: {{ event.user.name }}</h5>
+                <p>
+                    {{ event.user.bio or "This host is passionate about sharing cultural experiences with the
+                    community." }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Acknowledgement -->
+        <div class="acknowledgement-card shadow-sm mt-4">
+            <h4>Country's Acknowledge | {{ event.acknowledgement|capitalize }}</h4>
+            <p>
+                We acknowledge the Traditional Custodians of the land on which we live, work,
+                and gather today. We pay our respects to Elders past and present, and extend
+                that respect to all Aboriginal and Torres Strait Islander peoples.
+            </p>
+        </div>
+
+        <!-- Comments -->
+        <section class="comments-card shadow-sm mt-4">
+            <h4>Comments</h4>
+
+            <form method="POST">
+                <textarea class="form-control mb-3" name="comment" rows="4"
+                    placeholder="Share your thoughts about this event..."></textarea>
+
+                <button type="submit" class="btn btn-primary">
+                    Post Comments
+                </button>
+            </form>
+
+            <h5 class="mt-4">Reviews and comments</h5>
+
+            {% if comments %}
+            {% for comment in comments %}
+            <div class="comment-item">
+                <strong>{{ comment.user.name }}</strong>
+                <small>{{ comment.date.strftime("%B %d, %Y") }}</small>
+                <p>{{ comment.content }}</p>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="text-muted">No comments yet.</p>
+            {% endif %}
+        </section>
+
+        <!-- Ticket and Location -->
+        <div class="row mt-4">
+            <div class="col-md-6 mb-4">
+                <h4 class="section-title">Ticket Informations</h4>
+
+                <div class="ticket-card ticket-booking-card shadow-sm">
+                    <h3 class="ticket-price">
+                        $ {{ "%.2f"|format(event.price) }}
+                    </h3>
+
+                    <p class="ticket-subtitle">per ticket</p>
+
+                    <div class="ticket-row">
+                        <div>
+                            <h4>Number of Tickets</h4>
+                            <p>{{ event.tickets_available }} tickets available</p>
+                        </div>
+
+                        <div class="ticket-counter">
+                            <button type="button" id="decreaseTicket">−</button>
+                            <span id="ticketQuantity">1</span>
+                            <button type="button" id="increaseTicket">+</button>
+                        </div>
+                    </div>
+
+                    <div class="ticket-total">
+                        <h4>Total Amount:</h4>
+                        <h4 id="totalAmount">
+                            $ {{ "%.2f"|format(event.price) }} aud
+                        </h4>
+                    </div>
+
+
+                    <hr>
+
+                    <button type="button" class="btn btn-primary book-now-btn" data-bs-toggle="modal"
+                        data-bs-target="#confirmBookingModal">
+                        Book Now
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <h4 class="section-title">Event Location</h4>
+
+                <div class="location-card shadow-sm">
+                    <p>{{ event.location }}</p>
+
+                    <img src="https://placehold.co/500x250?text=Event+Map" alt="Event map" class="img-fluid rounded">
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<style>
+    .event-detail-hero {
+        position: relative;
+        border-radius: 10px 10px 0 0;
+        overflow: hidden;
+    }
+
+    .event-detail-hero img {
+        width: 100%;
+        height: 420px;
+        object-fit: cover;
+    }
+
+    .event-category-badge {
+        position: absolute;
+        top: 15px;
+        left: 20px;
+        background-color: white;
+        color: #4b35f5;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+
+    .event-detail-content {
+        padding: 30px 45px;
+    }
+
+    .event-detail-title,
+    .section-title {
+        color: #4b35f5;
+        font-weight: bold;
+    }
+
+    .back-link {
+        color: #4b35f5;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .event-info-card {
+        background-color: #fff3f3;
+        border-radius: 8px;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+
+    .event-info-card strong {
+        color: #4b35f5;
+    }
+
+    .story-box {
+        border-left: 4px solid #4b35f5;
+        padding-left: 20px;
+    }
+
+    .host-detail-card,
+    .comments-card {
+        background-color: #fff3f3;
+        border-radius: 10px;
+        padding: 25px;
+        border: 1px solid #ddd;
+    }
+
+    .host-detail-card {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .host-detail-card img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .acknowledgement-card {
+        background-color: #fffbd5;
+        border-radius: 10px;
+        padding: 25px;
+        border: 1px solid #ddd;
+    }
+
+    .acknowledgement-card h4 {
+        color: #4b35f5;
+        font-weight: bold;
+    }
+
+    .comment-item {
+        background-color: white;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 12px;
+    }
+
+    .ticket-card h3 {
+        color: #4b35f5;
+        font-weight: bold;
+    }
+
+    .ticket-card,
+    .location-card {
+        background-color: #fff3f3;
+        min-height: 330px;
+        border-radius: 14px;
+        border: 1px solid #ddd;
+    }
+
+    .ticket-booking-card {
+        background-color: #fff3f3;
+        border-radius: 14px;
+        padding: 35px 45px;
+        border: 1px solid #ddd;
+    }
+
+    .ticket-booking-card,
+    .location-card {
+        padding: 24px;
+    }
+
+    .ticket-price {
+        color: #4b35f5;
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 0;
+    }
+
+    .ticket-subtitle {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #000;
+        margin-bottom: 20px;
+    }
+
+    .ticket-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .ticket-row h4,
+    .ticket-total h4 {
+        color: #4b35f5;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .ticket-row p {
+        margin-bottom: 0;
+    }
+
+    .ticket-counter {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+    }
+
+    .ticket-counter button {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: none;
+        background-color: #fff3f3;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .ticket-counter span {
+        color: #4b35f5;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .ticket-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 18px;
+    }
+
+    .book-now-btn {
+        display: block;
+        width: 70%;
+        margin: 22px auto 0;
+        font-size: 1.1rem;
+        font-weight: bold;
+        background-color: #4b35f5;
+        border: none;
+    }
+
+    .location-card img {
+        width: 100%;
+        height: 230px;
+        object-fit: cover;
+    }
+
+    .booking-modal {
+        background-color: #fff8f2;
+        border-radius: 20px;
+        padding: 25px;
+        border: 1px solid #e8cfae;
+    }
+
+    .booking-modal .modal-title,
+    .booking-modal h3,
+    .booking-modal h4 {
+        color: #6b4f40;
+        font-weight: bold;
+    }
+
+    .booking-modal p {
+        font-size: 1.2rem;
+        color: #6b4f40;
+    }
+
+    .success-icon {
+        width: 90px;
+        height: 90px;
+        border: 8px solid #198754;
+        border-radius: 50%;
+        color: #198754;
+        font-size: 4rem;
+        line-height: 75px;
+        margin: 20px auto;
+    }
+
+    @media (max-width: 768px) {
+        .event-info-card {
+            grid-template-columns: 1fr;
+        }
+
+        .event-detail-content {
+            padding: 25px 20px;
+        }
+
+        .host-detail-card {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+</style>
+
+<!-- Confirm Booking Modal -->
+<div class="modal fade" id="confirmBookingModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content booking-modal">
+
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Booking</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <h4>Event: {{ event.name }}</h4>
+
+                <p>
+                    Tickets:
+                    <strong id="modalTicketQuantity">1</strong>
+                </p>
+
+                <p>
+                    Total Price:
+                    <strong id="modalTotalPrice">$ {{ "%.2f"|format(event.price) }}</strong>
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <form method="POST" action="{{ url_for('main.book_event', event_id=event.id) }}">
+
+                    <input type="hidden" name="quantity" id="bookingQuantityInput" value="1">
+
+                    <button type="submit" class="btn btn-primary">
+                        Confirm Now
+                    </button>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Booking Confirmed Modal -->
+<div class="modal fade" id="bookingSuccessModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content booking-modal text-center">
+
+            <div class="modal-body">
+                <div class="success-icon">✓</div>
+
+                <h3>Booking Confirmed!</h3>
+
+                <p>
+                    Booking ID:
+                    <strong>BK-{{ "%06d"|format(request.args.get('order_id')|int) }}</strong>
+                </p>
+
+
+                <p>A confirmation has been sent to your email.</p>
+
+                <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">
+                    Done
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    let quantity = 1;
+
+    const maxTickets = Number("{{ event.tickets_available }}");
+    const ticketPrice = Number("{{ event.price }}");
+
+    const quantityText = document.getElementById("ticketQuantity");
+    const totalAmount = document.getElementById("totalAmount");
+    const increaseButton = document.getElementById("increaseTicket");
+    const decreaseButton = document.getElementById("decreaseTicket");
+
+    const modalTicketQuantity = document.getElementById("modalTicketQuantity");
+    const modalTotalPrice = document.getElementById("modalTotalPrice");
+    const bookingQuantityInput = document.getElementById("bookingQuantityInput");
+
+    function updateTotal() {
+        const total = (ticketPrice * quantity).toFixed(2);
+
+        quantityText.textContent = quantity;
+        totalAmount.textContent = `$ ${total} aud`;
+
+        modalTicketQuantity.textContent = quantity;
+        modalTotalPrice.textContent = `$ ${total}`;
+
+        bookingQuantityInput.value = quantity;
+
+    }
+
+    increaseButton.addEventListener("click", () => {
+        if (quantity < maxTickets) {
+            quantity++;
+            updateTotal();
+        }
+    });
+
+    decreaseButton.addEventListener("click", () => {
+        if (quantity > 1) {
+            quantity--;
+            updateTotal();
+        }
+    });
+
+    updateTotal();
+</script>
+
+{% if request.args.get('booking') == 'success' %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const successModal = new bootstrap.Modal(document.getElementById("bookingSuccessModal"));
+        successModal.show();
+    });
+</script>
+{% endif %}
+
+{% endblock %}
