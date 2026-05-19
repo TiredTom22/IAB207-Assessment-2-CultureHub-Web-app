@@ -150,6 +150,20 @@ body {
     margin-left: 20px;
 }
 
+.ack-banner {
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.generic-ack {
+    background-color: #f0f4ff;
+}
+
+.enhanced-ack {
+    background-color: #e8f5e9;
+    border-left: 4px solid #28a745;
+}
+
 /* ── Footer ── */
 footer {
     background-color: #f5d3d4;

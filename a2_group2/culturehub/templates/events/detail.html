@@ -50,6 +50,21 @@
         <p class="detail-description">{{ event.description }}</p>
       </div>
 
+      <!-- Acknowledgement of Country -->
+      {% if event.acknowledgement == 'generic' %}
+      <div class="ack-banner generic-ack mt-4 p-3">
+          <h5>Acknowledgement of Country</h5>
+          <p>We acknowledge the Traditional Custodians of the land on which this event is held, and pay our respects to their Elders past, present and emerging. We recognise their continuing connection to land, waters and culture.</p>
+      </div>
+
+      {% elif event.acknowledgement == 'enhanced' %}
+      <div class="ack-banner enhanced-ack mt-4 p-3">
+          <h5>Acknowledgement of Country</h5>
+          <p>We acknowledge the Traditional Custodians of the land on which this event is held, and pay our respects to their Elders past, present and emerging. We recognise their enduring connection to land, waters and community, and acknowledge that sovereignty was never ceded. We are committed to honouring Aboriginal and Torres Strait Islander peoples' unique cultural and spiritual relationships to the land and their rich contribution to society.</p>
+          <a href="{{ url_for('main.acknowledgement') }}" class="btn btn-sm btn-outline-primary mt-2">Learn more about Acknowledgement of Country</a>
+      </div>
+      {% endif %}
+
       <!-- ── Comments Section (Sohee) ── -->
       <div class="detail-section" id="comments">
         <h4 class="detail-section-title">
