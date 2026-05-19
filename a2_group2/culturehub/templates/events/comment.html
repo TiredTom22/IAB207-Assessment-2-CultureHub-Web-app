@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reviews & Comments</title>
+
+<style>
+body {
+  font-family: Georgia, serif;
+  background: #f8f8f8;
+  padding: 40px;
+}
+
+.reviews-section {
+  max-width: 700px;
+  margin: auto;
+}
+
+.section-title {
+  color: #4637ff;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.section-title span {
+  font-size: 14px;
+}
+
+.review-card {
+  background: #fff7f7;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  box-shadow: 2px 3px 4px rgba(0,0,0,0.2);
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.review-img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.review-header h5 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.stars {
+  color: gold;
+  font-size: 13px;
+}
+
+.stars span {
+  color: black;
+  margin-left: 8px;
+}
+
+.review-card p {
+  font-size: 13px;
+}
+
+.add-comment-card {
+  background: #f3dddd;
+  border-radius: 10px;
+  padding: 18px;
+  margin-top: 20px;
+  box-shadow: 2px 3px 4px rgba(0,0,0,0.2);
+}
+
+.add-comment-card h4 {
+  color: #4637ff;
+  margin-bottom: 10px;
+}
+
+.comment-input {
+  width: 100%;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  background: #fff7f7;
+}
+
+.comment-btn {
+  background: #4637ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.comment-btn:hover {
+  background: #3528d9;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="reviews-section">
+
+  <h3 class="section-title">
+    Reviews and comments 
+  </h3>
+
+  <!-- Review 1 -->
+  <div class="review-card">
+    <div class="review-header">
+      <img src="https://i.pravatar.cc/100?img=1" class="review-img">
+      <div>
+        <h5>Tony Stark</h5>
+        <div class="stars">★★★★★ <span>March 12, 2026</span></div>
+      </div>
+    </div>
+    <p>
+      An absolutely amazing experience! The food was delicious and Maria’s storytelling brought the culture to life.
+    </p>
+  </div>
+
+  <!-- Review 2 -->
+  <div class="review-card">
+    <div class="review-header">
+      <img src="https://i.pravatar.cc/100?img=2" class="review-img">
+      <div>
+        <h5>Wanda Maximoff</h5>
+        <div class="stars">★★★★★ <span>March 12, 2026</span></div>
+      </div>
+    </div>
+    <p>
+      I learned so much about Filipino traditions. The traditional dances were beautiful!
+    </p>
+  </div>
+
+  <!-- Add Comment -->
+  <div class="add-comment-card">
+    <h4>Add your comment</h4>
+
+    <select id="rating" class="comment-input">
+      <option value="5">★★★★★ Excellent</option>
+      <option value="4">★★★★ Good</option>
+      <option value="3">★★★ Average</option>
+      <option value="2">★★ Poor</option>
+      <option value="1">★ Bad</option>
+    </select>
+
+    <textarea id="commentText" class="comment-input" placeholder="Share your experience..."></textarea>
+
+    <button class="comment-btn" onclick="addComment()">Submit Comment</button>
+  </div>
+
+</div>
+
+<script>
+function addComment() {
+  const text = document.getElementById("commentText").value;
+  const rating = document.getElementById("rating").value;
+
+  if (text.trim() === "") {
+    alert("Please write a comment!");
+    return;
+  }
+
+  const stars = "★★★★★☆☆☆☆☆".slice(5 - rating, 10 - rating);
+
+  const newReview = `
+    <div class="review-card">
+      <div class="review-header">
+        <img src="https://i.pravatar.cc/100" class="review-img">
+        <div>
+          <h5>You</h5>
+          <div class="stars">${stars} <span>Just now</span></div>
+        </div>
+      </div>
+      <p>${text}</p>
+    </div>
+  `;
+
+  document.querySelector(".add-comment-card").insertAdjacentHTML("beforebegin", newReview);
+
+  document.getElementById("commentText").value = "";
+}
+</script>
+
+</body>
+</html>

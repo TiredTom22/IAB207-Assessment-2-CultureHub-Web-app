@@ -23,6 +23,7 @@ def profile():
 
 @main_bp.route('/user/edit-profile')
 def edit_profile():
+<<<<<<< Updated upstream
     return render_template('user/edit_profile.html')
 
 @main_bp.route('/event/create', methods=['GET', 'POST'])
@@ -82,3 +83,14 @@ def add_comment(event_id):
     db.session.add(comment)
     db.session.commit()
     return redirect(url_for('main.event_detail', event_id=event_id) + '#comments')
+=======
+    return render_template('events/edit_profile.html')
+
+@main_bp.route('/create_event')
+def create_event():
+    return render_template('events/create_event.html')
+
+@main_bp.route('/comment')
+def comment():
+    return render_template('events/comment.html')
+>>>>>>> Stashed changes

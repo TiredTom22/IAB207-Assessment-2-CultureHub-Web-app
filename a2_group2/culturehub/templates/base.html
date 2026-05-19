@@ -27,7 +27,11 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                <div class="navbar-nav ms-auto">
                   <a class="nav-item nav-link" href="{{ url_for('main.index') }}">Home</a>
+<<<<<<< Updated upstream
                   <a class="nav-item nav-link" href="{{ url_for('main.index') }}#events">Events</a>
+=======
+                  <a class="nav-item nav-link" href="{{ url_for('main.comment') }}">Events</a>
+>>>>>>> Stashed changes
                   <a class="nav-item nav-link" href="{{ url_for('main.create_event') }}">Host</a>
 
                   {% if current_user.is_authenticated %}
