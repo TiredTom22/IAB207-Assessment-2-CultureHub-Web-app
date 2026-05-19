@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container about-page my-5">
+
+    <h1 class="about-heading text-center mb-5">
+        Know All About Our Community
+    </h1>
+
+    <section class="about-hero shadow-sm">
+        <div class="row align-items-center">
+
+            <div class="col-md-6 text-center">
+                <h2 class="welcome-title">Welcome</h2>
+                <p class="welcome-small">to</p>
+
+                <h1 class="culturehub-gradient-text">
+                    CultureHub
+                </h1>
+
+                <p class="culturehub-tagline">
+                    CELEBRATE. CONNECT. CREATE.
+                </p>
+            </div>
+
+            <div class="col-md-6 text-center">
+                <img src="{{ url_for('static', filename='images/logo.png') }}"
+                     alt="CultureHub logo"
+                     class="about-logo">
+            </div>
+
+        </div>
+    </section>
+
+    <section class="about-content mt-5">
+        <h4 class="text-center mb-4">Welcome Message</h4>
+
+        <p>
+            Welcome to CultureHub — a space where cultures, communities, and experiences come together.
+            At CultureHub, we believe that every tradition, story, and celebration has the power to
+            connect people and create meaningful memories. Whether you're exploring new cultural
+            experiences, attending local events, or sharing your own traditions, CultureHub is here
+            to help you discover, connect, and belong.
+        </p>
+
+        <h4 class="mt-4">Why “CultureHub”?</h4>
+
+        <p>
+            CultureHub is more than just an event platform — it is a community built around cultural
+            connection, learning, and belonging. It celebrates the beauty of diversity by bringing
+            people together through shared experiences, traditions, and stories from different cultures
+            around the world.
+        </p>
+
+        <p>
+            At its core, CultureHub creates opportunities for individuals and communities to connect
+            in meaningful ways. Whether it’s attending a cultural festival, exploring traditional food,
+            discovering music and art, or learning about different customs and languages, every
+            interaction becomes a chance to build understanding and appreciation for one another.
+        </p>
+
+        <p>
+            CultureHub is designed to be welcoming, inclusive, and community-driven. It encourages
+            people from all backgrounds to share their heritage, discover new perspectives, and create
+            lasting memories through cultural experiences.
+        </p>
+    </section>
+
+</div>
+
+<style>
+    .about-heading {
+    color: #4b35f5;
+    font-weight: bold;
+}
+
+.about-hero {
+    background-color: #fff3f3;
+    border-radius: 10px;
+    padding: 70px 60px;
+    max-width: 1200px;
+    min-height: 620px;
+    margin: 0 auto;
+}
+
+.welcome-title {
+    font-size: 5rem;
+    font-weight: bold;
+    color: #4b35f5;
+    margin-bottom: 0;
+}
+
+.welcome-small {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #4b35f5;
+    margin: 0;
+}
+
+.culturehub-gradient-text {
+    font-size: 5.5rem;
+    font-weight: 900;
+    margin-bottom: 0;
+    background: linear-gradient(90deg, #071f4f, #ff7a00, #ff2b8a, #6425d9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.culturehub-tagline {
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, #ff7a00, #d72c8a, #00a8b5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.about-logo {
+    width: 420px;
+    height: 420px;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+.about-content {
+    max-width: 950px;
+    margin: 0 auto;
+    color: #4b35f5;
+    font-weight: 500;
+}
+
+.about-content h4 {
+    color: #4b35f5;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .about-hero {
+        padding: 40px 25px;
+    }
+
+    .culturehub-gradient-text {
+        font-size: 2.7rem;
+    }
+
+    .welcome-title {
+        font-size: 2.3rem;
+    }
+
+    .about-logo {
+        width: 200px;
+        height: 200px;
+        margin-top: 25px;
+    }
+}
+</style>
+
+{% endblock %}
