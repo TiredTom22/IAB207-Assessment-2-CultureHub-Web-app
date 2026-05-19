@@ -107,16 +107,18 @@
         border-radius: 10px;
         overflow: hidden;
         border: 1px solid #ddd;
+        width: 100%;
     }
 
     .profile-cover {
         height: 95px;
         background-color: #4b35f5;
+        border-radius: 10px 10px 0 0;
     }
 
     .profile-info {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 25px;
         padding: 0 40px 25px 40px;
         position: relative;
@@ -128,7 +130,14 @@
         border-radius: 50%;
         border: 6px solid #fff3f3;
         object-fit: cover;
+        background-color: white;
+
         margin-top: -55px;
+        flex-shrink: 0;
+    }
+
+    .profile-details {
+        margin-top: 10px;
     }
 
     .profile-details h2 {
@@ -159,6 +168,7 @@
 
     .edit-profile-btn {
         margin-left: auto;
+        margin-top: 35px;
         min-width: 150px;
     }
 
