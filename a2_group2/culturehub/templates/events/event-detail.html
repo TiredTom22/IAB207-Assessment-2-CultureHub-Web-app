@@ -7,7 +7,10 @@
     <section class="event-detail-hero">
         <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/1200x450' }}"
             alt="{{ event.name }}">
-        <span class="event-category-badge">{{ event.category }}</span>
+        <div class="event-badges">
+            <span class="event-category-badge">{{ event.category }}</span>
+            <span class="detail-status-badge status-{{ event.status | lower | replace(' ', '-') }}">{{ event.status }}</span>
+        </div>
     </section>
 
     <!-- Event Overview -->
@@ -167,16 +170,39 @@
         object-fit: cover;
     }
 
-    .event-category-badge {
+    .event-badges {
         position: absolute;
         top: 15px;
         left: 20px;
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .event-category-badge,
+    .detail-status-badge {
+        position: static;
+    }
+
+    .event-category-badge {
         background-color: white;
         color: #4b35f5;
         padding: 6px 16px;
         border-radius: 20px;
         font-weight: bold;
     }
+
+    .detail-status-badge {
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: white;
+    }
+  .status-open       { background: #198754; }
+  .status-sold-out   { background: #dc3545; }
+  .status-cancelled  { background: #6c757d; }
+  .status-inactive   { background: #ffc107; color: #333; }
 
     .event-detail-content {
         padding: 30px 45px;
