@@ -159,13 +159,10 @@ def event_detail(event_id):
 @login_required
 def book_event(event_id):
     event = Event.query.get_or_404(event_id)
-
     quantity = int(request.form.get('quantity', 1))
-
     if quantity < 1:
         flash('Invalid ticket quantity.')
         return redirect(url_for('main.event_detail', event_id=event.id))
-
     if quantity > event.tickets_available:
         flash('Not enough tickets available.')
         return redirect(url_for('main.event_detail', event_id=event.id))
@@ -178,9 +175,11 @@ def book_event(event_id):
     )
 
     event.tickets_available -= quantity
-
+    if event.tickets_available == 0:
+        event.status = 'Sold Out'
     db.session.add(order)
     db.session.commit()
+    
     flash(f'Booking confirmed! Your Order ID is BK-{order.id:06d}')
 
     return redirect(url_for(
