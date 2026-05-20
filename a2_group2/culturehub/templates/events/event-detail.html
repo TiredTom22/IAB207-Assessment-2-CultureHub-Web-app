@@ -82,10 +82,10 @@
       </div>
       {% endif %}
 
-        <!-- Ticket card -->
+        <!-- Ticket Information card -->
         <div class="row mt-4">
             <div class="col-md-6 mb-4">
-                <h4 class="section-title">Ticket Informations</h4>
+                <h4 class="section-title">Ticket Information</h4>
                 <div class="ticket-card ticket-booking-card shadow-sm">
                     <h3 class="ticket-price">
                         $ {{ "%.2f"|format(event.price) }}
@@ -93,10 +93,20 @@
                     <p class="ticket-subtitle">per ticket</p>
                     <p>{{ event.tickets_available }} tickets available</p>
                     <hr>
-                    <button type="button" class="btn btn-primary book-now-btn" data-bs-toggle="modal"
-                        data-bs-target="#confirmBookingModal">
-                        Book Now
-                    </button>
+
+                    <!-- Book Now Button -->
+                    {% if event.status == 'Sold Out' or event.tickets_available == 0 %}
+                        <button class="btn btn-secondary book-now-btn" disabled>Sold Out</button>
+                    {% elif event.status == 'Cancelled' %}
+                        <button class="btn btn-danger book-now-btn" disabled>Cancelled</button>
+                    {% elif event.status == 'Inactive' %}
+                        <button class="btn btn-secondary book-now-btn" disabled>Event Ended</button>
+                    {% else %}
+                        <button type="button" class="btn btn-primary book-now-btn" data-bs-toggle="modal"
+                            data-bs-target="#confirmBookingModal">
+                            Book Now
+                        </button>
+                    {% endif %}
                 </div>
             </div>
         </div>
