@@ -102,7 +102,7 @@
         <div class="col">
           <div class="event-card">
             <div class="card-img-wrap">
-              <span class="status-badge">{{ event.status }}</span>
+              <span class="status-badge status-{{ event.status | lower | replace(' ', '-') }}">{{ event.status }}</span>
               <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/400x200' }}" class="card-img-top" alt="{{ event.name }}">
               <span class="origin-tag">{{ event.category }}</span>
             </div>

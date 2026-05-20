@@ -95,9 +95,12 @@ body {
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 600;
-    background-color: #198754;
     color: white;
 }
+.status-open       { background: #198754; }
+.status-sold-out   { background: #dc3545; }
+.status-cancelled  { background: #6c757d; }
+.status-inactive   { background: #ffc107; color: #333; }
 
 .origin-tag {
     position: absolute;
