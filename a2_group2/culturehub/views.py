@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_wtf.csrf import generate_csrf
 from flask_login import login_required, current_user
-from .forms import EditProfileForm, EventForm
+from .forms import EditProfileForm, EventForm, BookingForm
 from .models import Event, Comment, Order, Event
 from . import db
 import os
@@ -123,11 +123,6 @@ def create_event():
 
     return render_template('events/create.html', form=form)
 
-# @main_bp.route('/event/<int:event_id>')
-# def event_detail(event_id):
-#     event = db.session.get(Event, event_id)
-#     return render_template('events/detail.html', event=event, csrf_token=generate_csrf())
-
 @main_bp.route('/event/<int:event_id>/comment', methods=['POST'])
 @login_required
 def add_comment(event_id):
@@ -155,14 +150,10 @@ def about():
 
 @main_bp.route('/event/<int:event_id>')
 def event_detail(event_id):
-    event = Event.query.get_or_404(event_id)
-    comments = Comment.query.filter_by(event_id=event.id).all()
-
-    return render_template(
-        'events/event-detail.html',
-        event=event,
-        comments=comments
-    )
+    event = db.session.get(Event, event_id)
+    form = BookingForm()
+    comments = Comment.query.filter_by(event_id=event_id).all()
+    return render_template('events/event-detail.html', event=event, form=form, comments=comments)
 
 @main_bp.route('/event/<int:event_id>/book', methods=['POST'])
 @login_required
