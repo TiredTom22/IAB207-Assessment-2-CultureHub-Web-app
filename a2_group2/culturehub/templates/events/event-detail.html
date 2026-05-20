@@ -69,15 +69,19 @@
             </div>
         </div>
 
-        <!-- Acknowledgement -->
-        <div class="acknowledgement-card shadow-sm mt-4">
-            <h4>Country's Acknowledge | {{ event.acknowledgement|capitalize }}</h4>
-            <p>
-                We acknowledge the Traditional Custodians of the land on which we live, work,
-                and gather today. We pay our respects to Elders past and present, and extend
-                that respect to all Aboriginal and Torres Strait Islander peoples.
-            </p>
-        </div>
+        <!-- Acknowledgement of country banner -->
+      {% if event.acknowledgement and event.acknowledgement != 'none' %}
+      <div class="acknowledgement-card shadow-sm mt-4">
+        <h4>Country's Acknowledge | {{ event.acknowledgement|capitalize }}</h4>
+        <i class="bi bi-globe-asia-australia me-2"></i>
+        {% if event.acknowledgement == 'generic' %}
+          This event acknowledges the Traditional Custodians of the lands on which it takes place and pays respect to Elders past and present.
+        {% elif event.acknowledgement == 'enhanced' %}
+          This event acknowledges the Traditional Custodians of the lands on which it takes place, pays respect to Elders past, present and emerging, and commits to ongoing learning and partnership with First Nations communities.
+          <br><a href="{{ url_for('main.acknowledgement') }}" class="small">Learn more about Acknowledgement of Country</a>
+        {% endif %}
+      </div>
+      {% endif %}
 
         <!-- Comments -->
         <section class="comments-card shadow-sm mt-4">
