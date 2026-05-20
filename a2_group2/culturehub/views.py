@@ -148,11 +148,25 @@ def acknowledgement():
 def about():
     return render_template('user/about-us.html')
 
-@main_bp.route('/event/<int:event_id>')
+@main_bp.route('/event/<int:event_id>', methods=['GET', 'POST'])
 def event_detail(event_id):
     event = db.session.get(Event, event_id)
     form = BookingForm()
     comments = Comment.query.filter_by(event_id=event_id).all()
+
+    if request.method == 'POST':
+        comment_text = request.form.get('comment')
+        if comment_text and current_user.is_authenticated:
+            comment = Comment(
+                content=comment_text,
+                user_id=current_user.id,
+                event_id=event_id
+            )
+            db.session.add(comment)
+            db.session.commit()
+            flash('Comment posted!')
+        return redirect(url_for('main.event_detail', event_id=event_id))
+
     return render_template('events/event-detail.html', event=event, form=form, comments=comments)
 
 @main_bp.route('/event/<int:event_id>/book', methods=['POST'])
