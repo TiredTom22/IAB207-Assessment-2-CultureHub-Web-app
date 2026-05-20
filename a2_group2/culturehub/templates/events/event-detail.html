@@ -82,7 +82,7 @@
       </div>
       {% endif %}
 
-        <!-- Ticket and Location -->
+        <!-- Ticket card -->
         <div class="row mt-4">
             <div class="col-md-6 mb-4">
                 <h4 class="section-title">Ticket Informations</h4>
@@ -91,19 +91,7 @@
                         $ {{ "%.2f"|format(event.price) }}
                     </h3>
                     <p class="ticket-subtitle">per ticket</p>
-                    <div class="ticket-row">
-                        <div>
-                            <h4>Number of Tickets</h4>
-                            <p>{{ event.tickets_available }} tickets available</p>
-                        </div>
-                        <div class="ticket-counter">
-                            <input type="number" name="quantity" min="1" max="{{ event.tickets_available }}" value="1" class="form-control" style="width: 80px;">
-                        </div>
-                    </div>
-                    <div class="ticket-total">
-                        <h4>Price per ticket:</h4>
-                        <h4>${{ "%.2f"|format(event.price) }} AUD</h4>
-                    </div>
+                    <p>{{ event.tickets_available }} tickets available</p>
                     <hr>
                     <button type="button" class="btn btn-primary book-now-btn" data-bs-toggle="modal"
                         data-bs-target="#confirmBookingModal">
@@ -453,34 +441,6 @@
         </div>
     </div>
 </div>
-
-<!-- Booking Confirmed Modal -->
-<div class="modal fade" id="bookingSuccessModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content booking-modal text-center">
-
-            <div class="modal-body">
-                <div class="success-icon">✓</div>
-
-                <h3>Booking Confirmed!</h3>
-
-                <p>
-                    Booking ID:
-                    <strong>BK-{{ "%06d"|format(request.args.get('order_id')|int) }}</strong>
-                </p>
-
-
-                <p>A confirmation has been sent to your email.</p>
-
-                <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">
-                    Done
-                </button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
 
 <script>
     let quantity = 1;
