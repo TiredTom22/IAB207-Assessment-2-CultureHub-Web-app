@@ -100,6 +100,33 @@
                 </div>
             </div>
         </div>
+
+        <!-- Confirm Booking Modal -->
+        <div class="modal fade" id="confirmBookingModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content booking-modal">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Confirm Booking</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Event: {{ event.name }}</h4>
+                        <p>Price per ticket: <strong>${{ "%.2f"|format(event.price) }} AUD</strong></p>
+                        <form method="POST" action="{{ url_for('main.book_event', event_id=event.id) }}">
+                            {{ form.hidden_tag() }}
+                            <label>Number of Tickets</label>
+                            <input type="number" name="quantity" min="1" max="{{ event.tickets_available }}" value="1" class="form-control">
+                            <button type="submit" class="btn btn-primary mt-3 w-100">Confirm Booking</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <!-- Comments -->
         <section class="comments-card shadow-sm mt-4">
@@ -397,50 +424,5 @@
         }
     }
 </style>
-
-<!-- Confirm Booking Modal -->
-<div class="modal fade" id="confirmBookingModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content booking-modal">
-
-            <div class="modal-header">
-                <h3 class="modal-title">Confirm Booking</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-                <h4>Event: {{ event.name }}</h4>
-
-                <p>
-                    Tickets:
-                    <strong id="modalTicketQuantity">1</strong>
-                </p>
-
-                <p>
-                    Total Price:
-                    <strong id="modalTotalPrice">$ {{ "%.2f"|format(event.price) }}</strong>
-                </p>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                    Cancel
-                </button>
-
-                <form method="POST" action="{{ url_for('main.book_event', event_id=event.id) }}">
-
-                    <input type="hidden" name="quantity" id="bookingQuantityInput" value="1">
-
-                    <button type="submit" class="btn btn-primary">
-                        Confirm Now
-                    </button>
-
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>
-{% endif %}
 
 {% endblock %}
