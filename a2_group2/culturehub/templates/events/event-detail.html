@@ -441,59 +441,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    let quantity = 1;
-
-    const maxTickets = Number("{{ event.tickets_available }}");
-    const ticketPrice = Number("{{ event.price }}");
-
-    const quantityText = document.getElementById("ticketQuantity");
-    const totalAmount = document.getElementById("totalAmount");
-    const increaseButton = document.getElementById("increaseTicket");
-    const decreaseButton = document.getElementById("decreaseTicket");
-
-    const modalTicketQuantity = document.getElementById("modalTicketQuantity");
-    const modalTotalPrice = document.getElementById("modalTotalPrice");
-    const bookingQuantityInput = document.getElementById("bookingQuantityInput");
-
-    function updateTotal() {
-        const total = (ticketPrice * quantity).toFixed(2);
-
-        quantityText.textContent = quantity;
-        totalAmount.textContent = `$ ${total} aud`;
-
-        modalTicketQuantity.textContent = quantity;
-        modalTotalPrice.textContent = `$ ${total}`;
-
-        bookingQuantityInput.value = quantity;
-
-    }
-
-    increaseButton.addEventListener("click", () => {
-        if (quantity < maxTickets) {
-            quantity++;
-            updateTotal();
-        }
-    });
-
-    decreaseButton.addEventListener("click", () => {
-        if (quantity > 1) {
-            quantity--;
-            updateTotal();
-        }
-    });
-
-    updateTotal();
-</script>
-
-{% if request.args.get('booking') == 'success' %}
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const successModal = new bootstrap.Modal(document.getElementById("bookingSuccessModal"));
-        successModal.show();
-    });
-</script>
 {% endif %}
 
 {% endblock %}
