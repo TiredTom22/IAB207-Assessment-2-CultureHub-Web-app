@@ -181,6 +181,7 @@ def book_event(event_id):
 
     db.session.add(order)
     db.session.commit()
+    flash(f'Booking confirmed! Your Order ID is BK-{order.id:06d}')
 
     return redirect(url_for(
     'main.event_detail',
