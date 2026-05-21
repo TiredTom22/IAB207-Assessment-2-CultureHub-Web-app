@@ -202,3 +202,13 @@ def book_event(event_id):
     booking='success',
     order_id=order.id
 ))
+
+@main_bp.route('/event/<int:event_id>/edit')
+@login_required
+def edit_event(event_id):
+    return 'Edit event coming soon'
+
+@main_bp.route('/event/<int:event_id>/cancel')
+@login_required
+def cancel_event(event_id):
+    return 'Cancel event coming soon'
