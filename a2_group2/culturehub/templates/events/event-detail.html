@@ -53,15 +53,6 @@
         <h4 class="section-title mt-4">About this Experience</h4>
         <p>{{ event.description }}</p>
 
-        <!-- Story -->
-        <h4 class="section-title mt-4">The Story Behind It</h4>
-        <div class="story-box">
-            <p>
-                This event celebrates cultural traditions, storytelling, food, music, and community.
-                It is designed to help people connect, learn, and experience culture in a meaningful way.
-            </p>
-        </div>
-
         <!-- Host Card -->
         <div class="host-detail-card shadow-sm mt-4">
             <img src="{{ url_for('static', filename='profile_pics/' + event.user.profile_image) if event.user.profile_image else 'https://placehold.co/80x80' }}"
