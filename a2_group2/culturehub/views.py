@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_wtf.csrf import generate_csrf
 from flask_login import login_required, current_user
-from .forms import EditProfileForm, EventForm
+from .forms import EditProfileForm, EventForm, BookingForm
 from .models import Event, Comment, Order, Event
 from . import db
 import os
@@ -123,11 +123,6 @@ def create_event():
 
     return render_template('events/create.html', form=form)
 
-# @main_bp.route('/event/<int:event_id>')
-# def event_detail(event_id):
-#     event = db.session.get(Event, event_id)
-#     return render_template('events/detail.html', event=event, csrf_token=generate_csrf())
-
 @main_bp.route('/event/<int:event_id>/comment', methods=['POST'])
 @login_required
 def add_comment(event_id):
@@ -153,28 +148,35 @@ def acknowledgement():
 def about():
     return render_template('user/about-us.html')
 
-@main_bp.route('/event/<int:event_id>')
+@main_bp.route('/event/<int:event_id>', methods=['GET', 'POST'])
 def event_detail(event_id):
-    event = Event.query.get_or_404(event_id)
-    comments = Comment.query.filter_by(event_id=event.id).all()
+    event = db.session.get(Event, event_id)
+    form = BookingForm()
+    comments = Comment.query.filter_by(event_id=event_id).all()
 
-    return render_template(
-        'events/event-detail.html',
-        event=event,
-        comments=comments
-    )
+    if request.method == 'POST':
+        comment_text = request.form.get('comment')
+        if comment_text and current_user.is_authenticated:
+            comment = Comment(
+                content=comment_text,
+                user_id=current_user.id,
+                event_id=event_id
+            )
+            db.session.add(comment)
+            db.session.commit()
+            flash('Comment posted!')
+        return redirect(url_for('main.event_detail', event_id=event_id))
+
+    return render_template('events/event-detail.html', event=event, form=form, comments=comments)
 
 @main_bp.route('/event/<int:event_id>/book', methods=['POST'])
 @login_required
 def book_event(event_id):
     event = Event.query.get_or_404(event_id)
-
     quantity = int(request.form.get('quantity', 1))
-
     if quantity < 1:
         flash('Invalid ticket quantity.')
         return redirect(url_for('main.event_detail', event_id=event.id))
-
     if quantity > event.tickets_available:
         flash('Not enough tickets available.')
         return redirect(url_for('main.event_detail', event_id=event.id))
@@ -187,9 +189,12 @@ def book_event(event_id):
     )
 
     event.tickets_available -= quantity
-
+    if event.tickets_available == 0:
+        event.status = 'Sold Out'
     db.session.add(order)
     db.session.commit()
+    
+    flash(f'Booking confirmed! Your Order ID is BK-{order.id:06d}')
 
     return redirect(url_for(
     'main.event_detail',
@@ -197,3 +202,13 @@ def book_event(event_id):
     booking='success',
     order_id=order.id
 ))
+
+@main_bp.route('/event/<int:event_id>/edit')
+@login_required
+def edit_event(event_id):
+    return 'Edit event coming soon'
+
+@main_bp.route('/event/<int:event_id>/cancel')
+@login_required
+def cancel_event(event_id):
+    return 'Cancel event coming soon'

@@ -3,45 +3,46 @@
 {% block content %}
 
 <div class="container event-detail-page my-4">
-
     <!-- Hero Image -->
     <section class="event-detail-hero">
         <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/1200x450' }}"
             alt="{{ event.name }}">
-
-        <span class="event-category-badge">{{ event.category }}</span>
+        <div class="event-badges">
+            <span class="event-category-badge">{{ event.category }}</span>
+            <span class="detail-status-badge status-{{ event.status | lower | replace(' ', '-') }}">{{ event.status }}</span>
+        </div>
     </section>
 
     <!-- Event Overview -->
     <section class="event-detail-content my-4">
-
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="section-title">Event Overview Details</h2>
-
-            <a href="{{ url_for('main.index') }}" class="back-link">
+            <a href="{{ url_for('main.index') }}#events" class="back-link">
                 ← Back to Home Events
             </a>
         </div>
 
-        <h3 class="event-detail-title">{{ event.name }}</h3>
-        <p class="text-muted">4.9 (34 views and rating)</p>
+        {% if current_user.is_authenticated and current_user.id == event.user.id %}
+        <div class="creator-actions">
+            <a href="{{ url_for('main.edit_event', event_id=event.id) }}" class="btn btn-outline-primary">Edit Event</a>
+            <a href="{{ url_for('main.cancel_event', event_id=event.id)}}" class="btn btn-outline-danger">Cancel Event</a>
+        </div>
+        {% endif %}
 
+        <h3 class="event-detail-title">{{ event.name }}</h3>
         <div class="event-info-card shadow-sm">
             <div>
                 <strong>Date</strong><br>
                 {{ event.date.strftime("%A, %d %B %Y") }}
             </div>
-
             <div>
                 <strong>Time</strong><br>
                 {{ event.date.strftime("%I:%M %p") }}
             </div>
-
             <div>
                 <strong>Event Location</strong><br>
                 {{ event.location }}
             </div>
-
             <div>
                 <strong>Attendees</strong><br>
                 {{ event.tickets_available }} tickets available
@@ -52,20 +53,10 @@
         <h4 class="section-title mt-4">About this Experience</h4>
         <p>{{ event.description }}</p>
 
-        <!-- Story -->
-        <h4 class="section-title mt-4">The Story Behind It</h4>
-        <div class="story-box">
-            <p>
-                This event celebrates cultural traditions, storytelling, food, music, and community.
-                It is designed to help people connect, learn, and experience culture in a meaningful way.
-            </p>
-        </div>
-
         <!-- Host Card -->
         <div class="host-detail-card shadow-sm mt-4">
             <img src="{{ url_for('static', filename='profile_pics/' + event.user.profile_image) if event.user.profile_image else 'https://placehold.co/80x80' }}"
                 alt="Host photo">
-
             <div>
                 <h5>Hosted by: {{ event.user.name }}</h5>
                 <p>
@@ -75,29 +66,87 @@
             </div>
         </div>
 
-        <!-- Acknowledgement -->
-        <div class="acknowledgement-card shadow-sm mt-4">
-            <h4>Country's Acknowledge | {{ event.acknowledgement|capitalize }}</h4>
-            <p>
-                We acknowledge the Traditional Custodians of the land on which we live, work,
-                and gather today. We pay our respects to Elders past and present, and extend
-                that respect to all Aboriginal and Torres Strait Islander peoples.
-            </p>
+        <!-- Acknowledgement of country banner -->
+      {% if event.acknowledgement and event.acknowledgement != 'none' %}
+      <div class="acknowledgement-card shadow-sm mt-4">
+        <h4>Country's Acknowledge | {{ event.acknowledgement|capitalize }}</h4>
+        <i class="bi bi-globe-asia-australia me-2"></i>
+        {% if event.acknowledgement == 'generic' %}
+          This event acknowledges the Traditional Custodians of the lands on which it takes place and pays respect to Elders past and present.
+        {% elif event.acknowledgement == 'enhanced' %}
+          This event acknowledges the Traditional Custodians of the lands on which it takes place, pays respect to Elders past, present and emerging, and commits to ongoing learning and partnership with First Nations communities.
+          <br><a href="{{ url_for('main.acknowledgement') }}" class="small">Learn more about Acknowledgement of Country</a>
+        {% endif %}
+      </div>
+      {% endif %}
+
+        <!-- Ticket Information card -->
+        <div class="row mt-4">
+            <div class="col-md-6 mb-4">
+                <h4 class="section-title">Ticket Information</h4>
+                <div class="ticket-card ticket-booking-card shadow-sm">
+                    <h3 class="ticket-price">
+                        $ {{ "%.2f"|format(event.price) }}
+                    </h3>
+                    <p class="ticket-subtitle">per ticket</p>
+                    <p>{{ event.tickets_available }} tickets available</p>
+                    <hr>
+
+                    <!-- Book Now Button -->
+                    {% if event.status == 'Sold Out' or event.tickets_available == 0 %}
+                        <button class="btn btn-secondary book-now-btn" disabled>Sold Out</button>
+                    {% elif event.status == 'Cancelled' %}
+                        <button class="btn btn-danger book-now-btn" disabled>Cancelled</button>
+                    {% elif event.status == 'Inactive' %}
+                        <button class="btn btn-secondary book-now-btn" disabled>Event Ended</button>
+                    {% else %}
+                        <button type="button" class="btn btn-primary book-now-btn" data-bs-toggle="modal"
+                            data-bs-target="#confirmBookingModal">
+                            Book Now
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
         </div>
 
+        <!-- Confirm Booking Modal -->
+        <div class="modal fade" id="confirmBookingModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content booking-modal">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Confirm Booking</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Event: {{ event.name }}</h4>
+                        <p>Price per ticket: <strong>${{ "%.2f"|format(event.price) }} AUD</strong></p>
+                        <form method="POST" action="{{ url_for('main.book_event', event_id=event.id) }}">
+                            {{ form.hidden_tag() }}
+                            <label>Number of Tickets</label>
+                            <input type="number" name="quantity" min="1" max="{{ event.tickets_available }}" value="1" class="form-control">
+                            <button type="submit" class="btn btn-primary mt-3 w-100">Confirm Booking</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- Comments -->
         <section class="comments-card shadow-sm mt-4">
             <h4>Comments</h4>
-
             <form method="POST">
+                {{ form.hidden_tag() }}
                 <textarea class="form-control mb-3" name="comment" rows="4"
                     placeholder="Share your thoughts about this event..."></textarea>
-
                 <button type="submit" class="btn btn-primary">
                     Post Comments
                 </button>
             </form>
-
             <h5 class="mt-4">Reviews and comments</h5>
 
             {% if comments %}
@@ -112,63 +161,7 @@
             <p class="text-muted">No comments yet.</p>
             {% endif %}
         </section>
-
-        <!-- Ticket and Location -->
-        <div class="row mt-4">
-            <div class="col-md-6 mb-4">
-                <h4 class="section-title">Ticket Informations</h4>
-
-                <div class="ticket-card ticket-booking-card shadow-sm">
-                    <h3 class="ticket-price">
-                        $ {{ "%.2f"|format(event.price) }}
-                    </h3>
-
-                    <p class="ticket-subtitle">per ticket</p>
-
-                    <div class="ticket-row">
-                        <div>
-                            <h4>Number of Tickets</h4>
-                            <p>{{ event.tickets_available }} tickets available</p>
-                        </div>
-
-                        <div class="ticket-counter">
-                            <button type="button" id="decreaseTicket">−</button>
-                            <span id="ticketQuantity">1</span>
-                            <button type="button" id="increaseTicket">+</button>
-                        </div>
-                    </div>
-
-                    <div class="ticket-total">
-                        <h4>Total Amount:</h4>
-                        <h4 id="totalAmount">
-                            $ {{ "%.2f"|format(event.price) }} aud
-                        </h4>
-                    </div>
-
-
-                    <hr>
-
-                    <button type="button" class="btn btn-primary book-now-btn" data-bs-toggle="modal"
-                        data-bs-target="#confirmBookingModal">
-                        Book Now
-                    </button>
-                </div>
-            </div>
-
-            <div class="col-md-6 mb-4">
-                <h4 class="section-title">Event Location</h4>
-
-                <div class="location-card shadow-sm">
-                    <p>{{ event.location }}</p>
-
-                    <img src="https://placehold.co/500x250?text=Event+Map" alt="Event map" class="img-fluid rounded">
-                </div>
-            </div>
-
-        </div>
-
     </section>
-
 </div>
 
 <style>
@@ -184,16 +177,39 @@
         object-fit: cover;
     }
 
-    .event-category-badge {
+    .event-badges {
         position: absolute;
         top: 15px;
         left: 20px;
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .event-category-badge,
+    .detail-status-badge {
+        position: static;
+    }
+
+    .event-category-badge {
         background-color: white;
         color: #4b35f5;
         padding: 6px 16px;
         border-radius: 20px;
         font-weight: bold;
     }
+
+    .detail-status-badge {
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: white;
+    }
+    .status-open       { background: #198754; }
+    .status-sold-out   { background: #dc3545; }
+    .status-cancelled  { background: #6c757d; }
+    .status-inactive   { background: #ffc107; color: #333; }
 
     .event-detail-content {
         padding: 30px 45px;
@@ -224,9 +240,11 @@
         color: #4b35f5;
     }
 
-    .story-box {
-        border-left: 4px solid #4b35f5;
-        padding-left: 20px;
+    /* ── Event Creator Buttons ── */
+    .creator-actions {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
     }
 
     .host-detail-card,
@@ -415,131 +433,5 @@
         }
     }
 </style>
-
-<!-- Confirm Booking Modal -->
-<div class="modal fade" id="confirmBookingModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content booking-modal">
-
-            <div class="modal-header">
-                <h3 class="modal-title">Confirm Booking</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-                <h4>Event: {{ event.name }}</h4>
-
-                <p>
-                    Tickets:
-                    <strong id="modalTicketQuantity">1</strong>
-                </p>
-
-                <p>
-                    Total Price:
-                    <strong id="modalTotalPrice">$ {{ "%.2f"|format(event.price) }}</strong>
-                </p>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                    Cancel
-                </button>
-
-                <form method="POST" action="{{ url_for('main.book_event', event_id=event.id) }}">
-
-                    <input type="hidden" name="quantity" id="bookingQuantityInput" value="1">
-
-                    <button type="submit" class="btn btn-primary">
-                        Confirm Now
-                    </button>
-
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<!-- Booking Confirmed Modal -->
-<div class="modal fade" id="bookingSuccessModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content booking-modal text-center">
-
-            <div class="modal-body">
-                <div class="success-icon">✓</div>
-
-                <h3>Booking Confirmed!</h3>
-
-                <p>
-                    Booking ID:
-                    <strong>BK-{{ "%06d"|format(request.args.get('order_id')|int) }}</strong>
-                </p>
-
-
-                <p>A confirmation has been sent to your email.</p>
-
-                <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">
-                    Done
-                </button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-<script>
-    let quantity = 1;
-
-    const maxTickets = Number("{{ event.tickets_available }}");
-    const ticketPrice = Number("{{ event.price }}");
-
-    const quantityText = document.getElementById("ticketQuantity");
-    const totalAmount = document.getElementById("totalAmount");
-    const increaseButton = document.getElementById("increaseTicket");
-    const decreaseButton = document.getElementById("decreaseTicket");
-
-    const modalTicketQuantity = document.getElementById("modalTicketQuantity");
-    const modalTotalPrice = document.getElementById("modalTotalPrice");
-    const bookingQuantityInput = document.getElementById("bookingQuantityInput");
-
-    function updateTotal() {
-        const total = (ticketPrice * quantity).toFixed(2);
-
-        quantityText.textContent = quantity;
-        totalAmount.textContent = `$ ${total} aud`;
-
-        modalTicketQuantity.textContent = quantity;
-        modalTotalPrice.textContent = `$ ${total}`;
-
-        bookingQuantityInput.value = quantity;
-
-    }
-
-    increaseButton.addEventListener("click", () => {
-        if (quantity < maxTickets) {
-            quantity++;
-            updateTotal();
-        }
-    });
-
-    decreaseButton.addEventListener("click", () => {
-        if (quantity > 1) {
-            quantity--;
-            updateTotal();
-        }
-    });
-
-    updateTotal();
-</script>
-
-{% if request.args.get('booking') == 'success' %}
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const successModal = new bootstrap.Modal(document.getElementById("bookingSuccessModal"));
-        successModal.show();
-    });
-</script>
-{% endif %}
 
 {% endblock %}
