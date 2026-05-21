@@ -80,3 +80,8 @@ class EditProfileForm(FlaskForm):
     )
 
     submit = SubmitField("Update Profile")
+
+# Booking form
+class BookingForm(FlaskForm):
+    quantity = IntegerField("Number of Tickets", validators=[InputRequired(), NumberRange(min=1)])
+    submit = SubmitField("Confirm Booking")
