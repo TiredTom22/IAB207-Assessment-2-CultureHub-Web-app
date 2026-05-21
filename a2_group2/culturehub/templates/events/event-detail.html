@@ -23,7 +23,7 @@
         </div>
 
         {% if current_user.is_authenticated and current_user.id == event.user.id %}
-        <div class="d-flex gap-2 mt-3">
+        <div class="creator-actions">
             <a href="{{ url_for('main.edit_event', event_id=event.id) }}" class="btn btn-outline-primary">Edit Event</a>
             <a href="{{ url_for('main.cancel_event', event_id=event.id)}}" class="btn btn-outline-danger">Cancel Event</a>
         </div>
@@ -240,9 +240,11 @@
         color: #4b35f5;
     }
 
-    .story-box {
-        border-left: 4px solid #4b35f5;
-        padding-left: 20px;
+    /* ── Event Creator Buttons ── */
+    .creator-actions {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
     }
 
     .host-detail-card,
