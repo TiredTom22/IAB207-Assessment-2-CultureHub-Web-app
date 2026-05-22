@@ -87,10 +87,27 @@ body {
     margin-top: 0.8rem;
 }
 
+/* ── Search Bar ── */
+.search-section {
+    background-color: #f5d3d4;
+    padding: 20px 0;
+}
+
+.search-section .form-control {
+    border-radius: 25px 0 0 25px;
+    border: none;
+    padding: 10px 20px;
+}
+
+.search-section .btn {
+    border-radius: 0 25px 25px 0;
+}
+
 /* ── Filter Bar ── */
 .filter-section {
     padding: 15px 0;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #fff;
 }
 
 .filter-label {
@@ -102,11 +119,15 @@ body {
     border-color: #007bff;
     color: #007bff;
     border-radius: 20px;
+    padding: 5px 15px;
+    transition: all 0.2s ease;
 }
 
-.filter-section .btn-outline-secondary:hover {
+.filter-section .btn-outline-secondary:hover,
+.filter-section .btn-outline-secondary.active {
     background-color: #007bff;
     color: white;
+    box-shadow: 0 2px 5px rgba(0,123,255,0.3);
 }
 
 /* ── Event Cards ── */
