@@ -1,25 +1,53 @@
 ﻿/* ── Core ── */
 body {
-    font-family: 'Montserrat', sans-seri
+    font-family: 'Montserrat', sans-serif;
 }
 
 /* ── Navbar ── */
 .navbar {
     background-color: #f5d3d4;
-    padding: 15px 0;  
-}
-
-.navbar .nav-link {
-    color: #007bff;
-}
-
-.navbar .nav-link:hover {
-    color: #2196F3;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.7);
 }
 
 .navbar-brand {
     color: #007bff;
-    font-weight: bold;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    font-size: 1.25rem;
+}
+
+.navbar-brand .brand-accent {
+    color: #1f3a5f;
+}
+
+.navbar .nav-link {
+    color: #1f3a5f;
+    margin: 0 0.35rem;
+    padding: 0.45rem 0.65rem;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+    color: #007bff;
+    transform: translateY(-1px);
+}
+
+.navbar .nav-link.active {
+    color: #1f3a5f;
+    border-bottom: 2px solid #007bff;
+}
+
+.navbar-toggler {
+    border-color: rgba(249, 247, 241, 0.55);
+}
+
+.navbar-dark .navbar-toggler-icon {
+    filter: invert(1);
 }
 
 /* ── Carousel ── */
@@ -42,10 +70,44 @@ body {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 }
 
-/* ── Filter - update later ── */
+.carousel-caption {
+    background: rgba(31, 58, 95, 0.45);
+    padding: 1rem 1.25rem;
+    border-radius: 1rem;
+    max-width: 720px;
+    margin: 1rem auto 0;
+}
+
+.carousel-caption h5,
+.carousel-caption p {
+    color: #ffffff;
+}
+
+.carousel-caption .btn {
+    margin-top: 0.8rem;
+}
+
+/* ── Search Bar ── */
+.search-section {
+    background-color: #f5d3d4;
+    padding: 20px 0;
+}
+
+.search-section .form-control {
+    border-radius: 25px 0 0 25px;
+    border: none;
+    padding: 10px 20px;
+}
+
+.search-section .btn {
+    border-radius: 0 25px 25px 0;
+}
+
+/* ── Filter Bar ── */
 .filter-section {
     padding: 15px 0;
     border-bottom: 1px solid #e0e0e0;
+    background-color: #fff;
 }
 
 .filter-label {
@@ -57,11 +119,15 @@ body {
     border-color: #007bff;
     color: #007bff;
     border-radius: 20px;
+    padding: 5px 15px;
+    transition: all 0.2s ease;
 }
 
-.filter-section .btn-outline-secondary:hover {
+.filter-section .btn-outline-secondary:hover,
+.filter-section .btn-outline-secondary.active {
     background-color: #007bff;
     color: white;
+    box-shadow: 0 2px 5px rgba(0,123,255,0.3);
 }
 
 /* ── Event Cards ── */
