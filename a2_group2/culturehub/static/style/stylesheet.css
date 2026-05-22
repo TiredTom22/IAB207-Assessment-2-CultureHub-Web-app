@@ -70,10 +70,10 @@ body {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 }
 
-/* ── Filter - update later ── */
+/* ── Filter Bar ── */
 .filter-section {
     padding: 15px 0;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid black;
 }
 
 .filter-label {
