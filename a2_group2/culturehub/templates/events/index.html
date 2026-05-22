@@ -65,10 +65,12 @@
   <div class="row mt-5 mb-5 justify-content-center">
     <div class="col-md-8 text-center">
       <!-- Search bar -->
-      <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search for events...">
-          <button class="btn btn-primary" type="button">Search</button>
-      </div>
+       <form method="GET" action="{{ url_for('main.index') }}#events">
+          <div class="input-group">
+            <input type="text" class="form-control" name="search" placeholder="Search for events...">
+            <button class="btn btn-primary" type="submit">Search</button>
+          </div>
+        </form>
       <!-- Category filter -->
       <div class="filter-section" id="events">
         <div class="container">

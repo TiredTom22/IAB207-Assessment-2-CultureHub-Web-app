@@ -15,7 +15,10 @@ main_bp = Blueprint('main', __name__)
 @main_bp.route('/')
 @main_bp.route('/category/<category>')
 def index(category=None):
-    if category:
+    search = request.args.get('search')
+    if search:
+        events = Event.query.filter(Event.name.ilike(f'%{search}%')).all()
+    elif category:
         events = Event.query.filter_by(category=category).all()
     else:
         events = Event.query.all()
