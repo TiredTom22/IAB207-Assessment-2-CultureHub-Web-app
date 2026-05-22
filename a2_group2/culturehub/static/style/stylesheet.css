@@ -42,6 +42,11 @@ body {
     border-bottom: 2px solid #007bff;
 }
 
+.nav-link.active {
+    border-bottom: 2px solid #007bff;
+    color: #007bff !important;
+}
+
 .navbar-toggler {
     border-color: rgba(249, 247, 241, 0.55);
 }
