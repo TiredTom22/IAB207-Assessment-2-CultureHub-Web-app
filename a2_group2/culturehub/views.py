@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import current_app, Blueprint, render_template, redirect, url_for, flash, request
 from flask_wtf.csrf import generate_csrf
 from flask_login import login_required, current_user
 from .forms import EditProfileForm, EventForm, BookingForm
@@ -6,7 +6,6 @@ from .models import Event, Comment, Order, Event
 from . import db
 import os
 from werkzeug.utils import secure_filename
-from flask import current_app
 from flask import request
 from datetime import datetime
 
@@ -15,7 +14,10 @@ main_bp = Blueprint('main', __name__)
 @main_bp.route('/')
 @main_bp.route('/category/<category>')
 def index(category=None):
-    if category:
+    search = request.args.get('search')
+    if search:
+        events = Event.query.filter(Event.name.ilike(f'%{search}%')).all()
+    elif category:
         events = Event.query.filter_by(category=category).all()
     else:
         events = Event.query.all()
