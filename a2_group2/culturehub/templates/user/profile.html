@@ -8,8 +8,8 @@
         <div class="profile-cover"></div>
         <div class="profile-info">
             <img src="{{ url_for('static', filename='profile_pics/' + user.profile_image) 
-                if user.profile_image else 'https://placehold.co/120x120' }}"
-                alt="Profile photo" class="profile-photo" />
+                if user.profile_image else 'https://placehold.co/120x120' }}" alt="Profile photo"
+                class="profile-photo" />
             <div class="profile-details">
                 <h2>{{ user.name }}</h2>
                 <span class="email">{{ user.email }}</span>
@@ -44,31 +44,31 @@
     <h4 class="section-title">Upcoming Events</h4>
     <div class="row">
         {% if upcoming_events %}
-            {% for event in upcoming_events %}
-            <div class="col-md-4 mb-4">
-                <div class="event-card profile-event-card shadow-sm">
-                    <div class="card-img-wrap">
-                        <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/400x220' }}"
-                            class="card-img-top" alt="{{ event.name }}">
-                        <span class="origin-tag">{{ event.category }}</span>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ event.name }}</h5>
-                        <p class="event-date">
-                            {{ event.date.strftime("%A, %d %B %Y") }}
-                            {{ event.location }}
-                        </p>
-                    </div>
-                    <div class="card-actions">
-                        <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-primary btn-sm">View
-                            Details
-                        </a>
-                    </div>
+        {% for event in upcoming_events %}
+        <div class="col-md-4 mb-4">
+            <div class="event-card profile-event-card shadow-sm">
+                <div class="card-img-wrap">
+                    <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/400x220' }}"
+                        class="card-img-top" alt="{{ event.name }}">
+                    <span class="origin-tag">{{ event.category }}</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.name }}</h5>
+                    <p class="event-date">
+                        {{ event.date.strftime("%A, %d %B %Y") }}
+                        {{ event.location }}
+                    </p>
+                </div>
+                <div class="card-actions">
+                    <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-primary btn-sm">View
+                        Details
+                    </a>
                 </div>
             </div>
-            {% endfor %}
+        </div>
+        {% endfor %}
         {% else %}
-            <p class="text-muted">No upcoming events booked yet.</p>
+        <p class="text-muted">No upcoming events booked yet.</p>
         {% endif %}
     </div>
 
@@ -76,31 +76,31 @@
     <h4 class="section-title">Past Events</h4>
     <div class="row">
         {% if past_events %}
-            {% for event in past_events %}
-            <div class="col-md-4 mb-4">
-                <div class="event-card profile-event-card shadow-sm">
-                    <div class="card-img-wrap">
-                        <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/400x220' }}"
-                            class="card-img-top" alt="{{ event.name }}">
-                        <span class="origin-tag">{{ event.category }}</span>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ event.name }}</h5>
-                        <p class="event-date">
-                            {{ event.date.strftime("%A, %d %B %Y") }}
-                            {{ event.location }}
-                        </p>
-                    </div>
-                    <div class="card-actions">
-                        <a href="{{ url_for('main.event_detail', event_id=event.id) }}" 
-                        class="btn btn-primary btn-sm">View Details</a>
-                    </div>
+        {% for event in past_events %}
+        <div class="col-md-4 mb-4">
+            <div class="event-card profile-event-card shadow-sm">
+                <div class="card-img-wrap">
+                    <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/400x220' }}"
+                        class="card-img-top" alt="{{ event.name }}">
+                    <span class="origin-tag">{{ event.category }}</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.name }}</h5>
+                    <p class="event-date">
+                        {{ event.date.strftime("%A, %d %B %Y") }}
+                        {{ event.location }}
+                    </p>
+                </div>
+                <div class="card-actions">
+                    <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-primary btn-sm">View
+                        Details</a>
                 </div>
             </div>
-            {% endfor %}
+        </div>
+        {% endfor %}
         {% else %}
-            <p class="text-muted">No past events attended yet.</p>
-        {% endif %}  
+        <p class="text-muted">No past events attended yet.</p>
+        {% endif %}
     </div>
 
     <!-- Saved Events -->
@@ -113,10 +113,60 @@
 
     <!-- Booking History -->
     <h4 class="section-title">Booking History</h4>
+
     <div class="row">
+        {% if orders %}
+        {% for order in orders %}
         <div class="col-md-4 mb-4">
-            <!-- Add booking history card here later -->
+            <div class="event-card profile-event-card booking-history-card shadow-sm">
+
+                <div class="card-img-wrap">
+                    <img src="{{ url_for('static', filename='images/' + order.event.image) if order.event.image else 'https://placehold.co/400x220' }}"
+                        class="card-img-top" alt="{{ order.event.name }}">
+
+                    <span class="origin-tag">{{ order.event.category }}</span>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ order.event.name }}</h5>
+
+                    <span class="booking-id">
+                        Booking ID: BK-{{ "%06d"|format(order.id) }}
+                    </span>
+
+                    <p class="event-date mt-3">
+                        <strong>Hosted by:</strong> {{ order.event.user.name }}<br><br>
+
+                        <strong>Tickets</strong><br>
+                        {{ order.quantity }} tickets<br><br>
+
+                        <strong>Booked on</strong><br>
+                        {{ order.date.strftime("%A, %d %B %Y") }}
+                    </p>
+
+                    <p class="booking-total">
+                        $ {{ "%.2f"|format(order.price) }} aud<br>
+                        <span>Total Amount</span>
+                    </p>
+                </div>
+
+                <div class="card-actions">
+                    <a href="{{ url_for('main.event_detail', event_id=order.event.id) }}"
+                        class="btn btn-primary btn-sm">
+                        View Details
+                    </a>
+
+                    <a href="#" class="btn btn-light btn-sm">
+                        Download Tickets
+                    </a>
+                </div>
+
+            </div>
         </div>
+        {% endfor %}
+        {% else %}
+        <p class="text-muted">No booking history yet.</p>
+        {% endif %}
     </div>
 </div>
 
@@ -269,6 +319,35 @@
     .card-actions .btn {
         flex: 1;
         font-weight: bold;
+    }
+
+    .download-ticket-btn {
+        margin-left: auto;
+        margin-top: 15px;
+        min-width: 150px;
+        min-height: 15px;
+    }
+
+    .booking-id {
+        display: inline-block;
+        background-color: #fff3f3;
+        padding: 6px 14px;
+        border-radius: 20px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        font-size: 0.8rem;
+        color: #777;
+        font-weight: 600;
+    }
+
+    .booking-total {
+        font-weight: bold;
+        font-size: 0.95rem;
+        text-align: right;
+    }
+
+    .booking-total span {
+        font-size: 0.8rem;
+        color: #000;
     }
 
     /* ── Mobile responsive ── */
