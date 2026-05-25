@@ -1,0 +1,409 @@
+{% extends "base.html" %}
+
+{% block content %} 
+<main class="container my-4">
+
+  <h3 class="create-page-title">Edit Event</h3>
+  <p class="create-subtitle">Update your event details and keep your attendees informed.</p>
+
+  <div class="row g-4">
+
+    <!-- ── Main form column ── -->
+    <div class="col-lg-8">
+      <div class="create-form-card">
+        <form method="POST" enctype="multipart/form-data" id="eventForm" novalidate>
+          {{ form.hidden_tag() }}
+
+          <!-- Event Title + Category -->
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="create-label">
+                {{ form.name.label.text }} <span class="create-required">*</span>
+              </label>
+              {{ form.name(class="create-input", placeholder="e.g., Japanese Tea Ceremony") }}
+              {% if form.name.errors %}
+                <div class="create-error">{{ form.name.errors[0] }}</div>
+              {% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="create-label">
+                {{ form.category.label.text }} <span class="create-required">*</span>
+              </label>
+              {{ form.category(class="create-input") }}
+              {% if form.category.errors %}
+                <div class="create-error">{{ form.category.errors[0] }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Date + Location -->
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="create-label">
+                {{ form.date.label.text }} <span class="create-required">*</span>
+              </label>
+              {{ form.date(class="create-input") }}
+              {% if form.date.errors %}
+                <div class="create-error">{{ form.date.errors[0] }}</div>
+              {% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="create-label">
+                {{ form.location.label.text }} <span class="create-required">*</span>
+              </label>
+              {{ form.location(class="create-input", placeholder="e.g., Queen Street, Brisbane CBD") }}
+              {% if form.location.errors %}
+                <div class="create-error">{{ form.location.errors[0] }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Tickets + Price -->
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="create-label">
+                {{ form.tickets_available.label.text }} <span class="create-required">*</span>
+              </label>
+              {{ form.tickets_available(class="create-input", placeholder="e.g., 100") }}
+              {% if form.tickets_available.errors %}
+                <div class="create-error">{{ form.tickets_available.errors[0] }}</div>
+              {% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="create-label">
+                {{ form.price.label.text }} <span class="create-required">*</span>
+              </label>
+              <div class="create-input-prefix">
+                <span class="prefix-symbol">$</span>
+                {{ form.price(class="create-input prefix-input", placeholder="e.g., 35.00") }}
+              </div>
+              {% if form.price.errors %}
+                <div class="create-error">{{ form.price.errors[0] }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="mb-3">
+            <label class="create-label">
+              {{ form.description.label.text }} <span class="create-required">*</span>
+            </label>
+            {{ form.description(class="create-input create-textarea", placeholder="Describe what attendees will experience at your event...") }}
+            {% if form.description.errors %}
+              <div class="create-error">{{ form.description.errors[0] }}</div>
+            {% endif %}
+          </div>
+
+          <!-- Image upload -->
+          <div class="mb-4">
+            <label class="create-label">
+              {{ form.image.label.text }}
+            </label>
+            {% if event.image %}
+              <p class="text-muted">Current image: <strong>{{ event.image }}</strong></p>
+            {% endif %}
+            <label for="image" class="upload-box" id="uploadBox">
+              <div id="uploadPrompt">
+                <i class="bi bi-cloud-upload fs-3 d-block mb-1"></i>
+                Click to upload or drag and drop<br>
+                <small>PNG, JPG up to 10MB</small>
+              </div>
+              <div id="uploadedName" class="d-none upload-filename"></div>
+            </label>
+            {{ form.image(class="d-none", id="image") }}
+            {% if form.image.errors %}
+              <div class="create-error">{{ form.image.errors[0] }}</div>
+            {% endif %}
+          </div>
+
+          <!-- Acknowledgement of Country (Sohee's radio style) -->
+          <div class="mb-4">
+            <label class="create-label">
+              {{ form.acknowledgement.label.text }} <span class="create-required">*</span>
+            </label>
+
+            <label class="ack-box {% if form.acknowledgement.data == 'none' or not form.acknowledgement.data %}ack-selected{% endif %}" id="ack-none">
+              <input type="radio" name="acknowledgement" value="none" class="ack-radio"
+                {% if form.acknowledgement.data == 'none' or not form.acknowledgement.data %}checked{% endif %}>
+              <div>
+                <div class="ack-title">No Acknowledgement</div>
+                <div class="ack-desc">Event will not include an Acknowledgement of Country.</div>
+              </div>
+            </label>
+
+            <label class="ack-box {% if form.acknowledgement.data == 'generic' %}ack-selected{% endif %}" id="ack-generic">
+              <input type="radio" name="acknowledgement" value="generic" class="ack-radio"
+                {% if form.acknowledgement.data == 'generic' %}checked{% endif %}>
+              <div>
+                <div class="ack-title">Generic Acknowledgement</div>
+                <div class="ack-desc">Event includes a standard Acknowledgement of Country to Traditional Custodians of the land.</div>
+              </div>
+            </label>
+
+            <label class="ack-box {% if form.acknowledgement.data == 'enhanced' %}ack-selected{% endif %}" id="ack-enhanced">
+              <input type="radio" name="acknowledgement" value="enhanced" class="ack-radio"
+                {% if form.acknowledgement.data == 'enhanced' %}checked{% endif %}>
+              <div>
+                <div class="ack-title">Enhanced Acknowledgement</div>
+                <div class="ack-desc">Extended version with a commitment statement to Traditional Custodians of the land.</div>
+              </div>
+            </label>
+          </div>
+
+          <!-- Submit buttons -->
+          <div class="row mt-2">
+            <div class="col-md-8 mb-2">
+              {{ form.submit(class="btn-create-event w-100") }}
+            </div>
+            <div class="col-md-4 mb-2">
+              <a href="{{ url_for('main.index') }}" class="btn-cancel-event w-100 text-decoration-none text-center d-block">
+                Cancel
+              </a>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- ── Tips sidebar ── -->
+    <div class="col-lg-4">
+      <div class="create-tips-card">
+        <h5 class="create-tips-title"><i class="bi bi-lightbulb me-2"></i>Tips for Great Events</h5>
+        <ul class="create-tips-list">
+          <li>Be authentic — share your genuine cultural experience and personal connection.</li>
+          <li>Tell the story behind the tradition — why it matters and what it means to you.</li>
+          <li>Create an interactive experience — let attendees participate and ask questions.</li>
+          <li>Use high-quality photos that showcase the cultural elements.</li>
+          <li>Be welcoming to all levels of cultural knowledge and experience.</li>
+        </ul>
+      </div>
+
+      <!-- Preview card -->
+      <div class="create-preview-card mt-4">
+        <h5 class="create-tips-title"><i class="bi bi-eye me-2"></i>What attendees will see</h5>
+        <p class="create-tips-text">Your event will appear on the CultureHub homepage and in category filters. Make sure your title and description are clear and inviting.</p>
+        <div class="create-preview-badge">
+          <i class="bi bi-check-circle me-1"></i> Events are live immediately after creation
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ── Styles scoped to create page ── -->
+<style>
+  .create-page-title {
+    color: #1a1a2e;
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+  }
+  .create-subtitle {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Form card */
+  .create-form-card {
+    background: #f3dddd;
+    border-radius: 14px;
+    padding: 28px 32px;
+    box-shadow: 3px 4px 6px rgba(0,0,0,0.12);
+    border: 1px solid #d4bbbb;
+  }
+
+  .create-label {
+    color: #1a1a2e;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .create-required { color: #dc3545; }
+
+  .create-input {
+    width: 100%;
+    border: none;
+    border-radius: 7px;
+    box-shadow: 2px 3px 4px rgba(0,0,0,0.12);
+    padding: 11px 14px;
+    font-size: 0.9rem;
+    background-color: #fff7f7;
+    color: #333;
+    transition: outline 0.15s;
+  }
+  .create-input:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 0;
+    box-shadow: 2px 3px 4px rgba(0,0,0,0.12);
+  }
+  select.create-input { cursor: pointer; }
+
+  .create-textarea { min-height: 100px; resize: vertical; }
+
+  /* Price prefix */
+  .create-input-prefix { position: relative; }
+  .prefix-symbol {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-weight: 600;
+  }
+  .prefix-input { padding-left: 26px; }
+
+  /* Upload box */
+  .upload-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: #fff7f7;
+    border-radius: 7px;
+    box-shadow: 2px 3px 4px rgba(0,0,0,0.12);
+    height: 90px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: #555;
+    transition: background 0.2s;
+  }
+  .upload-box:hover { background: #fff0f0; }
+  .upload-filename {
+    color: #007bff;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  /* Acknowledgement boxes (Sohee's style, team colours) */
+  .ack-box {
+    background: #fff7f7;
+    border-radius: 8px;
+    box-shadow: 2px 3px 4px rgba(0,0,0,0.1);
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.15s;
+  }
+  .ack-box:hover { border-color: #f5d3d4; }
+  .ack-selected { border-color: #007bff !important; background: #f0f6ff; }
+
+  .ack-radio {
+    width: 18px;
+    height: 18px;
+    accent-color: #007bff;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .ack-title {
+    color: #1a1a2e;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+  }
+  .ack-desc { color: #666; font-size: 0.82rem; }
+
+  /* Error messages */
+  .create-error {
+    color: #dc3545;
+    font-size: 0.8rem;
+    margin-top: 4px;
+  }
+
+  /* Submit buttons */
+  .btn-create-event {
+    background: #007bff;
+    color: white;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 12px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: block;
+  }
+  .btn-create-event:hover { background: #0056b3; }
+
+  .btn-cancel-event {
+    background: #fff7f7;
+    color: #666;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+  }
+  .btn-cancel-event:hover { background: #f5d3d4; color: #333; }
+
+  /* Tips sidebar */
+  .create-tips-card,
+  .create-preview-card {
+    background: #fff7f7;
+    border-radius: 12px;
+    padding: 20px 24px;
+    box-shadow: 2px 3px 6px rgba(0,0,0,0.08);
+  }
+  .create-tips-title {
+    color: #1a1a2e;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  .create-tips-list {
+    padding-left: 1.2rem;
+    color: #555;
+    font-size: 0.875rem;
+    line-height: 1.8;
+  }
+  .create-tips-text {
+    color: #555;
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+  .create-preview-badge {
+    background: #d4edda;
+    color: #155724;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-top: 10px;
+  }
+</style>
+
+<!-- Acknowledgement highlight + image upload JS -->
+<script>
+  // Highlight selected acknowledgement box
+  document.querySelectorAll('.ack-radio').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      document.querySelectorAll('.ack-box').forEach(b => b.classList.remove('ack-selected'));
+      this.closest('.ack-box').classList.add('ack-selected');
+    });
+  });
+
+  // Image upload file name display
+  document.getElementById('image').addEventListener('change', function() {
+    const prompt = document.getElementById('uploadPrompt');
+    const named = document.getElementById('uploadedName');
+    if (this.files.length > 0) {
+      prompt.classList.add('d-none');
+      named.classList.remove('d-none');
+      named.textContent = '✓ ' + this.files[0].name;
+    } else {
+      prompt.classList.remove('d-none');
+      named.classList.add('d-none');
+    }
+  });
+</script>
+
+{% endblock %}
