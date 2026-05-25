@@ -256,3 +256,13 @@ def cancel_event(event_id):
     db.session.commit()
     flash('Event has been cancelled.')
     return redirect(url_for('main.event_detail', event_id=event_id))
+
+
+@main_bp.route('/stories')
+def stories():
+    return render_template('user/stories.html')
+
+
+@main_bp.route('/contact')
+def contact():
+    return render_template('user/contact.html')
