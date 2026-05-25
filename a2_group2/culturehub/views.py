@@ -207,7 +207,7 @@ def book_event(event_id):
 
 @main_bp.route('/event/<int:event_id>/edit')
 @login_required
-def edit_event(event_id):
+def event_edit(event_id):
     event = Event.query.get_or_404(event_id)
     if event.user_id != current_user.id:
         flash('You do not have permission to edit this event.')
@@ -230,7 +230,7 @@ def edit_event(event_id):
         db.session.commit()
         flash('Event updated successfully!')
         return redirect(url_for('main.event_detail', event_id=event_id))
-    return render_template('events/edit.html', form=form, event=event)
+    return render_template('events/event_edit.html', form=form, event=event)
 
 @main_bp.route('/event/<int:event_id>/cancel')
 @login_required
