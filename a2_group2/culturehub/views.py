@@ -14,6 +14,13 @@ main_bp = Blueprint('main', __name__)
 @main_bp.route('/')
 @main_bp.route('/category/<category>')
 def index(category=None):
+    # Auto update inactive events
+    now = datetime.now()
+    past_events = Event.query.filter(Event.date < now, Event.status == 'Open').all()
+    for event in past_events:
+        event.status = 'Inactive'
+    db.session.commit()
+    
     search = request.args.get('search')
     if search:
         events = Event.query.filter(Event.name.ilike(f'%{search}%')).all()
