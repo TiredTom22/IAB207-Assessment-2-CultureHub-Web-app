@@ -205,7 +205,7 @@ def book_event(event_id):
     order_id=order.id
 ))
 
-@main_bp.route('/event/<int:event_id>/edit')
+@main_bp.route('/event/<int:event_id>/edit' , methods=['GET', 'POST'])
 @login_required
 def event_edit(event_id):
     event = Event.query.get_or_404(event_id)
@@ -222,10 +222,12 @@ def event_edit(event_id):
         event.tickets_available = form.tickets_available.data
         event.price = form.price.data
         event.acknowledgement = form.acknowledgement.data
-        if form.image.data:
+        if form.image.data and hasattr(form.image.data, 'filename') and form.image.data.filename != '':
             image_file = form.image.data
             image_filename = secure_filename(image_file.filename)
-            image_file.save(os.path.join('culturehub/static/images', image_filename))
+            images_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'images')
+            os.makedirs(images_dir, exist_ok=True)
+            image_file.save(os.path.join(images_dir, image_filename))
             event.image = image_filename
         db.session.commit()
         flash('Event updated successfully!')
