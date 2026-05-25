@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="community-hero">
+  <div class="community-hero-content">
+    <h1>About CultureHub</h1>
+    <p>
+      Bringing people together through cultural events, community stories,
+      and shared experiences from around the world.
+    </p>
+  </div>
+</section>
+
+<!-- Main About Section -->
+<section class="community-page">
+
+  <div class="community-card">
+    <h2>Who We Are</h2>
+    <p>
+      CultureHub is an online community platform designed to help people discover
+      cultural events, connect with others, and celebrate diversity through
+      shared experiences.
+    </p>
+
+    <p>
+      Our platform allows users to browse events, host activities, share stories,
+      and engage with communities from different cultural backgrounds.
+    </p>
+  </div>
+
+  <div class="community-grid">
+
+    <div class="community-small-card">
+      <h3>🌏 Cultural Diversity</h3>
+      <p>
+        We promote cultural understanding by encouraging people to explore
+        traditions, festivals, food, music, and stories from different communities.
+      </p>
+    </div>
+
+    <div class="community-small-card">
+      <h3>🤝 Community Connection</h3>
+      <p>
+        CultureHub creates opportunities for people to meet others,
+        participate in local activities, and build meaningful connections.
+      </p>
+    </div>
+
+    <div class="community-small-card">
+      <h3>🎉 Events & Experiences</h3>
+      <p>
+        Users can discover events, host gatherings, and participate in experiences
+        that celebrate creativity and cultural expression.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="community-card">
+    <h2>Our Mission</h2>
+
+    <p>
+      Our mission is to create an inclusive and welcoming digital space where
+      communities can share experiences, celebrate diversity, and strengthen
+      cultural understanding.
+    </p>
+
+    <p>
+      We believe cultural storytelling and shared experiences help create stronger,
+      more connected communities.
+    </p>
+  </div>
+
+  <div class="community-banner">
+    <div>
+      <h2>Join the CultureHub Community</h2>
+      <p>
+        Explore upcoming events, connect with others, and become part of a growing
+        cultural community.
+      </p>
+    </div>
+
+    <a href="{{ url_for('main.index') }}#events" class="community-btn">
+      Explore Events
+    </a>
+  </div>
+
+</section>
+
+{% endblock %}
