@@ -1,7 +1,20 @@
 from flask_wtf import FlaskForm
 from wtforms.fields import SubmitField, StringField, PasswordField, TextAreaField, SelectField, IntegerField, FloatField, DateTimeLocalField
 from flask_wtf.file import FileField, FileAllowed
-from wtforms.validators import InputRequired, Length, Email, EqualTo, NumberRange
+from wtforms.validators import InputRequired, Length, Email, EqualTo, NumberRange, ValidationError
+import re
+
+# ── Custom password validator ──
+def strong_password(form, field):
+    password = field.data
+    if not re.search(r'[A-Z]', password):
+        raise ValidationError('Password must contain at least one uppercase letter.')
+    if not re.search(r'[a-z]', password):
+        raise ValidationError('Password must contain at least one lowercase letter.')
+    if not re.search(r'[0-9]', password):
+        raise ValidationError('Password must contain at least one number.')
+    if not re.search(r'[!@#$%^&*(),.?\":{}|<>]', password):
+        raise ValidationError('Password must contain at least one special character (!@#$%^&* etc).')
 
 # Login form
 class LoginForm(FlaskForm):
@@ -28,7 +41,8 @@ class RegisterForm(FlaskForm):
     ])
     password = PasswordField("Password", validators=[
         InputRequired('Enter a password'),
-        Length(min=6, message='Password must be at least 6 characters'),
+        Length(min=8, message='Password must be at least 8 characters'),
+        strong_password,
         EqualTo('confirm', message="Passwords must match")
     ])
     confirm = PasswordField("Confirm Password", validators=[
@@ -48,7 +62,6 @@ class EventForm(FlaskForm):
         ('music', 'Music'),
         ('festival', 'Festival')
     ])
-
     date = DateTimeLocalField("Event Date and Time", format='%Y-%m-%dT%H:%M', validators=[InputRequired()])
     location = StringField("Event Location", validators=[InputRequired()])
     description = TextAreaField("Event Description", validators=[InputRequired()])
@@ -61,7 +74,7 @@ class EventForm(FlaskForm):
         ("enhanced", "Enhanced acknowledgement ")
     ])
     submit = SubmitField("Create Event")
-    
+
 # Edit profile form
 class EditProfileForm(FlaskForm):
     name = StringField("Full Name", validators=[InputRequired()])
@@ -71,14 +84,12 @@ class EditProfileForm(FlaskForm):
     bio = TextAreaField("Bio", validators=[Length(max=500)])
     languages = StringField("Language(s) Spoken")
     cultural_interests = StringField("Cultural Interests")
-
     profile_image = FileField(
         "Profile Image",
         validators=[
             FileAllowed(["jpg", "jpeg", "png"], "Images only!")
         ]
     )
-
     submit = SubmitField("Update Profile")
 
 # Booking form

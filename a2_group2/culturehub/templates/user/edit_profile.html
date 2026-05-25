@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="container my-4">
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" action="{{ url_for('main.edit_profile') }}" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <!-- Profile Banner -->
     <section class="profile-header shadow-sm mb-4">
