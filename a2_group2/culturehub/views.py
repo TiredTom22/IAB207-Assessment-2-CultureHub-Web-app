@@ -234,7 +234,14 @@ def event_edit(event_id):
         return redirect(url_for('main.event_detail', event_id=event_id))
     return render_template('events/event_edit.html', form=form, event=event)
 
-@main_bp.route('/event/<int:event_id>/cancel')
+@main_bp.route('/event/<int:event_id>/cancel', methods=['POST'])
 @login_required
 def cancel_event(event_id):
-    return 'Cancel event coming soon'
+    event = Event.query.get_or_404(event_id)
+    if event.user_id != current_user.id:
+        flash('You are not authorised to cancel this event.')
+        return redirect(url_for('main.event_detail', event_id=event_id))
+    event.status = 'Cancelled'
+    db.session.commit()
+    flash('Event has been cancelled.')
+    return redirect(url_for('main.event_detail', event_id=event_id))
