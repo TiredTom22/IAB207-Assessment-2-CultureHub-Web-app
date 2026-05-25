@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="contact-hero">
+  <div class="contact-hero-content">
+    <span class="section-label">Contact Us</span>
+    <h1>Get in Touch with CultureHub</h1>
+    <p>
+      Have a question, suggestion, or community event idea? We would love to hear
+      from you and help you connect with Australia’s multicultural community.
+    </p>
+  </div>
+</section>
+
+<section class="contact-section">
+
+  <div class="contact-info">
+    <h2>Contact Information</h2>
+    <p>
+      CultureHub supports people who want to discover, host, and share cultural
+      events across Australia. Use the form to send us your enquiry or feedback.
+    </p>
+
+    <div class="contact-info-card">
+      <h3>Email</h3>
+      <p>support@culturehub.com</p>
+    </div>
+
+    <div class="contact-info-card">
+      <h3>Location</h3>
+      <p>Australia-wide community events</p>
+    </div>
+
+    <div class="contact-info-card">
+      <h3>Community Focus</h3>
+      <p>Multicultural events, traditions, stories, and local experiences.</p>
+    </div>
+  </div>
+
+  <div class="contact-form-card">
+    <h2>Send Us a Message</h2>
+
+    <form class="contact-form">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input id="name" type="text" placeholder="Enter your full name">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input id="email" type="email" placeholder="Enter your email address">
+      </div>
+
+      <div class="form-group">
+        <label for="subject">Subject</label>
+        <input id="subject" type="text" placeholder="What is your enquiry about?">
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" rows="6" placeholder="Write your message here"></textarea>
+      </div>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+
+</section>
+
+<section class="contact-bottom">
+  <h2>Connect Through Culture</h2>
+  <p>
+    Whether you are attending an event, hosting a cultural activity, or sharing a
+    community story, CultureHub is here to help people connect through meaningful
+    multicultural experiences.
+  </p>
+</section>
+
+{% endblock %}

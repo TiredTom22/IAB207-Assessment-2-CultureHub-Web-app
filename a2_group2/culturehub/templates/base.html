@@ -27,11 +27,7 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                <div class="navbar-nav ms-auto">
                   <a class="nav-item nav-link" href="{{ url_for('main.index') }}">Home</a>
-<<<<<<< Updated upstream
                   <a class="nav-item nav-link" href="{{ url_for('main.index') }}#events">Events</a>
-=======
-                  <a class="nav-item nav-link" href="{{ url_for('main.comment') }}">Events</a>
->>>>>>> Stashed changes
                   <a class="nav-item nav-link" href="{{ url_for('main.create_event') }}">Host</a>
 
                   {% if current_user.is_authenticated %}
@@ -90,12 +86,15 @@
                         </ul>
                     </div>
                     <!-- Contact column -->
+                    <!-- Contact column -->
                     <div class="col-md-4 mb-4">
                         <h5>Community</h5>
                         <ul class="list-unstyled">
-                            <li><a href="#" class="text-decoration-none">About Us</a></li>
-                            <li><a href="#" class="text-decoration-none">Stories</a></li>
-                            <li><a href="#" class="text-decoration-none">Contact</a></li>
+                            <li><a href="{{ url_for('main.about_us') }}" class="text-decoration-none">About Us</a></li>
+                            <li><a href="{{ url_for('main.stories') }}" class="text-decoration-none">Stories</a></li>
+                            <li><a href="{{ url_for('main.contact') }}" class="text-decoration-none">Contact</a></li>
+                        </ul>
+                    </div>
                         </ul>
                     </div>
                 </div>
