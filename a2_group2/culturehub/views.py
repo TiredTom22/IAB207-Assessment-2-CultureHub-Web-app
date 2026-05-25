@@ -229,8 +229,10 @@ def event_edit(event_id):
         event.tickets_available = form.tickets_available.data
         event.price = form.price.data
         event.acknowledgement = form.acknowledgement.data
-        if event.status > datetime.now():
+        
+        if event.date > datetime.now():
             event.status = 'Open'
+        
         if form.image.data and hasattr(form.image.data, 'filename') and form.image.data.filename != '':
             image_file = form.image.data
             image_filename = secure_filename(image_file.filename)
