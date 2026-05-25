@@ -25,7 +25,10 @@
         {% if current_user.is_authenticated and current_user.id == event.user.id %}
         <div class="creator-actions">
             <a href="{{ url_for('main.event_edit', event_id=event.id) }}" class="btn btn-outline-primary">Edit Event</a>
-            <a href="{{ url_for('main.cancel_event', event_id=event.id)}}" class="btn btn-outline-danger">Cancel Event</a>
+            <form method="POST" action="{{ url_for('main.cancel_event', event_id=event.id) }}" style="display:inline;">
+                {{ form.hidden_tag() }}
+                <button type="submit" class="btn btn-outline-danger">Cancel Event</button>
+            </form>
         </div>
         {% endif %}
 
