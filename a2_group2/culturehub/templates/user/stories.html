@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="stories-hero">
+  <div class="stories-hero-text">
+    <span class="section-label">Community Stories</span>
+    <h1>Stories of Culture, Tradition and Belonging</h1>
+    <p>
+      Discover how multicultural communities across Australia celebrate identity,
+      share traditions, and create meaningful connections through local events.
+    </p>
+  </div>
+</section>
+
+<section class="stories-feature">
+  <div class="feature-text">
+    <span class="section-label">Featured Story</span>
+    <h2>Celebrating Culture in Everyday Australia</h2>
+    <p>
+      Australia is home to people from many nationalities and cultural backgrounds.
+      From food festivals and music performances to art exhibitions and local
+      community gatherings, cultural events create spaces where people can share
+      their heritage and learn from one another.
+    </p>
+    <p>
+      These stories highlight the traditions, memories, and experiences that bring
+      communities together across Australia.
+    </p>
+  </div>
+
+  <div class="feature-image">
+    <img src="{{ url_for('static', filename='images/bbg piccc.jpg') }}" alt="Multicultural community event">
+  </div>
+</section>
+
+<section class="stories-timeline">
+  <div class="timeline-heading">
+    <span class="section-label">Culture in Motion</span>
+    <h2>How Stories Bring Communities Together</h2>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-number">01</div>
+    <div>
+      <h3>Sharing Traditions</h3>
+      <p>
+        Local events allow communities to share traditional food, clothing, music,
+        dance, and cultural practices with people from different backgrounds.
+      </p>
+    </div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-number">02</div>
+    <div>
+      <h3>Learning Through Experience</h3>
+      <p>
+        Cultural events help people understand different ways of life through
+        real experiences rather than just information.
+      </p>
+    </div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-number">03</div>
+    <div>
+      <h3>Building Belonging</h3>
+      <p>
+        Stories and events create welcoming spaces where people can feel seen,
+        included, and connected to the wider Australian community.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="story-highlight-grid">
+  <article class="highlight-card large">
+    <h3>Food as a Cultural Story</h3>
+    <p>
+      From Asian night markets to European food festivals and Indigenous food
+      experiences, food events help people connect through taste, memory, and
+      storytelling.
+    </p>
+    <span>Food & Culture</span>
+  </article>
+
+  <article class="highlight-card">
+    <h3>Music and Performance</h3>
+    <p>
+      Performances allow communities to express identity, history, and emotion
+      through sound, movement, and celebration.
+    </p>
+    <span>Tradition</span>
+  </article>
+
+  <article class="highlight-card">
+    <h3>Local Community Voices</h3>
+    <p>
+      Every cultural event has personal stories behind it — families, volunteers,
+      artists, and organisers who help bring communities together.
+    </p>
+    <span>Community</span>
+  </article>
+</section>
+
+<section class="stories-cta">
+  <h2>Share Your Cultural Experience</h2>
+  <p>
+    Have you attended or hosted a cultural event in Australia? Share your story
+    and inspire others to explore the CultureHub community.
+  </p>
+  <a href="{{ url_for('main.index') }}#events">Explore Events</a>
+</section>
+
+{% endblock %}
