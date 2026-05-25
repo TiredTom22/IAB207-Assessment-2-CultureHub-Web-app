@@ -79,6 +79,32 @@
         {% endif %}
       </div>
       {% endif %}
+        
+        <!-- Comments -->
+        <section class="comments-card shadow-sm mt-4">
+            <h4>Comments</h4>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <textarea class="form-control mb-3" name="comment" rows="4"
+                    placeholder="Share your thoughts about this event..."></textarea>
+                <button type="submit" class="btn btn-primary">
+                    Post Comments
+                </button>
+            </form>
+            <h5 class="mt-4">Reviews and comments</h5>
+
+            {% if comments %}
+            {% for comment in comments %}
+            <div class="comment-item">
+                <strong>{{ comment.user.name }}</strong>
+                <small>{{ comment.date.strftime("%B %d, %Y") }}</small>
+                <p>{{ comment.content }}</p>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="text-muted">No comments yet.</p>
+            {% endif %}
+        </section>
 
         <!-- Ticket Information card -->
         <div class="row mt-4">
@@ -135,32 +161,6 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Comments -->
-        <section class="comments-card shadow-sm mt-4">
-            <h4>Comments</h4>
-            <form method="POST">
-                {{ form.hidden_tag() }}
-                <textarea class="form-control mb-3" name="comment" rows="4"
-                    placeholder="Share your thoughts about this event..."></textarea>
-                <button type="submit" class="btn btn-primary">
-                    Post Comments
-                </button>
-            </form>
-            <h5 class="mt-4">Reviews and comments</h5>
-
-            {% if comments %}
-            {% for comment in comments %}
-            <div class="comment-item">
-                <strong>{{ comment.user.name }}</strong>
-                <small>{{ comment.date.strftime("%B %d, %Y") }}</small>
-                <p>{{ comment.content }}</p>
-            </div>
-            {% endfor %}
-            {% else %}
-            <p class="text-muted">No comments yet.</p>
-            {% endif %}
-        </section>
     </section>
 </div>
 
@@ -217,12 +217,12 @@
 
     .event-detail-title,
     .section-title {
-        color: #4b35f5;
+        color: #1a1a2e;
         font-weight: bold;
     }
 
     .back-link {
-        color: #4b35f5;
+        color: #1a1a2e;
         font-weight: bold;
         text-decoration: none;
     }
@@ -276,7 +276,7 @@
     }
 
     .acknowledgement-card h4 {
-        color: #4b35f5;
+        color: #1a1a2e;
         font-weight: bold;
     }
 
@@ -288,7 +288,7 @@
     }
 
     .ticket-card h3 {
-        color: #4b35f5;
+        color: #1a1a2e;
         font-weight: bold;
     }
 
