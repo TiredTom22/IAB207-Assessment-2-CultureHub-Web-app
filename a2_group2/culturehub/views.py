@@ -205,10 +205,34 @@ def book_event(event_id):
     order_id=order.id
 ))
 
-@main_bp.route('/event/<int:event_id>/edit')
+@main_bp.route('/event/<int:event_id>/edit' , methods=['GET', 'POST'])
 @login_required
-def edit_event(event_id):
-    return 'Edit event coming soon'
+def event_edit(event_id):
+    event = Event.query.get_or_404(event_id)
+    if event.user_id != current_user.id:
+        flash('You do not have permission to edit this event.')
+        return redirect(url_for('main.event_detail', event_id=event_id))
+    form = EventForm(obj=event)
+    if form.validate_on_submit():
+        event.name = form.name.data
+        event.category = form.category.data
+        event.date = form.date.data
+        event.location = form.location.data
+        event.description = form.description.data
+        event.tickets_available = form.tickets_available.data
+        event.price = form.price.data
+        event.acknowledgement = form.acknowledgement.data
+        if form.image.data and hasattr(form.image.data, 'filename') and form.image.data.filename != '':
+            image_file = form.image.data
+            image_filename = secure_filename(image_file.filename)
+            images_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'images')
+            os.makedirs(images_dir, exist_ok=True)
+            image_file.save(os.path.join(images_dir, image_filename))
+            event.image = image_filename
+        db.session.commit()
+        flash('Event updated successfully!')
+        return redirect(url_for('main.event_detail', event_id=event_id))
+    return render_template('events/event_edit.html', form=form, event=event)
 
 @main_bp.route('/event/<int:event_id>/cancel')
 @login_required
