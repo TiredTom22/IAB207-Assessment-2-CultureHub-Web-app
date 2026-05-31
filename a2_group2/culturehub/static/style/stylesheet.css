@@ -144,7 +144,6 @@ body {
 .filter-section {
     padding: 15px 0;
     border-bottom: 1px solid #e0e0e0;
-    background-color: #fff;
 }
 
 .filter-label {
@@ -153,8 +152,8 @@ body {
 }
 
 .filter-section .btn-outline-secondary {
-    border-color: #007bff;
-    color: #007bff;
+    border-color: #8064A2 !important;
+    color: #8064A2 !important;
     border-radius: 20px;
     padding: 5px 15px;
     transition: all 0.2s ease;
@@ -162,7 +161,7 @@ body {
 
 .filter-section .btn-outline-secondary:hover,
 .filter-section .btn-outline-secondary.active {
-    background-color: #007bff;
+    background-color: #007bff4d;
     color: white;
     box-shadow: 0 2px 5px rgba(0,123,255,0.3);
 }
