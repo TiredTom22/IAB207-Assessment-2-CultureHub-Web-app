@@ -3,6 +3,12 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
+/* Override Bootstrap primary button */
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #8064A2 !important;
+    border-color: #8064A2 !important;
+}
+
 /* ── Navbar ── */
 .navbar {
     background-color: #f5d3d4;
