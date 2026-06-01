@@ -73,6 +73,7 @@ class EventForm(FlaskForm):
         ("generic", "Generic acknowledgement "),
         ("enhanced", "Enhanced acknowledgement ")
     ])
+    acknowledgement_text = TextAreaField("Custom Acknowledgement Statement")
     submit = SubmitField("Create Event")
 
 # Edit profile form
