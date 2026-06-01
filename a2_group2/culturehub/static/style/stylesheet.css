@@ -1,6 +1,13 @@
 ﻿/* ── Core ── */
 body {
     font-family: 'Montserrat', sans-serif;
+    background-color: #f4effa;
+}
+
+/* Override Bootstrap primary button */
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #8064A2 !important;
+    border-color: #8064A2 !important;
 }
 
 /* ── Navbar ── */
@@ -56,10 +63,35 @@ body {
 }
 
 /* ── Carousel ── */
+.carousel-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+.carousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.5rem;
+}
+
+.carousel-item {
+  min-width: 260px;
+  background: #f7f1ff;
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  padding: 1rem;
+  scroll-snap-align: start;
+}
+
 .carousel-item img {
     height: 550px;
     object-fit: cover;
     filter: brightness(85%);
+    border-radius: 20px;
 }
 
 .carousel-item h5 {
@@ -112,7 +144,6 @@ body {
 .filter-section {
     padding: 15px 0;
     border-bottom: 1px solid #e0e0e0;
-    background-color: #fff;
 }
 
 .filter-label {
@@ -121,8 +152,8 @@ body {
 }
 
 .filter-section .btn-outline-secondary {
-    border-color: #007bff;
-    color: #007bff;
+    border-color: #8064A2 !important;
+    color: #8064A2 !important;
     border-radius: 20px;
     padding: 5px 15px;
     transition: all 0.2s ease;
@@ -130,7 +161,7 @@ body {
 
 .filter-section .btn-outline-secondary:hover,
 .filter-section .btn-outline-secondary.active {
-    background-color: #007bff;
+    background-color: #007bff4d;
     color: white;
     box-shadow: 0 2px 5px rgba(0,123,255,0.3);
 }
