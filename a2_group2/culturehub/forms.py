@@ -74,6 +74,10 @@ class EventForm(FlaskForm):
         ("enhanced", "Enhanced acknowledgement ")
     ])
     acknowledgement_text = TextAreaField("Custom Acknowledgement Statement")
+
+    def validate_acknowledgement_text(self, field):
+        if self.acknowledgement.data == 'enhanced' and not field.data:
+            raise ValidationError('Please provide a custom acknowledgement statement for the Enhanced option.')
     submit = SubmitField("Create Event")
 
 # Edit profile form
