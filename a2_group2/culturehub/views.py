@@ -123,6 +123,7 @@ def create_event():
             tickets_available=form.tickets_available.data,
             price=form.price.data,
             acknowledgement=form.acknowledgement.data,
+            acknowledgement_text=form.acknowledgement_text.data,
             user_id=current_user.id
         )
         db.session.add(event)
@@ -229,6 +230,7 @@ def event_edit(event_id):
         event.tickets_available = form.tickets_available.data
         event.price = form.price.data
         event.acknowledgement = form.acknowledgement.data
+        event.acknowledgement_text = form.acknowledgement_text.data
         
         if event.date > datetime.now():
             event.status = 'Open'

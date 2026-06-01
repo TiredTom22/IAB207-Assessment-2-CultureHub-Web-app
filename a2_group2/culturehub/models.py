@@ -30,6 +30,7 @@ class Event(db.Model):
     tickets_available = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)
     acknowledgement  = db.Column(db.String(20), default='none')
+    acknowledgement_text = db.Column(db.Text, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     comments = db.relationship('Comment', backref='event', lazy=True)
     orders = db.relationship('Order', backref='event', lazy=True)
