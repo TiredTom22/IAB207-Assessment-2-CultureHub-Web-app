@@ -1,7 +1,7 @@
 from flask import current_app, Blueprint, render_template, redirect, url_for, flash, request
 from flask_wtf.csrf import generate_csrf
 from flask_login import login_required, current_user
-from .forms import EditProfileForm, EventForm, BookingForm
+from .forms import EditProfileForm, EventForm, BookingForm, CreateEventForm
 from .models import Event, Comment, Order, Event
 from . import db
 import os
@@ -99,7 +99,7 @@ def edit_profile():
 @main_bp.route('/event/create', methods=['GET', 'POST'])
 @login_required
 def create_event():
-    form = EventForm()
+    form = CreateEventForm()
     if form.validate_on_submit():
         # Handle image upload
         image_filename = None

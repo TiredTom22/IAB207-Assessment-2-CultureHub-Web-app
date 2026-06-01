@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms.fields import SubmitField, StringField, PasswordField, TextAreaField, SelectField, IntegerField, FloatField, DateTimeLocalField
-from flask_wtf.file import FileField, FileAllowed
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import InputRequired, Length, Email, EqualTo, NumberRange, ValidationError
 import re
 
@@ -79,6 +79,13 @@ class EventForm(FlaskForm):
         if self.acknowledgement.data == 'enhanced' and not field.data:
             raise ValidationError('Please provide a custom acknowledgement statement for the Enhanced option.')
     submit = SubmitField("Create Event")
+
+# Separate form for event editing (without image requirement)
+class CreateEventForm(EventForm):
+    image = FileField("Event Image", validators=[
+        FileRequired(message='Please upload an image for your event.'),
+        FileAllowed(['jpg', 'png'], message='Images only — JPG or PNG.')
+    ])
 
 # Edit profile form
 class EditProfileForm(FlaskForm):
