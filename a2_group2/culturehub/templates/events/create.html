@@ -147,10 +147,14 @@
                 <div class="ack-desc">Extended version with a commitment statement to Traditional Custodians of the land.</div>
               </div>
             </label>
+
             <div class="mb-4">
                 <label class="create-label">Custom Acknowledgement Statement</label>
                 <p class="text-muted" style="font-size: 0.85rem;">If you selected Enhanced Acknowledgement, please write your personalised statement below. Visit the <a href="{{ url_for('main.acknowledgement') }}" target="_blank">Acknowledgement of Country guide</a> for help crafting a meaningful statement.</p>
                 {{ form.acknowledgement_text(class="create-input create-textarea", placeholder="e.g., I acknowledge the Turrbal and Jagera peoples as the Traditional Custodians of the land on which this event takes place...") }}
+                {% if form.acknowledgement_text.errors %}
+                    <div class="create-error">{{ form.acknowledgement_text.errors[0] }}</div>
+                {% endif %}
             </div>
           </div>
 
