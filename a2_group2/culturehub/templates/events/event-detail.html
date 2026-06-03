@@ -90,16 +90,18 @@
         <!-- Comments -->
         <section class="comments-card shadow-sm mt-4">
             <h4>Comments</h4>
+        {% if current_user.is_authenticated %}
             <form method="POST">
                 {{ form.hidden_tag() }}
                 <textarea class="form-control mb-3" name="comment" rows="4"
                     placeholder="Share your thoughts about this event..."></textarea>
-                <button type="submit" class="btn btn-primary">
-                    Post Comments
-                </button>
+                <button type="submit" class="btn btn-primary">Post Comments</button>
             </form>
-            <h5 class="mt-4">Reviews and comments</h5>
+        {% else %}
+            <p class="text-muted">Please <a href="{{ url_for('auth.login') }}">log in</a> to post a comment.</p>
+        {% endif %}
 
+            <h5 class="mt-4">Reviews and comments</h5>
             {% if comments %}
             {% for comment in comments %}
             <div class="comment-item">
