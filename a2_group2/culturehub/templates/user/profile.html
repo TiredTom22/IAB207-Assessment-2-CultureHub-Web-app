@@ -48,20 +48,36 @@
         <div class="col-md-4 mb-4">
             <div class="event-card profile-event-card shadow-sm">
                 <div class="card-img-wrap">
+                    <span class="status-badge status-{{ event.status | lower | replace(' ', '-') }}">
+                        {{ event.status }}
+                    </span>
                     <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/400x220' }}"
                         class="card-img-top" alt="{{ event.name }}">
                     <span class="origin-tag">{{ event.category }}</span>
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ event.name }}</h5>
-                    <p class="event-date">
-                        {{ event.date.strftime("%A, %d %B %Y") }}
-                        {{ event.location }}
-                    </p>
+
+                    <div class="host-info">
+                        <img src="{{ url_for('static', filename='profile_pics/' + event.user.profile_image) 
+                                if event.user.profile_image else 'https://placehold.co/45x45' }}" alt="Host photo">
+
+                        <span>Hosted by: {{ event.user.name }}</span>
+                    </div>
+
+                    <div class="card-meta">
+                        <span><i class="bi bi-calendar3 mi"></i> {{ event.date.strftime('%a %d %b %Y, %I:%M %p')
+                            }}</span>
+                        <span><i class="bi bi-geo-alt mi"></i> {{ event.location }}</span>
+                        <span><i class="bi bi-ticket mi"></i> {{ event.tickets_available }} tickets remaining</span>
+                    </div>
                 </div>
-                <div class="card-actions">
-                    <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-primary btn-sm">View
-                        Details
+
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <span class="event-price">${{ event.price }}</span>
+
+                    <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-primary btn-sm">
+                        View Details
                     </a>
                 </div>
             </div>
@@ -80,20 +96,37 @@
         <div class="col-md-4 mb-4">
             <div class="event-card profile-event-card shadow-sm">
                 <div class="card-img-wrap">
+                    <span class="status-badge status-{{ event.status | lower | replace(' ', '-') }}">
+                        {{ event.status }}
+                    </span>
                     <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/400x220' }}"
                         class="card-img-top" alt="{{ event.name }}">
                     <span class="origin-tag">{{ event.category }}</span>
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ event.name }}</h5>
-                    <p class="event-date">
-                        {{ event.date.strftime("%A, %d %B %Y") }}
-                        {{ event.location }}
-                    </p>
+
+                    <div class="host-info">
+                        <img src="{{ url_for('static', filename='profile_pics/' + event.user.profile_image) 
+                                if event.user.profile_image else 'https://placehold.co/45x45' }}" alt="Host photo">
+
+                        <span>Hosted by: {{ event.user.name }}</span>
+                    </div>
+
+                    <div class="card-meta">
+                        <span><i class="bi bi-calendar3 mi"></i> {{ event.date.strftime('%a %d %b %Y, %I:%M %p')
+                            }}</span>
+                        <span><i class="bi bi-geo-alt mi"></i> {{ event.location }}</span>
+                        <span><i class="bi bi-ticket mi"></i> {{ event.tickets_available }} tickets remaining</span>
+                    </div>
                 </div>
-                <div class="card-actions">
-                    <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-primary btn-sm">View
-                        Details</a>
+
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <span class="event-price">${{ event.price }}</span>
+
+                    <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-primary btn-sm">
+                        View Details
+                    </a>
                 </div>
             </div>
         </div>
@@ -103,51 +136,60 @@
         {% endif %}
     </div>
 
-    <!-- Saved Events -->
-    <h4 class="section-title">Saved Events</h4>
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <!-- Add saved event card here later -->
-        </div>
-    </div>
-
     <!-- Booking History -->
     <h4 class="section-title">Booking History</h4>
 
     <div class="row">
         {% if orders %}
         {% for order in orders %}
-        <div class="col-md-4 mb-4">
+        <div class="col-md-5 mb-4">
             <div class="event-card profile-event-card booking-history-card shadow-sm">
 
                 <div class="card-img-wrap">
+                    <span class="status-badge status-{{ order.event.status | lower | replace(' ', '-') }}">
+                        {{ order.event.status }}
+                    </span>
                     <img src="{{ url_for('static', filename='images/' + order.event.image) if order.event.image else 'https://placehold.co/400x220' }}"
                         class="card-img-top" alt="{{ order.event.name }}">
 
                     <span class="origin-tag">{{ order.event.category }}</span>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body booking-card-body">
                     <h5 class="card-title">{{ order.event.name }}</h5>
 
-                    <span class="booking-id">
-                        Booking ID: BK-{{ "%06d"|format(order.id) }}
-                    </span>
+                    <div class="booking-main-row">
+                        <div class="booking-left">
+                            <span class="booking-id">
+                                Booking ID: BK-{{ "%06d"|format(order.id) }}
+                            </span>
 
-                    <p class="event-date mt-3">
-                        <strong>Hosted by:</strong> {{ order.event.user.name }}<br><br>
+                            <div class="booking-host-row">
+                                <img src="{{ url_for('static', filename='profile_pics/' + order.event.user.profile_image) 
+                                            if order.event.user.profile_image else 'https://placehold.co/55x55' }}"
+                                    alt="Host photo">
 
-                        <strong>Tickets</strong><br>
-                        {{ order.quantity }} tickets<br><br>
+                                <span class="booking-label">Hosted by:</span> {{ order.event.user.name }}
+                            </div>
+                        </div>
 
-                        <strong>Booked on</strong><br>
-                        {{ order.date.strftime("%A, %d %B %Y") }}
-                    </p>
+                        <p class="booking-total">
+                            $ {{ "%.2f"|format(order.price) }} aud<br>
+                            <span>Total Amount</span>
+                        </p>
+                    </div>
 
-                    <p class="booking-total">
-                        $ {{ "%.2f"|format(order.price) }} aud<br>
-                        <span>Total Amount</span>
-                    </p>
+                    <div class="booking-info-row">
+                        <div>
+                            <span class="booking-label">Tickets</span>
+                            {{ order.quantity }} tickets
+                        </div>
+
+                        <div>
+                            <span class="booking-label">Booked on</span>
+                            {{ order.date.strftime("%A, %d %B %Y") }}
+                        </div>
+                    </div>
                 </div>
 
                 <div class="card-actions">
@@ -156,13 +198,52 @@
                         View Details
                     </a>
 
-                    <a href="#" class="btn btn-light btn-sm">
+                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#ticketPreviewModal{{ order.id }}">
                         Download Tickets
-                    </a>
+                    </button>
                 </div>
 
             </div>
         </div>
+
+        <div class="modal fade" id="ticketPreviewModal{{ order.id }}" tabindex="-1">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            Ticket Preview - BK-{{ "%06d"|format(order.id) }}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal">
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <iframe src="{{ url_for('main.preview_ticket', order_id=order.id) }}" width="100%"
+                            height="600px" style="border: none;">
+                        </iframe>
+                    </div>
+
+                    <div class="modal-footer">
+                        <span class="me-auto">
+                            Do you want to download ticket now?
+                        </span>
+
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+
+                        <a href="{{ url_for('main.download_ticket', order_id=order.id) }}" class="btn btn-primary"
+                            onclick="bootstrap.Modal.getInstance(document.getElementById('ticketPreviewModal{{ order.id }}')).hide();">
+                            Confirm Download
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
         {% endfor %}
         {% else %}
         <p class="text-muted">No booking history yet.</p>
@@ -262,58 +343,82 @@
         margin: 25px 0 15px;
     }
 
-    /* ── Profile Event Cards ── */
+    /* ── Profile Event Cards: Upcoming + Past ── */
     .profile-event-card {
-        border-radius: 12px;
-        overflow: hidden;
         background-color: #f5d3d4;
-        border: 1px solid #ddd;
-
-        max-width: 340px;
-        margin: auto;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+        max-width: 100%;
+        margin-bottom: 20px;
+        box-shadow: none;
     }
 
     .profile-event-card .card-img-top {
-        height: 180px;
+        width: 100%;
+        height: 200px;
         object-fit: cover;
     }
 
     .profile-event-card .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1a1a2e;
+        margin-bottom: 8px;
+    }
+
+    .profile-event-card .card-body {
+        padding: 15px;
+    }
+
+    .profile-event-card .card-description {
+        color: #333;
         font-size: 1rem;
-        font-weight: bold;
+        margin-bottom: 15px;
     }
 
-    .host-info {
+    .profile-event-card .card-meta {
         display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        margin: 12px 0;
-    }
-
-    .host-info img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
-    .event-date {
-        font-size: 0.8rem;
-        font-weight: 600;
-        margin-left: 52px;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 0.9rem;
+        color: #333;
     }
 
     .profile-event-card .card-footer {
-        font-size: 0.75rem;
-        background-color: #f5d3d4;
+        background-color: #f8f8f8;
+        border-top: 1px solid #e0e0e0;
+        padding: 10px 15px;
+    }
+
+    .profile-event-card .event-price {
+        font-weight: bold;
+    }
+
+    .profile-event-card .origin-tag {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        background-color: #ffffff;
+        color: #333;
+    }
+
+    .event-date {
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-left: 0;
+        color: #333;
     }
 
     .card-actions {
         display: flex;
         gap: 10px;
-        padding: 10px;
+        padding: 10px 15px 15px;
+        border-top: 1px solid #e0e0e0;
     }
 
     .card-actions .btn {
@@ -321,33 +426,150 @@
         font-weight: bold;
     }
 
-    .download-ticket-btn {
-        margin-left: auto;
-        margin-top: 15px;
-        min-width: 150px;
-        min-height: 15px;
+    .host-info,
+    .booking-host-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 2px 0 10px;
+    }
+
+    .host-info img,
+    .booking-host-row img {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .host-info span,
+    .booking-host-row span {
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    /* ── Booking History Card ── */
+    .booking-history-card {
+        max-width: 430px;
+        width: 100%;
+        border-radius: 18px;
+        overflow: hidden;
+        background-color: #f5d3d4;
+        margin: 0;
+    }
+
+    .booking-history-card .card-img-top {
+        height: 250px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .booking-history-card .origin-tag {
+        top: 18px;
+        right: 18px;
+        padding: 10px 28px;
+        border-radius: 28px;
+        font-size: 1rem;
+        color: #4b35f5;
+        font-weight: bold;
+    }
+
+    .booking-card-body {
+        padding: 10px 18px 4px;
+    }
+
+    .booking-history-card .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 4px;
+        line-height: 1.2;
+    }
+
+    .booking-main-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 4px;
+    }
+
+    .booking-left {
+        flex: 1;
     }
 
     .booking-id {
         display: inline-block;
-        background-color: #fff3f3;
-        padding: 6px 14px;
-        border-radius: 20px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-        font-size: 0.8rem;
+        background-color: #fffafa;
+        padding: 6px 13px;
+        border-radius: 18px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.18);
+        font-size: 0.65rem;
         color: #777;
-        font-weight: 600;
+        font-weight: 400;
+        margin-bottom: 4px;
     }
 
     .booking-total {
+        min-width: 120px;
+        margin: 2px 0 0;
         font-weight: bold;
         font-size: 0.95rem;
         text-align: right;
+        color: #000;
     }
 
     .booking-total span {
-        font-size: 0.8rem;
+        display: block;
+        font-size: 0.75rem;
         color: #000;
+        font-weight: 600;
+    }
+
+    .booking-host-row img {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .booking-host-row span {
+        font-size: 0.85rem;
+        font-weight: 400;
+    }
+
+    .booking-label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    .booking-host {
+        font-size: 0.95rem;
+        margin-bottom: 22px;
+    }
+
+    .booking-info-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        font-size: 0.85rem;
+        font-weight: 400;
+        margin-top: 0px;
+    }
+
+    .booking-info-row p {
+        margin-bottom: 0;
+    }
+
+    .booking-history-card .card-actions {
+        border-top: 2px solid rgba(255, 255, 255, 0.65);
+        padding: 8px 12px;
+    }
+
+    .booking-history-card .btn-light {
+        background-color: #fffafa;
+        color: #4b35f5;
+        border: 1px solid #e0e0e0;
     }
 
     /* ── Mobile responsive ── */
