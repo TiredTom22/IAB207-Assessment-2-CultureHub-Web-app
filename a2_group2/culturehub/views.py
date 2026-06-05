@@ -5,6 +5,10 @@ from .forms import EditProfileForm, EventForm, BookingForm, CreateEventForm
 from .models import Event, Comment, Order, Event
 from . import db
 import os
+from flask import send_file
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
 from werkzeug.utils import secure_filename
 from flask import request
 from datetime import datetime
@@ -268,3 +272,87 @@ def stories():
 @main_bp.route('/contact')
 def contact():
     return render_template('user/contact.html')
+
+@main_bp.route('/ticket/<int:order_id>/download')
+@login_required
+def download_ticket(order_id):
+    order = Order.query.get_or_404(order_id)
+
+    if order.user_id != current_user.id:
+        flash("You are not authorised to download this ticket.")
+        return redirect(url_for('main.profile'))
+
+    buffer = BytesIO()
+    pdf = canvas.Canvas(buffer, pagesize=A4)
+
+    pdf.setTitle("CultureHub Ticket")
+
+    pdf.setFont("Helvetica-Bold", 22)
+    pdf.drawString(180, 800, "CultureHub Ticket")
+
+    pdf.setFont("Helvetica", 12)
+    pdf.drawString(80, 740, f"Booking ID: BK-{order.id:06d}")
+    pdf.drawString(80, 710, f"Event: {order.event.name}")
+    pdf.drawString(80, 680, f"Hosted by: {order.event.user.name}")
+    pdf.drawString(80, 650, f"Date: {order.event.date.strftime('%A, %d %B %Y')}")
+    pdf.drawString(80, 620, f"Time: {order.event.date.strftime('%I:%M %p')}")
+    pdf.drawString(80, 590, f"Location: {order.event.location}")
+    pdf.drawString(80, 560, f"Tickets: {order.quantity}")
+    pdf.drawString(80, 530, f"Total Paid: ${order.price:.2f}")
+
+    pdf.setFont("Helvetica-Oblique", 10)
+    pdf.drawString(80, 480, "Thank you for booking with CultureHub.")
+
+    pdf.showPage()
+    pdf.save()
+
+    buffer.seek(0)
+
+    return send_file(
+        buffer,
+        as_attachment=True,
+        download_name=f"CultureHub_Ticket_BK-{order.id:06d}.pdf",
+        mimetype='application/pdf'
+    )
+
+@main_bp.route('/ticket/<int:order_id>/preview')
+@login_required
+def preview_ticket(order_id):
+    order = Order.query.get_or_404(order_id)
+
+    if order.user_id != current_user.id:
+        flash("You are not authorised to preview this ticket.")
+        return redirect(url_for('main.profile'))
+
+    buffer = BytesIO()
+    pdf = canvas.Canvas(buffer, pagesize=A4)
+
+    pdf.setTitle("CultureHub Ticket Preview")
+
+    pdf.setFont("Helvetica-Bold", 22)
+    pdf.drawString(180, 800, "CultureHub Ticket")
+
+    pdf.setFont("Helvetica", 12)
+    pdf.drawString(80, 740, f"Booking ID: BK-{order.id:06d}")
+    pdf.drawString(80, 710, f"Event: {order.event.name}")
+    pdf.drawString(80, 680, f"Hosted by: {order.event.user.name}")
+    pdf.drawString(80, 650, f"Date: {order.event.date.strftime('%A, %d %B %Y')}")
+    pdf.drawString(80, 620, f"Time: {order.event.date.strftime('%I:%M %p')}")
+    pdf.drawString(80, 590, f"Location: {order.event.location}")
+    pdf.drawString(80, 560, f"Tickets: {order.quantity}")
+    pdf.drawString(80, 530, f"Total Paid: ${order.price:.2f}")
+
+    pdf.setFont("Helvetica-Oblique", 10)
+    pdf.drawString(80, 480, "Thank you for booking with CultureHub.")
+
+    pdf.showPage()
+    pdf.save()
+
+    buffer.seek(0)
+
+    return send_file(
+        buffer,
+        as_attachment=False,
+        download_name=f"CultureHub_Ticket_BK-{order.id:06d}.pdf",
+        mimetype='application/pdf'
+    )
