@@ -87,32 +87,59 @@
       </div>
       {% endif %}
         
-        <!-- Comments -->
+        <!-- Comments / Reviews -->
         <section class="comments-card shadow-sm mt-4">
-            <h4>Comments</h4>
-        {% if current_user.is_authenticated %}
-            <form method="POST">
-                {{ form.hidden_tag() }}
-                <textarea class="form-control mb-3" name="comment" rows="4"
-                    placeholder="Share your thoughts about this event..."></textarea>
-                <button type="submit" class="btn btn-primary">Post Comments</button>
-            </form>
-        {% else %}
-            <p class="text-muted">Please <a href="{{ url_for('auth.login') }}">log in</a> to post a comment.</p>
-        {% endif %}
 
-            <h5 class="mt-4">Reviews and comments</h5>
+          <div class="reviews-header">
+            <h4>Reviews &amp; Comments</h4>
+            {% if comments %}
+            <span class="reviews-count">{{ comments|length }} review{% if comments|length != 1 %}s{% endif %}</span>
+            {% endif %}
+          </div>
+
+          {% if current_user.is_authenticated %}
+          <div class="review-form-wrap">
+            <div class="review-form-avatar">
+              <i class="bi bi-person-circle"></i>
+            </div>
+            <form method="POST" class="review-form">
+              {{ form.hidden_tag() }}
+              <textarea class="review-textarea" name="comment" rows="3"
+                  placeholder="Share your experience or thoughts about this event..."></textarea>
+              <div class="review-form-footer">
+                <button type="submit" class="btn btn-primary btn-sm">Post Review</button>
+              </div>
+            </form>
+          </div>
+          {% else %}
+          <p class="text-muted review-login-prompt">
+            <i class="bi bi-chat-dots me-1"></i>
+            <a href="{{ url_for('auth.login') }}">Log in</a> to leave a review.
+          </p>
+          {% endif %}
+
+          <div class="reviews-list mt-4">
             {% if comments %}
             {% for comment in comments %}
             <div class="comment-item">
-                <strong>{{ comment.user.name }}</strong>
-                <small>{{ comment.date.strftime("%B %d, %Y") }}</small>
-                <p>{{ comment.content }}</p>
+              <div class="comment-meta">
+                <div class="comment-avatar"><i class="bi bi-person-circle"></i></div>
+                <div>
+                  <strong class="comment-author">{{ comment.user.name }}</strong>
+                  <span class="comment-date">{{ comment.date.strftime("%d %b %Y") }}</span>
+                </div>
+              </div>
+              <p class="comment-body">{{ comment.content }}</p>
             </div>
             {% endfor %}
             {% else %}
-            <p class="text-muted">No comments yet.</p>
+            <div class="no-reviews">
+              <i class="bi bi-chat-square-text"></i>
+              <p>No reviews yet. Be the first to share your thoughts!</p>
+            </div>
             {% endif %}
+          </div>
+
         </section>
 
         <!-- Ticket Information card -->
@@ -311,13 +338,125 @@
         font-weight: 700;
     }
 
-    .comment-item {
+    /* Reviews section */
+    .reviews-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.25rem;
+    }
+    .reviews-header h4 {
+        font-family: 'Playfair Display', serif;
+        color: var(--text);
+        font-weight: 700;
+        margin: 0;
+    }
+    .reviews-count {
+        background: var(--accent-pale);
+        color: var(--accent);
+        font-size: 0.78rem;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 50px;
+        border: 1px solid rgba(255,79,0,0.18);
+    }
+
+    .review-form-wrap {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
         background: var(--cream-light);
-        border-radius: 8px;
-        padding: 15px;
-        margin-top: 12px;
+        border-radius: var(--radius);
+        padding: 16px;
         border: 1px solid var(--card-border);
     }
+    .review-form-avatar {
+        font-size: 2rem;
+        color: var(--text-muted);
+        flex-shrink: 0;
+        line-height: 1;
+        margin-top: 2px;
+    }
+    .review-form { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+    .review-textarea {
+        width: 100%;
+        border: 1px solid var(--card-border);
+        border-radius: 8px;
+        padding: 10px 13px;
+        font-size: 0.92rem;
+        font-family: 'DM Sans', sans-serif;
+        background: #fff;
+        color: var(--text);
+        resize: vertical;
+        transition: border-color 0.15s, box-shadow 0.15s;
+        outline: none;
+    }
+    .review-textarea:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(255,79,0,0.10);
+    }
+    .review-form-footer { display: flex; justify-content: flex-end; }
+    .review-login-prompt {
+        background: var(--cream-light);
+        border-radius: var(--radius);
+        padding: 14px 18px;
+        border: 1px solid var(--card-border);
+        font-size: 0.92rem;
+    }
+
+    .comment-item {
+        background: #fff;
+        border-radius: 10px;
+        padding: 18px 20px;
+        margin-bottom: 12px;
+        border: 1px solid var(--card-border);
+        transition: box-shadow 0.2s;
+    }
+    .comment-item:hover { box-shadow: var(--shadow-sm); }
+    .comment-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+    }
+    .comment-avatar {
+        font-size: 1.8rem;
+        color: var(--text-muted);
+        line-height: 1;
+        flex-shrink: 0;
+    }
+    .comment-author {
+        display: block;
+        font-weight: 700;
+        color: var(--text);
+        font-size: 0.95rem;
+    }
+    .comment-date {
+        display: block;
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        margin-top: 1px;
+    }
+    .comment-body {
+        color: var(--text-mid);
+        font-size: 0.93rem;
+        line-height: 1.7;
+        margin: 0;
+        padding-left: 42px;
+    }
+
+    .no-reviews {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--text-muted);
+    }
+    .no-reviews i {
+        font-size: 2.5rem;
+        display: block;
+        margin-bottom: 10px;
+        opacity: 0.5;
+    }
+    .no-reviews p { margin: 0; font-size: 0.92rem; }
 
     .ticket-card,
     .ticket-booking-card {

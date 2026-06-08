@@ -8,19 +8,16 @@
   <div class="login-side d-none d-lg-flex">
     <div class="login-side-inner">
       <div class="login-globe-icon">
-        <i class="bi bi-globe2"></i>
+        <img src="{{ url_for('static', filename='images/culturehub-logo.svg') }}" alt="CultureHub Logo" class="side-logo-circle">
       </div>
       <h2 class="login-side-title">Join our<br>community.</h2>
       <p class="login-side-sub">Create an account to host and attend cultural experiences across Brisbane and beyond.</p>
-      <div class="login-dots">
-        <span></span><span></span><span></span>
-      </div>
     </div>
   </div>
 
   <!-- Registration form panel -->
   <div class="login-form-panel">
-    <div class="login-form-inner" style="max-width: 460px;">
+    <div class="login-form-inner">
 
       <!-- Brand mark (mobile only) -->
       <div class="login-brand-mobile d-lg-none mb-4">
@@ -139,7 +136,7 @@
   </div>
 </div>
 
-<!-- Reuse login page styles -->
+<!-- Styles scoped to register page -->
 <style>
   .login-wrapper {
     display: flex;
@@ -148,7 +145,7 @@
 
   .login-side {
     width: 42%;
-    background: linear-gradient(145deg, #f5d3d4 0%, #e8b4b8 60%, #d49499 100%);
+    background: linear-gradient(145deg, var(--cream-light) 0%, var(--cream) 60%, #FFBA96 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -163,7 +160,7 @@
     width: 350px;
     height: 350px;
     border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.3);
+    border: 2px solid rgba(255,255,255,0.4);
     top: -80px;
     right: -80px;
   }
@@ -173,7 +170,7 @@
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.25);
     bottom: 40px;
     left: -60px;
   }
@@ -182,45 +179,44 @@
     position: relative;
     z-index: 1;
     text-align: center;
-    color: #5a2d30;
+  }
+
+  .login-form-inner {
+    width: 100%;
+    max-width: 440px;
   }
 
   .login-globe-icon {
-    font-size: 3.5rem;
     margin-bottom: 1.5rem;
-    color: #007bff;
-    opacity: 0.85;
+  }
+
+  .side-logo-circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 4px 20px rgba(26,8,0,0.15);
   }
 
   .login-side-title {
-    font-size: 2rem;
-    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.1rem;
+    font-weight: 800;
     line-height: 1.25;
     margin-bottom: 1rem;
-    color: #3d1a1c;
+    color: var(--brown);
   }
 
   .login-side-sub {
     font-size: 0.95rem;
-    color: #6b3840;
+    color: var(--text-mid);
     line-height: 1.6;
     max-width: 280px;
     margin: 0 auto 2rem;
   }
-
-  .login-dots {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-  }
-  .login-dots span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(0,123,255,0.5);
-    display: inline-block;
-  }
-  .login-dots span:first-child { background: #007bff; }
 
   .login-form-panel {
     flex: 1;
@@ -232,64 +228,32 @@
   }
 
   .login-brand-mobile {
+    font-family: 'Playfair Display', serif;
     font-size: 1.4rem;
     font-weight: 700;
-    color: #007bff;
+    color: var(--accent);
   }
 
   .login-heading {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #1a1a2e;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--text);
     margin-bottom: 0.3rem;
   }
 
   .login-subheading {
-    color: #888;
+    color: var(--text-muted);
     font-size: 0.9rem;
     margin-bottom: 1.8rem;
   }
-
-  .input-group-text {
-    background-color: #f5d3d4;
-    border-color: #dee2e6;
-    color: #007bff;
-  }
-
-  .form-control:focus {
-    border-color: #f5d3d4;
-    box-shadow: 0 0 0 0.2rem rgba(245, 211, 212, 0.5);
-  }
-
-  .form-label {
-    font-weight: 600;
-    font-size: 0.875rem;
-    color: #333;
-  }
-
-  .login-btn {
-    background-color: #007bff;
-    border-color: #007bff;
-    font-weight: 600;
-    padding: 0.65rem;
-    border-radius: 8px;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-  }
-
-  .login-btn:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-    transform: translateY(-1px);
-  }
-
-  .login-btn:active { transform: translateY(0); }
 
   .login-divider {
     display: flex;
     align-items: center;
     gap: 1rem;
     margin: 1.5rem 0;
-    color: #ccc;
+    color: var(--card-border);
     font-size: 0.85rem;
   }
   .login-divider::before,
@@ -297,20 +261,20 @@
     content: '';
     flex: 1;
     height: 1px;
-    background: #e0e0e0;
+    background: var(--card-border);
   }
 
   .login-register-text {
-    color: #666;
+    color: var(--text-muted);
     font-size: 0.9rem;
     margin-bottom: 0;
   }
   .login-register-link {
-    color: #007bff;
+    color: var(--accent);
     font-weight: 600;
     text-decoration: none;
   }
-  .login-register-link:hover { text-decoration: underline; }
+  .login-register-link:hover { color: var(--accent-dark); text-decoration: underline; }
 </style>
 
 <!-- Password show/hide toggle -->
