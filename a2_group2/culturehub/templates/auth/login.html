@@ -8,13 +8,10 @@
   <div class="login-side d-none d-lg-flex">
     <div class="login-side-inner">
       <div class="login-globe-icon">
-        <i class="bi bi-globe2"></i>
+        <img src="{{ url_for('static', filename='images/culturehub-logo.svg') }}" alt="CultureHub Logo" class="side-logo-circle">
       </div>
       <h2 class="login-side-title">Every culture<br>has a story.</h2>
       <p class="login-side-sub">Sign in to discover, host, and celebrate cultural experiences in your community.</p>
-      <div class="login-dots">
-        <span></span><span></span><span></span>
-      </div>
     </div>
   </div>
 
@@ -137,10 +134,18 @@
   }
 
   .login-globe-icon {
-    font-size: 3.5rem;
     margin-bottom: 1.5rem;
-    color: var(--accent);
-    opacity: 0.9;
+  }
+
+  .side-logo-circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 4px 20px rgba(26,8,0,0.15);
   }
 
   .login-side-title {
@@ -159,20 +164,6 @@
     max-width: 280px;
     margin: 0 auto 2rem;
   }
-
-  .login-dots {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-  }
-  .login-dots span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(255,79,0,0.35);
-    display: inline-block;
-  }
-  .login-dots span:first-child { background: var(--accent); }
 
   .login-form-panel {
     flex: 1;

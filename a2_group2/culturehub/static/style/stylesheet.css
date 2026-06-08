@@ -880,53 +880,227 @@ a:hover { color: var(--accent-dark); }
   .stories-cta { padding: 36px 24px; }
 }
 
-/* ── CONTACT PAGE (override inline hardcoded blues) ── */
+/* ── CONTACT PAGE ── */
+
 .contact-hero {
-  background: linear-gradient(rgba(26,8,0,0.72), rgba(71,23,0,0.78)),
-    url("../images/bbg-piccc.jpg") center/cover !important;
+  background: linear-gradient(rgba(26,8,0,0.70), rgba(71,23,0,0.76)),
+    url("../images/multiculture.jpg") center/cover no-repeat;
+  min-height: 340px;
+  display: flex;
+  align-items: center;
+  padding: 72px 32px;
 }
 
-.contact-hero h1 { color: var(--cream-light) !important; }
-.contact-hero p { color: var(--cream) !important; }
+.contact-hero-content {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
 
+.contact-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 900;
+  color: var(--cream-light);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.contact-hero p {
+  color: var(--cream);
+  font-size: 1.05rem;
+  opacity: 0.9;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* Two-column layout */
+.contact-section {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 0;
+  max-width: 1100px;
+  margin: 60px auto;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* Left: coloured info panel */
 .contact-info {
-  background: linear-gradient(135deg, var(--accent), var(--accent-dark)) !important;
+  background: linear-gradient(155deg, var(--accent), var(--accent-dark));
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
 }
 
+.contact-info h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 0;
+}
+
+.contact-info > p {
+  color: rgba(255,255,255,0.85);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.contact-info-card {
+  background: rgba(255,255,255,0.12);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  border: 1px solid rgba(255,255,255,0.18);
+}
+
+.contact-info-card h3 {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+
+.contact-info-card p {
+  color: #fff;
+  font-size: 0.95rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Right: form panel */
 .contact-form-card {
-  background: #fff !important;
-  box-shadow: var(--shadow-sm) !important;
+  background: #fff;
+  padding: 48px 44px;
 }
 
-.contact-form-card h2 { color: var(--accent) !important; }
+.contact-form-card h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.87rem;
+  color: var(--text);
+}
 
 .form-group input,
 .form-group textarea {
-  background: var(--cream-light) !important;
-  border-color: var(--card-border) !important;
-  color: var(--text) !important;
-  border-radius: 10px !important;
+  background: var(--cream-light);
+  border: 1px solid var(--card-border);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 0.92rem;
+  font-family: var(--font-body);
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  outline: none;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
-  border-color: var(--accent) !important;
-  box-shadow: 0 0 0 4px rgba(255, 79, 0, 0.10) !important;
-  background: #fff !important;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255,79,0,0.10);
+  background: #fff;
 }
+
+.form-group textarea { resize: vertical; min-height: 130px; }
 
 .contact-form button {
-  background: linear-gradient(135deg, var(--accent), var(--accent-dark)) !important;
-  border-radius: 10px !important;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 32px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: var(--font-body);
+  cursor: pointer;
+  align-self: flex-start;
+  transition: var(--transition);
 }
 
+.contact-form button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(255,79,0,0.28);
+}
+
+.contact-success-msg {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(45,122,69,0.09);
+  border: 1px solid rgba(45,122,69,0.22);
+  border-radius: 10px;
+  padding: 14px 18px;
+  color: #1d6a3a;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.contact-success-msg i {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+/* Bottom CTA */
 .contact-bottom {
-  background: var(--cream-light) !important;
-  border: 1px solid var(--card-border) !important;
+  background: #fff;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  max-width: 700px;
+  margin: 0 auto 80px;
+  padding: 52px 48px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
 }
 
-.contact-bottom h2 { color: var(--accent) !important; }
-.contact-bottom p { color: var(--text) !important; }
+.contact-bottom h2 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.contact-bottom p {
+  color: var(--text);
+  font-size: 0.97rem;
+  line-height: 1.75;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* Contact responsive */
+@media (max-width: 900px) {
+  .contact-section { grid-template-columns: 1fr; }
+  .contact-info { padding: 36px 28px; }
+  .contact-form-card { padding: 36px 28px; }
+  .contact-bottom { padding: 36px 24px; }
+  .contact-hero { padding: 56px 20px; }
+}
 
 /* ── FOOTER ── */
 footer {
@@ -980,9 +1154,8 @@ footer {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
-  .contact-section, .stories-feature, .story-highlight-grid { grid-template-columns: 1fr; }
-  .contact-info { position: static; }
-  .contact-hero h1, .stories-hero h1 { font-size: 42px; }
+  .stories-feature, .story-highlight-grid { grid-template-columns: 1fr; }
+  .stories-hero h1 { font-size: 42px; }
 }
 
 @media (max-width: 768px) {
