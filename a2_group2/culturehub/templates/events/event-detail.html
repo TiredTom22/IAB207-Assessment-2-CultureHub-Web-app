@@ -176,7 +176,7 @@
 <style>
     .event-detail-hero {
         position: relative;
-        border-radius: 10px 10px 0 0;
+        border-radius: 16px 16px 0 0;
         overflow: hidden;
     }
 
@@ -201,55 +201,74 @@
     }
 
     .event-category-badge {
-        background-color: white;
-        color: #4b35f5;
+        background: rgba(255,255,255,0.92);
+        color: var(--text-mid);
         padding: 6px 16px;
         border-radius: 20px;
-        font-weight: bold;
+        font-weight: 700;
+        font-size: 0.82rem;
+        border: 1px solid var(--card-border);
     }
 
     .detail-status-badge {
         padding: 4px 12px;
         border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 600;
+        font-size: 0.78rem;
+        font-weight: 700;
         color: white;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
     }
-    .status-open       { background: #198754; }
-    .status-sold-out   { background: #dc3545; }
+    .status-open       { background: #2D7A45; }
+    .status-sold-out   { background: #C1440E; }
     .status-cancelled  { background: #6c757d; }
-    .status-inactive   { background: #ffc107; color: #333; }
+    .status-inactive   { background: var(--text-muted); }
 
     .event-detail-content {
         padding: 30px 45px;
     }
 
-    .event-detail-title,
+    .event-detail-title {
+        font-family: 'Playfair Display', serif;
+        color: var(--text);
+        font-weight: 700;
+        font-size: 1.8rem;
+    }
+
     .section-title {
-        color: #1a1a2e;
-        font-weight: bold;
+        font-family: 'Playfair Display', serif;
+        color: var(--text);
+        font-weight: 700;
     }
 
     .back-link {
-        color: #1a1a2e;
-        font-weight: bold;
+        color: var(--accent);
+        font-weight: 600;
         text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.15s;
     }
+    .back-link:hover { color: var(--accent-dark); }
 
     .event-info-card {
-        background-color: #fff3f3;
-        border-radius: 8px;
-        padding: 20px;
+        background: #fff;
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        padding: 20px 24px;
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 15px;
     }
 
     .event-info-card strong {
-        color: #4b35f5;
+        color: var(--accent);
+        display: block;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 4px;
     }
 
-    /* ── Event Creator Buttons ── */
     .creator-actions {
         display: flex;
         gap: 10px;
@@ -258,10 +277,10 @@
 
     .host-detail-card,
     .comments-card {
-        background-color: #fff3f3;
-        border-radius: 10px;
+        background: #fff;
+        border-radius: 12px;
         padding: 25px;
-        border: 1px solid #ddd;
+        border: 1px solid var(--card-border);
     }
 
     .host-detail-card {
@@ -275,171 +294,97 @@
         height: 80px;
         border-radius: 50%;
         object-fit: cover;
+        border: 3px solid var(--card-border);
     }
 
     .acknowledgement-card {
-        background-color: #fffbd5;
-        border-radius: 10px;
+        background: var(--cream-light);
+        border-radius: 12px;
         padding: 25px;
-        border: 1px solid #ddd;
+        border: 1px solid var(--card-border);
+        border-left: 4px solid var(--accent);
     }
 
     .acknowledgement-card h4 {
-        color: #1a1a2e;
-        font-weight: bold;
+        font-family: 'Playfair Display', serif;
+        color: var(--text);
+        font-weight: 700;
     }
 
     .comment-item {
-        background-color: white;
+        background: var(--cream-light);
         border-radius: 8px;
         padding: 15px;
         margin-top: 12px;
-    }
-
-    .ticket-card h3 {
-        color: #1a1a2e;
-        font-weight: bold;
+        border: 1px solid var(--card-border);
     }
 
     .ticket-card,
-    .location-card {
-        background-color: #fff3f3;
-        min-height: 330px;
-        border-radius: 14px;
-        border: 1px solid #ddd;
-    }
-
     .ticket-booking-card {
-        background-color: #fff3f3;
+        background: #fff;
         border-radius: 14px;
-        padding: 35px 45px;
-        border: 1px solid #ddd;
-    }
-
-    .ticket-booking-card,
-    .location-card {
-        padding: 24px;
+        border: 1px solid var(--card-border);
+        padding: 28px 32px;
     }
 
     .ticket-price {
-        color: #4b35f5;
-        font-size: 1.8rem;
-        font-weight: bold;
+        font-family: 'Playfair Display', serif;
+        color: var(--accent);
+        font-size: 2rem;
+        font-weight: 700;
         margin-bottom: 0;
     }
 
     .ticket-subtitle {
-        font-size: 1rem;
-        font-weight: bold;
-        color: #000;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-muted);
         margin-bottom: 20px;
-    }
-
-    .ticket-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .ticket-row h4,
-    .ticket-total h4 {
-        color: #4b35f5;
-        font-size: 1rem;
-        font-weight: bold;
-    }
-
-    .ticket-row p {
-        margin-bottom: 0;
-    }
-
-    .ticket-counter {
-        display: flex;
-        align-items: center;
-        gap: 22px;
-    }
-
-    .ticket-counter button {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border: none;
-        background-color: #fff3f3;
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-
-    .ticket-counter span {
-        color: #4b35f5;
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-
-    .ticket-total {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 18px;
     }
 
     .book-now-btn {
         display: block;
-        width: 70%;
-        margin: 22px auto 0;
-        font-size: 1.1rem;
-        font-weight: bold;
-        background-color: #4b35f5;
-        border: none;
-    }
-
-    .location-card img {
         width: 100%;
-        height: 230px;
-        object-fit: cover;
+        margin-top: 18px;
+        font-size: 1rem;
+        font-weight: 700;
+        border-radius: 8px;
     }
 
     .booking-modal {
-        background-color: #fff8f2;
-        border-radius: 20px;
-        padding: 25px;
-        border: 1px solid #e8cfae;
+        background: #fff;
+        border-radius: 16px;
+        padding: 8px;
+        border: 1px solid var(--card-border);
     }
 
     .booking-modal .modal-title,
     .booking-modal h3,
     .booking-modal h4 {
-        color: #6b4f40;
-        font-weight: bold;
+        font-family: 'Playfair Display', serif;
+        color: var(--text);
+        font-weight: 700;
     }
 
     .booking-modal p {
-        font-size: 1.2rem;
-        color: #6b4f40;
+        color: var(--text-mid);
     }
 
     .success-icon {
         width: 90px;
         height: 90px;
-        border: 8px solid #198754;
+        border: 8px solid #2D7A45;
         border-radius: 50%;
-        color: #198754;
+        color: #2D7A45;
         font-size: 4rem;
         line-height: 75px;
         margin: 20px auto;
     }
 
     @media (max-width: 768px) {
-        .event-info-card {
-            grid-template-columns: 1fr;
-        }
-
-        .event-detail-content {
-            padding: 25px 20px;
-        }
-
-        .host-detail-card {
-            flex-direction: column;
-            text-align: center;
-        }
+        .event-info-card { grid-template-columns: 1fr 1fr; }
+        .event-detail-content { padding: 25px 20px; }
+        .host-detail-card { flex-direction: column; text-align: center; }
     }
 </style>
 
