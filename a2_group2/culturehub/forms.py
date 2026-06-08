@@ -99,7 +99,7 @@ class EditProfileForm(FlaskForm):
     profile_image = FileField(
         "Profile Image",
         validators=[
-            FileAllowed(["jpg", "jpeg", "png"], "Images only!")
+            FileAllowed(["jpg", "jpeg", "png", "webp"], "Images only!")
         ]
     )
     submit = SubmitField("Update Profile")

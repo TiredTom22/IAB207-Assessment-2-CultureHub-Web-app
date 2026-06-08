@@ -67,6 +67,9 @@ def edit_profile():
     if form.validate_on_submit():
         print("FROM SUBMITTED")
         print("PROFILE IMAGE DATA:", form.profile_image.data)
+    
+    if request.method == 'POST':
+        print("FORM ERRORS:", form.errors)
 
         current_user.name = form.name.data
         current_user.email = form.email.data
@@ -76,7 +79,7 @@ def edit_profile():
         current_user.language = form.languages.data
         current_user.cultural_interests = form.cultural_interests.data
 
-        if form.profile_image.data:
+        if form.profile_image.data and hasattr(form.profile_image.data, 'filename') and form.profile_image.data.filename != '':
             print("IMAGE FOUND")
 
             image_file = form.profile_image.data

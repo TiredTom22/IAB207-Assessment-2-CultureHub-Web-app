@@ -3,55 +3,50 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CultureHub Webpage</title>
+    <title>CultureHub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/stylesheet.css') }}">
 </head>
 
 <body>
-    <!-- Header -->
-   <header class="border-bottom">
-      <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-light">
-         <div class="container">
-            <a href="{{ url_for('main.index') }}" class="navbar-brand">
-                <i class="bi bi-globe me-2"></i>Culture<span class="brand-accent">Hub</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-               data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-               aria-label="Toggle navigation">
-               <span class="navbar-toggler-icon"></span>
-            </button>
+    <header class="border-bottom">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a href="{{ url_for('main.index') }}" class="navbar-brand">
+                    <img src="{{ url_for('static', filename='images/culturehub-logo.svg') }}" alt="CultureHub Logo" class="brand-logo-circle">Culture<span class="brand-accent">Hub</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <!-- Navbar links -->
-            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-               <div class="navbar-nav ms-auto">
-                  <a class="nav-item nav-link {% if request.endpoint == 'main.index' %}active{% endif %}" href="{{ url_for('main.index') }}">Home</a>
-                  <a class="nav-item nav-link {% if request.endpoint == 'main.about' %}active{% endif %}" href="{{ url_for('main.about') }}">About Us</a>
-                  <a class="nav-item nav-link" href="{{ url_for('main.index') }}#events">Events</a>
-                  <a class="nav-item nav-link {% if request.endpoint == 'main.create_event' %}active{% endif %}" href="{{ url_for('main.create_event') }}">Host</a>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                    <div class="navbar-nav ms-auto align-items-center">
+                        <a class="nav-item nav-link {% if request.endpoint == 'main.index' %}active{% endif %}" href="{{ url_for('main.index') }}">Home</a>
+                        <a class="nav-item nav-link {% if request.endpoint == 'main.about' %}active{% endif %}" href="{{ url_for('main.about') }}">About Us</a>
+                        <a class="nav-item nav-link" href="{{ url_for('main.index') }}#events">Events</a>
+                        <a class="nav-item nav-link {% if request.endpoint == 'main.create_event' %}active{% endif %}" href="{{ url_for('main.create_event') }}">Host</a>
 
-                  {% if current_user.is_authenticated %}
-                    <!-- Shown when logged in -->
-                    <a class="nav-item nav-link {% if request.endpoint == 'main.profile' %}active{% endif %}" href="{{ url_for('main.profile') }}">Profile</a>
-                    <a class="nav-item nav-link {% if request.endpoint == 'auth.logout' %}active{% endif %}" href="{{ url_for('auth.logout') }}">Log Out</a>
-                  {% else %}
-                    <!-- Shown when logged out -->
-                    <a class="nav-item nav-link {% if request.endpoint == 'auth.register' %}active{% endif %}" href="{{ url_for('auth.register') }}">Sign Up</a>
-                    <a class="nav-item nav-link {% if request.endpoint == 'auth.login' %}active{% endif %}" href="{{ url_for('auth.login') }}">Log In</a>
-                  {% endif %}
-               </div>
+                        {% if current_user.is_authenticated %}
+                            <a class="nav-item nav-link {% if request.endpoint == 'main.profile' %}active{% endif %}" href="{{ url_for('main.profile') }}">Profile</a>
+                            <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">Log Out</a>
+                        {% else %}
+                            <a class="nav-item nav-link {% if request.endpoint == 'auth.register' %}active{% endif %}" href="{{ url_for('auth.register') }}">Sign Up</a>
+                            <a class="nav-item nav-link {% if request.endpoint == 'auth.login' %}active{% endif %}" href="{{ url_for('auth.login') }}">Log In</a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-         </div>
-      </nav>
+        </nav>
 
-        <!-- Flask flash messages -->
-        <div class="container-fluid">
+        <!-- Flash messages -->
+        <div class="container-fluid px-4">
             {% with messages = get_flashed_messages() %}
             {% if messages %}
             {% for message in messages %}
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
                 {{ message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -60,51 +55,44 @@
             {% endwith %}
         </div>
 
-        {% block header %}
-        {% endblock %}
-
+        {% block header %}{% endblock %}
     </header>
 
-    {% block content %}
-    {% endblock %}
+    {% block content %}{% endblock %}
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-top py-3">
+    <footer class="footer mt-5">
+        <div class="footer-top py-4">
             <div class="container">
                 <div class="row">
-                    <!-- Brand column-->
                     <div class="col-md-4 mb-4">
                         <h5>CultureHub</h5>
                         <p>Connecting communities through cultural storytelling and shared experiences.</p>
                     </div>
-                    <!-- Links column -->
                     <div class="col-md-4 mb-4">
                         <h5>Explore</h5>
                         <ul class="list-unstyled">
-                            <li><a href="#events" class="text-decoration-none">Browse Events</a></li>
-                            <li><a href="{{ url_for('main.create_event') }}" class="text-decoration-none">Host an Event</a></li>
-                            <li><a href="#" class="text-decoration-none">Learn More</a></li>
+                            <li><a href="{{ url_for('main.index') }}#events">Browse Events</a></li>
+                            <li><a href="{{ url_for('main.create_event') }}">Host an Event</a></li>
+                            <li><a href="{{ url_for('main.stories') }}">Stories</a></li>
                         </ul>
                     </div>
-                    <!-- Contact column -->
                     <div class="col-md-4 mb-4">
                         <h5>Community</h5>
                         <ul class="list-unstyled">
-                            <li><a href="{{ url_for('main.about') }}" class="text-decoration-none">About Us</a></li>
-                            <li><a href="{{ url_for('main.stories') }}" class="text-decoration-none">Stories</a></li>
-                            <li><a href="{{ url_for('main.contact') }}" class="text-decoration-none">Contact</a></li>
+                            <li><a href="{{ url_for('main.about') }}">About Us</a></li>
+                            <li><a href="{{ url_for('main.stories') }}">Stories</a></li>
+                            <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
         <div class="footer-bottom text-center py-2">
-            <span class="text-dark">2026 CultureHub. Celebrating diversity through shared experiences.</span>
+            <span>© 2026 CultureHub. Celebrating diversity through shared experiences.</span>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
-
 </html>
