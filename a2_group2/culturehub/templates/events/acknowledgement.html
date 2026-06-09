@@ -1,114 +1,234 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-4">
 
-  <!-- Page Header -->
-  <div class="ack-header mb-4">
-    <h2>Acknowledgement of Country</h2>
-    <p class="lead">Understanding and practising respectful acknowledgement of Traditional Custodians.</p>
+<section class="stories-hero ack-hero-bg">
+  <div class="stories-hero-text">
+    <span class="section-label">Reconciliation</span>
+    <h1>Acknowledgement of Country</h1>
+    <p>
+      Understanding and practising respectful acknowledgement of the
+      Traditional Custodians of the land where events take place.
+    </p>
   </div>
+</section>
 
-  <!-- What is it -->
-  <section class="ack-section mb-4">
-    <h3>What is an Acknowledgement of Country?</h3>
-    <p>An Acknowledgement of Country is a formal statement recognising the Traditional Custodians of the land where an
-      event or gathering takes place. It acknowledges their connection to the land, waters, and community, and the
-      importance of that connection.</p>
-    <p>Anyone can deliver an Acknowledgement of Country - you do not need to be an Aboriginal or Torres Strait Islander
-      person to do so.</p>
-  </section>
-
-  <!-- Difference -->
-  <section class="ack-section mb-4">
-    <h3>Acknowledgement vs Welcome to Country</h3>
-    <p>These are two distinct practices and it is important not to confuse them:</p>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="ack-card">
-          <h5>Acknowledgement of Country</h5>
-          <ul>
-            <li>Can be delivered by anyone</li>
-            <li>Is a sign of respect and recognition for the Traditional Custodians</li>
-            <li>Common at events, meetings, and other gatherings</li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="ack-card">
-          <h5>Welcome to Country</h5>
-          <ul>
-            <li>Can ONLY be performed by a Traditional Custodian or Elder</li>
-            <li>A formal ceremony welcoming visitors to their Country</li>
-            <li>Requires coordination with local Elders</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Capital Cities -->
-  <section class="ack-section mb-4">
-    <h4>Traditional Custodians of Australian Capital Cities</h4>
-    <div class="row">
-      <div class="col-md-6">
-        <ul class="ack-list">
-          <li><strong>Brisbane</strong> - Turrbal and Jagera peoples</li>
-          <li><strong>Sydney</strong> - Gadigal of the Eora Nation</li>
-          <li><strong>Melbourne</strong> - Wurundjeri Woi-wurrung and Bunurong / Boon Wurrung peoples of the Kulin</li>
-          <li><strong>Canberra</strong> - Ngunnawal people</li>
-        </ul>
-      </div>
-      <div class="col-md-6">
-        <ul class="ack-list">
-          <li><strong>Adelaide</strong> - Kaurna people</li>
-          <li><strong>Perth</strong> - Whadjuk Nyoongar people</li>
-          <li><strong>Darwin</strong> - Larrakia people</li>
-          <li><strong>Hobart</strong> - Palawa people</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- Finding Custodians -->
-  <section class="ack-section mb-4">
-    <h4>Finding Traditional Custodians of a Specific Place</h4>
-    <p>If your event is outside of a capital city, here are reliable ways to find the Traditional Custodians:</p>
-    <ul class="ack-list">
-      <li>Visit your <strong>local government website</strong> - most councils acknowledge Traditional Custodians in
-        their area</li>
-      <li>Contact your local <strong>Land Council</strong> representing Aboriginal or Torres Strait Islander communities
-      </li>
-      <li>Use the <strong>AIATSIS Map of Indigenous Australia</strong> - a detailed map showing the many groups and
-        their boundaries</li>
-      <li>Visit <strong>Know Your Country</strong> for help identifying the First Nations Country you are on</li>
-    </ul>
-    <div class="mt-3">
-      <h5>Authoritative Resources:</h5>
-      <ul class="ack-list">
-        <li><a
-            href="https://www.reconciliation.org.au/reconciliation/acknowledgement-of-country-and-welcome-to-country/"
-            target="_blank">Reconciliation Australia — Acknowledgement of Country</a></li>
-        <li><a href="https://aiatsis.gov.au/whose-country" target="_blank">AIATSIS - Whose Country am I on?</a></li>
-        <li><a href="https://aiatsis.gov.au/explore/map-indigenous-australia" target="_blank">AIATSIS Map of Indigenous
-            Australia</a></li>
-        <li><a href="https://knowyourcountry.org.au/how-to-know-your-country" target="_blank">Know Your Country</a></li>
+<!-- What is it + difference side by side -->
+<section class="stories-feature">
+  <div class="feature-text">
+    <span class="section-label">What It Means</span>
+    <h2>More Than a Formality</h2>
+    <p>
+      An Acknowledgement of Country is a formal statement recognising the
+      Traditional Custodians of the land where a gathering takes place. It
+      acknowledges their enduring connection to Country — the land, waters,
+      sky, and community.
+    </p>
+    <p>
+      Anyone can deliver an Acknowledgement of Country. You do not need to be
+      an Aboriginal or Torres Strait Islander person to do so, but you should
+      deliver it with genuine understanding, not as a rote phrase.
+    </p>
+  </div>
+  <div class="feature-text ack-right-panel">
+    <span class="section-label">Key Distinction</span>
+    <h2>Acknowledgement vs Welcome to Country</h2>
+    <div class="ack-compare-card">
+      <h5>Acknowledgement of Country</h5>
+      <ul>
+        <li>Can be delivered by anyone</li>
+        <li>A sign of respect and recognition</li>
+        <li>Common at events, meetings, and gatherings</li>
       </ul>
     </div>
-  </section>
+    <div class="ack-compare-card ack-compare-card--alt mt-3">
+      <h5>Welcome to Country</h5>
+      <ul>
+        <li>Can ONLY be performed by a Traditional Custodian or Elder</li>
+        <li>A formal ceremony welcoming visitors to their Country</li>
+        <li>Requires coordination with local Elders</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-  <!-- Common Mistakes -->
-  <section class="ack-section mb-4">
-    <h4>Common Mistakes and Contested Issues</h4>
-    <ul class="ack-list">
-      <li><strong>Being tokenistic</strong> - rushing through it without genuine meaning or understanding</li>
-      <li><strong>Wrong Country name</strong> - using an incorrect or generalised group name for the location</li>
-      <li><strong>Confusing Acknowledgement with Welcome to Country</strong> - they are not interchangeable</li>
-      <li><strong>Treating it as a formality</strong> - reading words off a page without personal connection or thought
-      </li>
-      <li><strong>Generic statements everywhere</strong> - using the same statement regardless of location</li>
-    </ul>
-  </section>
+<!-- Capital Cities timeline -->
+<section class="stories-timeline">
+  <div class="timeline-heading">
+    <span class="section-label">Australian Capital Cities</span>
+    <h2>Traditional Custodians by City</h2>
+  </div>
 
-</div>
+  <div class="ack-city-grid">
+    <div class="ack-city-card">
+      <span class="ack-city-name">Brisbane</span>
+      <span class="ack-city-people">Turrbal and Jagera peoples</span>
+    </div>
+    <div class="ack-city-card">
+      <span class="ack-city-name">Sydney</span>
+      <span class="ack-city-people">Gadigal of the Eora Nation</span>
+    </div>
+    <div class="ack-city-card">
+      <span class="ack-city-name">Melbourne</span>
+      <span class="ack-city-people">Wurundjeri Woi-wurrung and Bunurong peoples of the Kulin</span>
+    </div>
+    <div class="ack-city-card">
+      <span class="ack-city-name">Canberra</span>
+      <span class="ack-city-people">Ngunnawal people</span>
+    </div>
+    <div class="ack-city-card">
+      <span class="ack-city-name">Adelaide</span>
+      <span class="ack-city-people">Kaurna people</span>
+    </div>
+    <div class="ack-city-card">
+      <span class="ack-city-name">Perth</span>
+      <span class="ack-city-people">Whadjuk Nyoongar people</span>
+    </div>
+    <div class="ack-city-card">
+      <span class="ack-city-name">Darwin</span>
+      <span class="ack-city-people">Larrakia people</span>
+    </div>
+    <div class="ack-city-card">
+      <span class="ack-city-name">Hobart</span>
+      <span class="ack-city-people">Palawa people</span>
+    </div>
+  </div>
+</section>
+
+<!-- Common mistakes as highlight grid -->
+<section class="story-highlight-grid" style="margin-top: 0;">
+  <article class="highlight-card large">
+    <h3>Common Mistakes to Avoid</h3>
+    <p>
+      Being tokenistic, rushing through it without meaning. Using the wrong
+      Country name for the location. Treating it as a formality by reading
+      words off a page without thought. Using the same generic statement
+      everywhere regardless of location.
+    </p>
+    <span>Ethical Practice</span>
+  </article>
+
+  <article class="highlight-card">
+    <h3>Finding Custodians Outside Capital Cities</h3>
+    <p>
+      Check your local council website, contact your local Land Council, or
+      use the AIATSIS Map of Indigenous Australia to find the Traditional
+      Custodians of any location.
+    </p>
+    <span>Research Tools</span>
+  </article>
+
+  <article class="highlight-card">
+    <h3>Authoritative Resources</h3>
+    <p>
+      <a href="https://www.reconciliation.org.au/reconciliation/acknowledgement-of-country-and-welcome-to-country/" target="_blank">Reconciliation Australia</a><br>
+      <a href="https://aiatsis.gov.au/whose-country" target="_blank">AIATSIS — Whose Country?</a><br>
+      <a href="https://aiatsis.gov.au/explore/map-indigenous-australia" target="_blank">AIATSIS Map</a><br>
+      <a href="https://knowyourcountry.org.au/how-to-know-your-country" target="_blank">Know Your Country</a>
+    </p>
+    <span>Links</span>
+  </article>
+</section>
+
+<section class="stories-cta">
+  <h2>Ready to Create Your Event?</h2>
+  <p>
+    Now that you understand Acknowledgement of Country, head back and create
+    an event that honours the land it takes place on.
+  </p>
+  <a href="{{ url_for('main.create_event') }}">Create an Event</a>
+</section>
+
+<style>
+  .ack-hero-bg {
+    background: linear-gradient(rgba(26,8,0,0.75), rgba(71,23,0,0.82)),
+      url("{{ url_for('static', filename='images/multiculture.jpg') }}") center/cover no-repeat;
+  }
+
+  /* Right panel of feature section — cream bg instead of white */
+  .ack-right-panel {
+    background: var(--cream-light) !important;
+  }
+
+  .ack-compare-card {
+    background: #fff;
+    border-radius: var(--radius);
+    border-left: 4px solid var(--accent);
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .ack-compare-card--alt {
+    border-left-color: var(--brown);
+  }
+
+  .ack-compare-card h5 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .ack-compare-card--alt h5 {
+    color: var(--brown);
+  }
+
+  .ack-compare-card ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    color: var(--text-mid);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  /* City grid */
+  .ack-city-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .ack-city-card {
+    background: #fff;
+    border-radius: var(--radius);
+    border: 1px solid var(--card-border);
+    padding: 20px 18px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: var(--transition);
+  }
+
+  .ack-city-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+
+  .ack-city-name {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .ack-city-people {
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 900px) {
+    .ack-city-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 560px) {
+    .ack-city-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
 {% endblock %}

@@ -453,34 +453,7 @@ a:hover { color: var(--accent-dark); }
   border-top: 1px solid var(--card-border) !important;
 }
 
-/* ── ABOUT PAGE (override inline styles) ── */
-.about-heading { color: var(--text) !important; }
-
-.about-hero {
-  background: #fff !important;
-  border: 1px solid var(--card-border) !important;
-  border-radius: var(--radius-lg) !important;
-}
-
-.welcome-title { color: var(--accent) !important; }
-.welcome-small { color: var(--accent) !important; }
-
-.culturehub-gradient-text {
-  background: linear-gradient(90deg, var(--brown), var(--accent), var(--accent-dark)) !important;
-  background-clip: text !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-}
-
-.culturehub-tagline {
-  background: linear-gradient(90deg, var(--accent), var(--accent-dark)) !important;
-  background-clip: text !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-}
-
-.about-content { color: var(--text) !important; }
-.about-content h4 { color: var(--text) !important; }
+/* ── ABOUT PAGE — now uses stories layout classes, no overrides needed ── */
 
 /* ── EVENT DETAIL PAGE (override inline styles) ── */
 .event-detail-title,
@@ -577,15 +550,7 @@ a:hover { color: var(--accent-dark); }
   border-color: var(--accent-dark) !important;
 }
 
-/* ── ACK PAGE ── */
-.ack-header { border-bottom-color: var(--accent) !important; }
-.ack-header h2, .ack-section h3, .ack-section h4 { color: var(--accent) !important; }
-.ack-card { background: var(--cream-light) !important; border: 1px solid var(--card-border) !important; }
-.ack-card h5 { color: var(--accent) !important; }
-.ack-section { background: #fff !important; border-color: var(--card-border) !important; }
-.ack-banner { border-left-color: var(--accent) !important; }
-.generic-ack { background: var(--cream-light) !important; }
-.enhanced-ack { background: rgba(255,206,184,0.4) !important; border-left-color: var(--brown) !important; }
+/* ── ACK PAGE — now uses stories layout classes, no overrides needed ── */
 
 /* ── STORIES PAGE ── */
 
