@@ -5,6 +5,8 @@ from flask_login import UserMixin
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
+    first_name = db.Column(db.String(50), nullable=True)
+    last_name = db.Column(db.String(50), nullable=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
     phone = db.Column(db.String(20), nullable=False)
     address = db.Column(db.String(255), nullable=False)
@@ -38,6 +40,7 @@ class Event(db.Model):
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(255), nullable=False)
+    rating = db.Column(db.Integer, nullable=True)
     date = db.Column(db.DateTime, default=datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)

@@ -25,7 +25,7 @@
       </div>
 
       <h3 class="login-heading">Welcome back</h3>
-      <p class="login-subheading">Log in to your CultureHub account</p>
+      <p class="login-subheading">Enter your username and password to continue</p>
 
       <!-- Flask flash messages -->
       {% with messages = get_flashed_messages() %}
@@ -44,13 +44,13 @@
         {{ form.hidden_tag() }}
 
         <div class="mb-3">
-          <label for="email" class="form-label">Email Address</label>
+          <label for="username" class="form-label">Username</label>
           <div class="input-group">
-            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-            {{ form.email(class="form-control", id="email", placeholder="Enter your email address", autocomplete="email") }}
+            <span class="input-group-text"><i class="bi bi-person"></i></span>
+            {{ form.username(class="form-control", id="username", placeholder="Enter your username", autocomplete="username") }}
           </div>
-          {% if form.email.errors %}
-            <div class="text-danger small mt-1">{{ form.email.errors[0] }}</div>
+          {% if form.username.errors %}
+            <div class="text-danger small mt-1">{{ form.username.errors[0] }}</div>
           {% endif %}
         </div>
 
@@ -59,6 +59,9 @@
           <div class="input-group">
             <span class="input-group-text"><i class="bi bi-lock"></i></span>
             {{ form.password(class="form-control", id="password", placeholder="Enter your password", autocomplete="current-password") }}
+            <button type="button" class="input-group-text" id="togglePassword" aria-label="Show password">
+              <i class="bi bi-eye" id="toggleIcon"></i>
+            </button>
           </div>
           {% if form.password.errors %}
             <div class="text-danger small mt-1">{{ form.password.errors[0] }}</div>
@@ -228,4 +231,14 @@
   .login-register-link:hover { color: var(--accent-dark); text-decoration: underline; }
 </style>
 
+<script>
+  const btn = document.getElementById('togglePassword');
+  const pwd = document.getElementById('password');
+  const icon = document.getElementById('toggleIcon');
+  btn.addEventListener('click', () => {
+    const showing = pwd.type === 'text';
+    pwd.type = showing ? 'password' : 'text';
+    icon.className = showing ? 'bi bi-eye' : 'bi bi-eye-slash';
+  });
+</script>
 {% endblock %}

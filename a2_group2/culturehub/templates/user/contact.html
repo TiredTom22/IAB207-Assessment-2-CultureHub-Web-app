@@ -41,17 +41,6 @@
   <div class="contact-form-card">
     <h2>Send Us a Message</h2>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
-            <i class="bi bi-check-circle-fill me-2"></i>{{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-
     <form class="contact-form" method="POST" action="{{ url_for('main.contact') }}">
 
       <div class="form-group">

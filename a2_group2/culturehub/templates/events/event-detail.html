@@ -92,9 +92,21 @@
 
           <div class="reviews-header">
             <h4>Reviews &amp; Comments</h4>
-            {% if comments %}
-            <span class="reviews-count">{{ comments|length }} review{% if comments|length != 1 %}s{% endif %}</span>
-            {% endif %}
+            <div class="reviews-header-right">
+              {% if avg_rating %}
+              <div class="avg-rating-badge">
+                <span class="avg-stars">
+                  {% for i in range(1, 6) %}
+                    {% if i <= avg_rating|round|int %}<span class="star filled">★</span>{% else %}<span class="star empty">★</span>{% endif %}
+                  {% endfor %}
+                </span>
+                <span class="avg-score">{{ avg_rating }}</span>
+              </div>
+              {% endif %}
+              {% if comments %}
+              <span class="reviews-count">{{ comments|length }} {% if event.date < now %}review{% if comments|length != 1 %}s{% endif %}{% else %}comment{% if comments|length != 1 %}s{% endif %}{% endif %}</span>
+              {% endif %}
+            </div>
           </div>
 
           {% if current_user.is_authenticated %}
@@ -104,17 +116,27 @@
             </div>
             <form method="POST" class="review-form">
               {{ form.hidden_tag() }}
+              {% if event.date < now %}
+              <!-- CSS-only star rating input (radio buttons styled as stars, past events only) -->
+              <div class="star-input" role="group" aria-label="Rating">
+                <input type="radio" name="rating" id="s5" value="5"><label for="s5" title="5 stars">★</label>
+                <input type="radio" name="rating" id="s4" value="4"><label for="s4" title="4 stars">★</label>
+                <input type="radio" name="rating" id="s3" value="3"><label for="s3" title="3 stars">★</label>
+                <input type="radio" name="rating" id="s2" value="2"><label for="s2" title="2 stars">★</label>
+                <input type="radio" name="rating" id="s1" value="1"><label for="s1" title="1 star">★</label>
+              </div>
+              {% endif %}
               <textarea class="review-textarea" name="comment" rows="3"
-                  placeholder="Share your experience or thoughts about this event..."></textarea>
+                  placeholder="{% if event.date < now %}Share your experience or thoughts about this event...{% else %}Share what you're looking forward to...{% endif %}"></textarea>
               <div class="review-form-footer">
-                <button type="submit" class="btn btn-primary btn-sm">Post Review</button>
+                <button type="submit" class="btn btn-primary btn-sm">{% if event.date < now %}Post Review{% else %}Post Comment{% endif %}</button>
               </div>
             </form>
           </div>
           {% else %}
           <p class="text-muted review-login-prompt">
             <i class="bi bi-chat-dots me-1"></i>
-            <a href="{{ url_for('auth.login') }}">Log in</a> to leave a review.
+            <a href="{{ url_for('auth.login') }}">Log in</a> to leave a comment.
           </p>
           {% endif %}
 
@@ -128,6 +150,13 @@
                   <strong class="comment-author">{{ comment.user.name }}</strong>
                   <span class="comment-date">{{ comment.date.strftime("%d %b %Y") }}</span>
                 </div>
+                {% if comment.rating %}
+                <div class="comment-stars ms-auto">
+                  {% for i in range(1, 6) %}
+                    <span class="star {% if i <= comment.rating %}filled{% else %}empty{% endif %}">★</span>
+                  {% endfor %}
+                </div>
+                {% endif %}
               </div>
               <p class="comment-body">{{ comment.content }}</p>
             </div>
@@ -444,6 +473,53 @@
         margin: 0;
         padding-left: 42px;
     }
+
+    /* Average rating badge */
+    .reviews-header-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .avg-rating-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--cream-light);
+        border: 1px solid var(--card-border);
+        border-radius: 50px;
+        padding: 4px 12px;
+    }
+    .avg-score {
+        font-weight: 700;
+        font-size: 0.88rem;
+        color: var(--text);
+    }
+
+    /* Star display (filled/empty) */
+    .star { font-size: 1rem; line-height: 1; }
+    .star.filled { color: #f5a623; }
+    .star.empty  { color: #ddd; }
+    .comment-stars { display: flex; gap: 1px; }
+    .avg-stars { display: flex; gap: 1px; }
+
+    /* CSS-only star rating input */
+    .star-input {
+        display: flex;
+        flex-direction: row-reverse;
+        gap: 2px;
+        margin-bottom: 4px;
+    }
+    .star-input input[type="radio"] { display: none; }
+    .star-input label {
+        font-size: 1.6rem;
+        color: #ddd;
+        cursor: pointer;
+        line-height: 1;
+        transition: color 0.1s;
+    }
+    .star-input label:hover,
+    .star-input label:hover ~ label,
+    .star-input input[type="radio"]:checked ~ label { color: #f5a623; }
 
     .no-reviews {
         text-align: center;

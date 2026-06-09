@@ -43,13 +43,13 @@
       <form method="POST" action="{{ url_for('auth.register') }}" novalidate>
         {{ form.hidden_tag() }}
 
-        <!-- First Name + Surname row -->
+        <!-- First Name + Surname -->
         <div class="row">
           <div class="col-sm-6 mb-3">
             <label for="first_name" class="form-label">First Name</label>
             <div class="input-group">
               <span class="input-group-text"><i class="bi bi-person"></i></span>
-              {{ form.first_name(class="form-control", id="first_name", placeholder="Enter your first name") }}
+              {{ form.first_name(class="form-control", id="first_name", placeholder="First name") }}
             </div>
             {% if form.first_name.errors %}
               <div class="text-danger small mt-1">{{ form.first_name.errors[0] }}</div>
@@ -59,12 +59,24 @@
             <label for="last_name" class="form-label">Surname</label>
             <div class="input-group">
               <span class="input-group-text"><i class="bi bi-person"></i></span>
-              {{ form.last_name(class="form-control", id="last_name", placeholder="Enter your surname") }}
+              {{ form.last_name(class="form-control", id="last_name", placeholder="Surname") }}
             </div>
             {% if form.last_name.errors %}
               <div class="text-danger small mt-1">{{ form.last_name.errors[0] }}</div>
             {% endif %}
           </div>
+        </div>
+
+        <!-- Username -->
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-at"></i></span>
+            {{ form.username(class="form-control", id="username", placeholder="Choose a username") }}
+          </div>
+          {% if form.username.errors %}
+            <div class="text-danger small mt-1">{{ form.username.errors[0] }}</div>
+          {% endif %}
         </div>
 
         <!-- Email -->
@@ -109,6 +121,9 @@
           <div class="input-group">
             <span class="input-group-text"><i class="bi bi-lock"></i></span>
             {{ form.password(class="form-control", id="password", placeholder="Min 8 chars, upper, lower, number &amp; special", autocomplete="new-password") }}
+            <button type="button" class="input-group-text" id="togglePassword" aria-label="Show password">
+              <i class="bi bi-eye" id="toggleIcon"></i>
+            </button>
           </div>
           {% if form.password.errors %}
             <div class="text-danger small mt-1">{{ form.password.errors[0] }}</div>
@@ -121,6 +136,9 @@
           <div class="input-group">
             <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
             {{ form.confirm(class="form-control", id="confirm", placeholder="Repeat your password", autocomplete="new-password") }}
+            <button type="button" class="input-group-text" id="toggleConfirm" aria-label="Show password">
+              <i class="bi bi-eye" id="toggleIconConfirm"></i>
+            </button>
           </div>
           {% if form.confirm.errors %}
             <div class="text-danger small mt-1">{{ form.confirm.errors[0] }}</div>
@@ -286,4 +304,15 @@
   .login-register-link:hover { color: var(--accent-dark); text-decoration: underline; }
 </style>
 
+<script>
+  function toggleVis(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    const showing = input.type === 'text';
+    input.type = showing ? 'password' : 'text';
+    icon.className = showing ? 'bi bi-eye' : 'bi bi-eye-slash';
+  }
+  document.getElementById('togglePassword').addEventListener('click', () => toggleVis('password', 'toggleIcon'));
+  document.getElementById('toggleConfirm').addEventListener('click', () => toggleVis('confirm', 'toggleIconConfirm'));
+</script>
 {% endblock %}

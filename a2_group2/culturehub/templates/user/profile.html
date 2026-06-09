@@ -11,13 +11,14 @@
                 if user.profile_image else 'https://placehold.co/120x120' }}" alt="Profile photo"
                 class="profile-photo" />
             <div class="profile-details">
-                <h2>{{ user.name }}</h2>
+                <h2>{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.name }}{% endif %}</h2>
+                <span class="username-tag">@{{ user.name }}</span>
                 <span class="email">{{ user.email }}</span>
                 <span class="phone">{{ user.phone }}</span>
                 <span class="address">{{ user.address }}</span>
                 <p class="bio"> {{ user.bio or "No bio added yet." }} </p>
                 <div class="profile-stats">
-                    <span>Member since {{ user.created_at.strftime("%B %Y") }}</span>
+                    {% if user.created_at %}<span>Member since {{ user.created_at.strftime("%B %Y") }}</span>{% endif %}
                     <span>{{ comments|length }} comments written</span>
                 </div>
             </div>
@@ -30,15 +31,52 @@
     <!-- Summary Cards -->
     <section class="row text-center my-4">
         <div class="col-md-4 mb-3">
-            <div class="summary-card shadow-sm">{{ orders|length }} Event Attended</div>
+            <div class="summary-card shadow-sm">{{ past_orders|length }} Event{% if past_orders|length != 1 %}s{% endif %} Attended</div>
         </div>
         <div class="col-md-4 mb-3">
-            <div class="summary-card shadow-sm">{{ hosted_events|length }} Event Hosted</div>
+            <div class="summary-card shadow-sm">{{ hosted_events|length }} Event{% if hosted_events|length != 1 %}s{% endif %} Hosted</div>
         </div>
         <div class="col-md-4 mb-3">
-            <div class="summary-card shadow-sm">{{ saved_events|length }} Event Saved</div>
+            <div class="summary-card shadow-sm">{{ booked_upcoming|length }} Upcoming Booking{% if booked_upcoming|length != 1 %}s{% endif %}</div>
         </div>
     </section>
+
+    <!-- Upcoming Booked Events -->
+    <h4 class="section-title">Upcoming Events You've Booked</h4>
+    <div class="row">
+        {% if booked_upcoming %}
+        {% for event in booked_upcoming %}
+        <div class="col-md-4 mb-4">
+            <div class="event-card profile-event-card shadow-sm">
+                <div class="card-img-wrap">
+                    <span class="status-badge status-{{ event.status | lower | replace(' ', '-') }}">{{ event.status }}</span>
+                    <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/400x220' }}"
+                        class="card-img-top" alt="{{ event.name }}">
+                    <span class="origin-tag">{{ event.category }}</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.name }}</h5>
+                    <div class="host-info">
+                        <img src="{{ url_for('static', filename='profile_pics/' + event.user.profile_image)
+                                if event.user.profile_image else 'https://placehold.co/45x45' }}" alt="Host photo">
+                        <span>Hosted by: {{ event.user.name }}</span>
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="bi bi-calendar3 mi"></i> {{ event.date.strftime('%a %d %b %Y, %I:%M %p') }}</span>
+                        <span><i class="bi bi-geo-alt mi"></i> {{ event.location }}</span>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <span class="event-price">${{ event.price }}</span>
+                    <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-primary btn-sm">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="text-muted">No upcoming booked events yet.</p>
+        {% endif %}
+    </div>
 
     <!-- Upcoming Events -->
     <h4 class="section-title">Events You Are Hosting (Upcoming)</h4>
@@ -84,7 +122,7 @@
         </div>
         {% endfor %}
         {% else %}
-        <p class="text-muted">No upcoming events booked yet.</p>
+        <p class="text-muted">No upcoming events hosted yet.</p>
         {% endif %}
     </div>
 
@@ -132,7 +170,7 @@
         </div>
         {% endfor %}
         {% else %}
-        <p class="text-muted">No past events attended yet.</p>
+        <p class="text-muted">No past events hosted yet.</p>
         {% endif %}
     </div>
 
@@ -295,7 +333,13 @@
         font-family: var(--font-display);
         color: var(--text);
         font-weight: 800;
-        margin-bottom: 4px;
+        margin-bottom: 2px;
+    }
+    .username-tag {
+        display: inline-block;
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        margin-bottom: 6px;
     }
 
     .profile-details .email,
