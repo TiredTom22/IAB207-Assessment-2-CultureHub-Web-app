@@ -11,13 +11,14 @@
                 if user.profile_image else 'https://placehold.co/120x120' }}" alt="Profile photo"
                 class="profile-photo" />
             <div class="profile-details">
-                <h2>{{ user.name }}</h2>
+                <h2>{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.name }}{% endif %}</h2>
+                <span class="username-tag">@{{ user.name }}</span>
                 <span class="email">{{ user.email }}</span>
                 <span class="phone">{{ user.phone }}</span>
                 <span class="address">{{ user.address }}</span>
                 <p class="bio"> {{ user.bio or "No bio added yet." }} </p>
                 <div class="profile-stats">
-                    <span>Member since {{ user.created_at.strftime("%B %Y") }}</span>
+                    {% if user.created_at %}<span>Member since {{ user.created_at.strftime("%B %Y") }}</span>{% endif %}
                     <span>{{ comments|length }} comments written</span>
                 </div>
             </div>
@@ -30,18 +31,55 @@
     <!-- Summary Cards -->
     <section class="row text-center my-4">
         <div class="col-md-4 mb-3">
-            <div class="summary-card shadow-sm">{{ orders|length }} Event Attended</div>
+            <div class="summary-card shadow-sm">{{ past_orders|length }} Event{% if past_orders|length != 1 %}s{% endif %} Attended</div>
         </div>
         <div class="col-md-4 mb-3">
-            <div class="summary-card shadow-sm">{{ hosted_events|length }} Event Hosted</div>
+            <div class="summary-card shadow-sm">{{ hosted_events|length }} Event{% if hosted_events|length != 1 %}s{% endif %} Hosted</div>
         </div>
         <div class="col-md-4 mb-3">
-            <div class="summary-card shadow-sm">{{ saved_events|length }} Event Saved</div>
+            <div class="summary-card shadow-sm">{{ booked_upcoming|length }} Upcoming Booking{% if booked_upcoming|length != 1 %}s{% endif %}</div>
         </div>
     </section>
 
+    <!-- Upcoming Booked Events -->
+    <h4 class="section-title">Upcoming Events You've Booked</h4>
+    <div class="row">
+        {% if booked_upcoming %}
+        {% for event in booked_upcoming %}
+        <div class="col-md-4 mb-4">
+            <div class="event-card profile-event-card shadow-sm">
+                <div class="card-img-wrap">
+                    <span class="status-badge status-{{ event.status | lower | replace(' ', '-') }}">{{ event.status }}</span>
+                    <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/400x220' }}"
+                        class="card-img-top" alt="{{ event.name }}">
+                    <span class="origin-tag">{{ event.category }}</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.name }}</h5>
+                    <div class="host-info">
+                        <img src="{{ url_for('static', filename='profile_pics/' + event.user.profile_image)
+                                if event.user.profile_image else 'https://placehold.co/45x45' }}" alt="Host photo">
+                        <span>Hosted by: {{ event.user.name }}</span>
+                    </div>
+                    <div class="card-meta">
+                        <span><i class="bi bi-calendar3 mi"></i> {{ event.date.strftime('%a %d %b %Y, %I:%M %p') }}</span>
+                        <span><i class="bi bi-geo-alt mi"></i> {{ event.location }}</span>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <span class="event-price">${{ event.price }}</span>
+                    <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-primary btn-sm">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="text-muted">No upcoming booked events yet.</p>
+        {% endif %}
+    </div>
+
     <!-- Upcoming Events -->
-    <h4 class="section-title">Upcoming Events</h4>
+    <h4 class="section-title">Events You Are Hosting (Upcoming)</h4>
     <div class="row">
         {% if upcoming_events %}
         {% for event in upcoming_events %}
@@ -84,12 +122,12 @@
         </div>
         {% endfor %}
         {% else %}
-        <p class="text-muted">No upcoming events booked yet.</p>
+        <p class="text-muted">No upcoming events hosted yet.</p>
         {% endif %}
     </div>
 
     <!-- Past Events -->
-    <h4 class="section-title">Past Events</h4>
+    <h4 class="section-title">Events You Have Hosted (Past)</h4>
     <div class="row">
         {% if past_events %}
         {% for event in past_events %}
@@ -132,7 +170,7 @@
         </div>
         {% endfor %}
         {% else %}
-        <p class="text-muted">No past events attended yet.</p>
+        <p class="text-muted">No past events hosted yet.</p>
         {% endif %}
     </div>
 
@@ -235,7 +273,7 @@
                         </button>
 
                         <a href="{{ url_for('main.download_ticket', order_id=order.id) }}" class="btn btn-primary"
-                            onclick="bootstrap.Modal.getInstance(document.getElementById('ticketPreviewModal{{ order.id }}')).hide();">
+                            data-bs-dismiss="modal">
                             Confirm Download
                         </a>
                     </div>
@@ -253,29 +291,28 @@
 
 <style>
     /* ── Profile Page ── */
-    .profile-page {
-        color: #222;
-    }
+    .profile-page { color: var(--text); }
 
     .profile-header {
-        background-color: #fff3f3;
-        border-radius: 10px;
+        background: #fff;
+        border-radius: var(--radius-lg);
         overflow: hidden;
-        border: 1px solid #ddd;
+        border: 1px solid var(--card-border);
         width: 100%;
+        box-shadow: var(--shadow-sm);
     }
 
     .profile-cover {
-        height: 95px;
-        background-color: #4b35f5;
-        border-radius: 10px 10px 0 0;
+        height: 100px;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     }
 
     .profile-info {
         display: flex;
         align-items: flex-start;
         gap: 25px;
-        padding: 0 40px 25px 40px;
+        padding: 0 40px 28px 40px;
         position: relative;
     }
 
@@ -283,76 +320,90 @@
         width: 120px;
         height: 120px;
         border-radius: 50%;
-        border: 6px solid #fff3f3;
+        border: 5px solid #fff;
         object-fit: cover;
-        background-color: white;
-
         margin-top: -55px;
         flex-shrink: 0;
+        box-shadow: var(--shadow-sm);
     }
 
-    .profile-details {
-        margin-top: 10px;
-    }
+    .profile-details { margin-top: 12px; }
 
     .profile-details h2 {
-        color: #1a1a2e;
-        font-weight: bold;
-        margin-bottom: 0;
+        font-family: var(--font-display);
+        color: var(--text);
+        font-weight: 800;
+        margin-bottom: 2px;
+    }
+    .username-tag {
+        display: inline-block;
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        margin-bottom: 6px;
     }
 
     .profile-details .email,
     .profile-details .phone,
     .profile-details .address {
-        display: flex;
-        font-weight: 600;
-        margin-bottom: 8px;
+        display: block;
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        margin-bottom: 2px;
     }
 
     .profile-details .bio {
-        margin-bottom: 8px;
+        font-size: 0.9rem;
+        color: var(--text-mid);
+        margin: 8px 0;
     }
 
     .profile-stats {
         display: flex;
         flex-wrap: wrap;
-        gap: 35px;
-        font-size: 0.85rem;
+        gap: 24px;
+        font-size: 0.82rem;
         font-weight: 600;
+        color: var(--text-muted);
+        margin-top: 6px;
     }
 
     .edit-profile-btn {
         margin-left: auto;
-        margin-top: 35px;
+        margin-top: 38px;
         min-width: 150px;
     }
 
     .summary-card {
-        background-color: #fff3f3;
-        border-radius: 8px;
-        padding: 25px;
-        color: #1a1a2e;
-        font-size: 1.3rem;
-        font-weight: bold;
-        border: 1px solid #ddd;
+        background: #fff;
+        border-radius: var(--radius);
+        padding: 22px;
+        color: var(--accent);
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 700;
+        border: 1px solid var(--card-border);
+        box-shadow: var(--shadow-sm);
     }
 
     .section-title {
-        color: #1a1a2e;
-        font-weight: bold;
-        margin: 25px 0 15px;
+        font-family: var(--font-display);
+        color: var(--text);
+        font-weight: 700;
+        margin: 28px 0 14px;
     }
 
-    /* ── Profile Event Cards: Upcoming + Past ── */
+    /* ── Profile Event Cards ── */
     .profile-event-card {
-        background-color: #f5d3d4;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
+        background: #fff;
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius);
         overflow: hidden;
-        max-width: 100%;
         margin-bottom: 20px;
-        box-shadow: none;
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
     }
+
+    .profile-event-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
 
     .profile-event-card .card-img-top {
         width: 100%;
@@ -361,128 +412,119 @@
     }
 
     .profile-event-card .card-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #1a1a2e;
-        margin-bottom: 8px;
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 6px;
     }
 
-    .profile-event-card .card-body {
-        padding: 15px;
-    }
-
-    .profile-event-card .card-description {
-        color: #333;
-        font-size: 1rem;
-        margin-bottom: 15px;
-    }
+    .profile-event-card .card-body { padding: 14px 16px; }
 
     .profile-event-card .card-meta {
         display: flex;
         flex-direction: column;
-        gap: 6px;
-        font-size: 0.9rem;
-        color: #333;
+        gap: 5px;
+        font-size: 0.85rem;
+        color: var(--text-muted);
     }
 
     .profile-event-card .card-footer {
-        background-color: #f8f8f8;
-        border-top: 1px solid #e0e0e0;
-        padding: 10px 15px;
+        background: var(--cream-light);
+        border-top: 1px solid var(--card-border);
+        padding: 10px 14px;
     }
 
     .profile-event-card .event-price {
-        font-weight: bold;
+        font-weight: 700;
+        color: var(--accent);
     }
 
     .profile-event-card .origin-tag {
         position: absolute;
         top: 10px;
         right: 10px;
-        padding: 4px 10px;
+        padding: 4px 12px;
         border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        background-color: #ffffff;
-        color: #333;
-    }
-
-    .event-date {
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-left: 0;
-        color: #333;
+        font-size: 0.78rem;
+        font-weight: 700;
+        background: rgba(255,255,255,0.92);
+        color: var(--text-mid);
+        border: 1px solid var(--card-border);
     }
 
     .card-actions {
         display: flex;
         gap: 10px;
-        padding: 10px 15px 15px;
-        border-top: 1px solid #e0e0e0;
+        padding: 10px 14px 14px;
+        border-top: 1px solid var(--card-border);
     }
 
-    .card-actions .btn {
-        flex: 1;
-        font-weight: bold;
-    }
+    .card-actions .btn { flex: 1; font-weight: 600; }
 
     .host-info,
     .booking-host-row {
         display: flex;
         align-items: center;
         gap: 10px;
-        margin: 2px 0 10px;
+        margin: 4px 0 10px;
     }
 
     .host-info img,
     .booking-host-row img {
-        width: 55px;
-        height: 55px;
+        width: 42px;
+        height: 42px;
         border-radius: 50%;
         object-fit: cover;
+        border: 2px solid var(--card-border);
     }
 
     .host-info span,
     .booking-host-row span {
         font-size: 0.85rem;
         font-weight: 500;
+        color: var(--text-mid);
     }
 
     /* ── Booking History Card ── */
     .booking-history-card {
         max-width: 430px;
         width: 100%;
-        border-radius: 18px;
+        border-radius: var(--radius-lg);
         overflow: hidden;
-        background-color: #f5d3d4;
+        background: #fff;
+        border: 1px solid var(--card-border);
+        box-shadow: var(--shadow-sm);
         margin: 0;
     }
 
     .booking-history-card .card-img-top {
-        height: 250px;
+        height: 220px;
         width: 100%;
         object-fit: cover;
     }
 
     .booking-history-card .origin-tag {
-        top: 18px;
-        right: 18px;
-        padding: 10px 28px;
-        border-radius: 28px;
-        font-size: 1rem;
-        color: #4b35f5;
-        font-weight: bold;
+        top: 14px;
+        right: 14px;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.82rem;
+        color: var(--text-mid);
+        font-weight: 700;
+        background: rgba(255,255,255,0.92);
+        border: 1px solid var(--card-border);
     }
 
-    .booking-card-body {
-        padding: 10px 18px 4px;
-    }
+    .booking-card-body { padding: 14px 18px 6px; }
 
     .booking-history-card .card-title {
-        font-size: 1.25rem;
-        font-weight: bold;
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text);
         margin-bottom: 4px;
-        line-height: 1.2;
+        line-height: 1.25;
     }
 
     .booking-main-row {
@@ -490,62 +532,48 @@
         justify-content: space-between;
         align-items: flex-start;
         gap: 12px;
-        margin-bottom: 4px;
+        margin-bottom: 6px;
     }
 
-    .booking-left {
-        flex: 1;
-    }
+    .booking-left { flex: 1; }
 
     .booking-id {
         display: inline-block;
-        background-color: #fffafa;
-        padding: 6px 13px;
-        border-radius: 18px;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.18);
-        font-size: 0.65rem;
-        color: #777;
-        font-weight: 400;
-        margin-bottom: 4px;
+        background: var(--cream-light);
+        padding: 5px 12px;
+        border-radius: 20px;
+        border: 1px solid var(--card-border);
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        margin-bottom: 6px;
+        letter-spacing: 0.04em;
     }
 
     .booking-total {
-        min-width: 120px;
+        min-width: 110px;
         margin: 2px 0 0;
-        font-weight: bold;
-        font-size: 0.95rem;
+        font-weight: 700;
+        font-size: 1rem;
         text-align: right;
-        color: #000;
+        color: var(--accent);
     }
 
     .booking-total span {
         display: block;
-        font-size: 0.75rem;
-        color: #000;
-        font-weight: 600;
-    }
-
-    .booking-host-row img {
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
-    .booking-host-row span {
-        font-size: 0.85rem;
-        font-weight: 400;
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        font-weight: 500;
     }
 
     .booking-label {
         font-weight: 600;
+        color: var(--text-muted);
+        font-size: 0.78rem;
         display: block;
         margin-bottom: 2px;
-    }
-
-    .booking-host {
-        font-size: 0.95rem;
-        margin-bottom: 22px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
     }
 
     .booking-info-row {
@@ -553,23 +581,26 @@
         grid-template-columns: 1fr 1fr;
         gap: 8px;
         font-size: 0.85rem;
-        font-weight: 400;
-        margin-top: 0px;
-    }
-
-    .booking-info-row p {
-        margin-bottom: 0;
+        color: var(--text-mid);
+        margin-top: 4px;
     }
 
     .booking-history-card .card-actions {
-        border-top: 2px solid rgba(255, 255, 255, 0.65);
-        padding: 8px 12px;
+        border-top: 1px solid var(--card-border);
+        padding: 10px 14px;
+        background: var(--cream-light);
     }
 
     .booking-history-card .btn-light {
-        background-color: #fffafa;
-        color: #4b35f5;
-        border: 1px solid #e0e0e0;
+        background: #fff;
+        color: var(--accent);
+        border: 1px solid var(--card-border);
+        font-weight: 600;
+    }
+
+    .booking-history-card .btn-light:hover {
+        background: var(--cream-light);
+        color: var(--accent-dark);
     }
 
     /* ── Mobile responsive ── */
@@ -579,15 +610,8 @@
             text-align: center;
             padding: 0 20px 25px;
         }
-
-        .edit-profile-btn {
-            margin-left: 0;
-        }
-
-        .profile-stats {
-            justify-content: center;
-            gap: 15px;
-        }
+        .edit-profile-btn { margin-left: 0; }
+        .profile-stats { justify-content: center; gap: 15px; }
     }
 </style>
 

@@ -16,16 +16,24 @@ def strong_password(form, field):
     if not re.search(r'[!@#$%^&*(),.?\":{}|<>]', password):
         raise ValidationError('Password must contain at least one special character (!@#$%^&* etc).')
 
-# Login form
 class LoginForm(FlaskForm):
-    user_name = StringField("User Name", validators=[InputRequired('Enter user name')])
-    password = PasswordField("Password", validators=[InputRequired('Enter user password')])
+    username = StringField("Username", validators=[
+        InputRequired('Enter your username')
+    ])
+    password = PasswordField("Password", validators=[InputRequired('Enter your password')])
     submit = SubmitField("Login")
 
-# Registration form
 class RegisterForm(FlaskForm):
-    user_name = StringField("Username", validators=[
-        InputRequired('Enter a username'),
+    first_name = StringField("First Name", validators=[
+        InputRequired('Enter your first name'),
+        Length(min=2, max=50, message='First name must be between 2 and 50 characters')
+    ])
+    last_name = StringField("Surname", validators=[
+        InputRequired('Enter your surname'),
+        Length(min=2, max=50, message='Surname must be between 2 and 50 characters')
+    ])
+    username = StringField("Username", validators=[
+        InputRequired('Choose a username'),
         Length(min=3, max=50, message='Username must be between 3 and 50 characters')
     ])
     email = StringField("Email Address", validators=[
@@ -36,7 +44,7 @@ class RegisterForm(FlaskForm):
         InputRequired('Enter your phone number'),
         Length(min=8, max=15, message='Enter a valid phone number')
     ])
-    address = StringField("Address", validators=[
+    address = StringField("Street Address", validators=[
         InputRequired('Enter your address')
     ])
     password = PasswordField("Password", validators=[
@@ -89,7 +97,9 @@ class CreateEventForm(EventForm):
 
 # Edit profile form
 class EditProfileForm(FlaskForm):
-    name = StringField("Full Name", validators=[InputRequired()])
+    first_name = StringField("First Name", validators=[InputRequired(), Length(min=2, max=50)])
+    last_name = StringField("Surname", validators=[InputRequired(), Length(min=2, max=50)])
+    name = StringField("Username", validators=[InputRequired(), Length(min=3, max=50)])
     email = StringField("Email Address", validators=[InputRequired(), Email()])
     phone = StringField("Phone Number", validators=[InputRequired()])
     address = StringField("Address", validators=[InputRequired()])

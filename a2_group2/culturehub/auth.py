@@ -12,11 +12,11 @@ auth_bp = Blueprint('auth', __name__)
 def login():
     login_form = LoginForm()
     if login_form.validate_on_submit():
-        user_name = login_form.user_name.data
+        username = login_form.username.data
         password = login_form.password.data
-        user = db.session.scalar(db.select(User).where(User.name == user_name))
+        user = db.session.scalar(db.select(User).where(User.name == username))
         if user is None:
-            flash('Incorrect username.')
+            flash('No account found with that username.')
         elif not check_password_hash(user.password_hash, password):
             flash('Incorrect password.')
         else:
@@ -32,21 +32,20 @@ def login():
 def register():
     register_form = RegisterForm()
     if register_form.validate_on_submit():
-        # Check if username already taken
-        existing_user = db.session.scalar(db.select(User).where(User.name == register_form.user_name.data))
-        if existing_user:
-            flash('Username already taken. Please choose another.')
+        existing_username = db.session.scalar(db.select(User).where(User.name == register_form.username.data))
+        if existing_username:
+            flash('That username is already taken.')
             return render_template('auth/register.html', form=register_form)
 
-        # Check if email already registered
         existing_email = db.session.scalar(db.select(User).where(User.email == register_form.email.data))
         if existing_email:
             flash('An account with that email already exists.')
             return render_template('auth/register.html', form=register_form)
 
-        # Create and save new user
         new_user = User(
-            name=register_form.user_name.data,
+            name=register_form.username.data,
+            first_name=register_form.first_name.data.strip(),
+            last_name=register_form.last_name.data.strip(),
             email=register_form.email.data,
             phone=register_form.phone.data,
             address=register_form.address.data,

@@ -1,16 +1,13 @@
-from flask import current_app, Blueprint, render_template, redirect, url_for, flash, request
-from flask_wtf.csrf import generate_csrf
+from flask import current_app, Blueprint, render_template, redirect, url_for, flash, request, send_file
 from flask_login import login_required, current_user
 from .forms import EditProfileForm, EventForm, BookingForm, CreateEventForm
-from .models import Event, Comment, Order, Event
+from .models import Event, Comment, Order, User
 from . import db
 import os
-from flask import send_file
 from io import BytesIO
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from werkzeug.utils import secure_filename
-from flask import request
 from datetime import datetime
 
 main_bp = Blueprint('main', __name__)
@@ -52,25 +49,41 @@ def profile():
         Event.date < now
     ).all()
     
-    return render_template('user/profile.html', 
-                           user=current_user, 
-                           hosted_events=hosted_events, 
+    booked_upcoming = Event.query.join(Order).filter(
+        Order.user_id == current_user.id,
+        Event.date >= now
+    ).all()
+
+    past_orders = [o for o in orders if o.event.date < now]
+
+    return render_template('user/profile.html',
+                           user=current_user,
+                           hosted_events=hosted_events,
                            orders=orders,
+                           past_orders=past_orders,
                            upcoming_events=upcoming_events,
                            past_events=past_events,
-                           comments=comments)
+                           comments=comments,
+                           booked_upcoming=booked_upcoming,
+                           saved_events=[])
 
 @main_bp.route('/user/edit-profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
     form = EditProfileForm(obj=current_user)
     if form.validate_on_submit():
-        print("FROM SUBMITTED")
-        print("PROFILE IMAGE DATA:", form.profile_image.data)
-    
-    if request.method == 'POST':
-        print("FORM ERRORS:", form.errors)
-
+        if form.name.data != current_user.name:
+            taken = db.session.scalar(db.select(User).where(User.name == form.name.data))
+            if taken:
+                flash('That username is already taken.')
+                return render_template('user/edit_profile.html', form=form, user=current_user)
+        if form.email.data != current_user.email:
+            taken = db.session.scalar(db.select(User).where(User.email == form.email.data))
+            if taken:
+                flash('That email address is already linked to another account.')
+                return render_template('user/edit_profile.html', form=form, user=current_user)
+        current_user.first_name = form.first_name.data.strip()
+        current_user.last_name = form.last_name.data.strip()
         current_user.name = form.name.data
         current_user.email = form.email.data
         current_user.phone = form.phone.data
@@ -80,22 +93,11 @@ def edit_profile():
         current_user.cultural_interests = form.cultural_interests.data
 
         if form.profile_image.data and hasattr(form.profile_image.data, 'filename') and form.profile_image.data.filename != '':
-            print("IMAGE FOUND")
-
             image_file = form.profile_image.data
             filename = secure_filename(image_file.filename)
-
-            upload_folder = os.path.join(
-                current_app.root_path,
-                'static',
-                'profile_pics'
-            )
-
+            upload_folder = os.path.join(current_app.root_path, 'static', 'profile_pics')
             os.makedirs(upload_folder, exist_ok=True)
-
-            image_path = os.path.join(upload_folder, filename)
-            image_file.save(image_path)
-
+            image_file.save(os.path.join(upload_folder, filename))
             current_user.profile_image = filename
 
         db.session.commit()
@@ -108,18 +110,14 @@ def edit_profile():
 def create_event():
     form = CreateEventForm()
     if form.validate_on_submit():
-        # Handle image upload
         image_filename = None
         if form.image.data:
             image_file = form.image.data
             image_filename = secure_filename(image_file.filename)
-
-            # Build absolute path so it works on any OS
             images_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'images')
-            os.makedirs(images_dir, exist_ok=True)  # Create folder if it doesn't exist
+            os.makedirs(images_dir, exist_ok=True)
             image_file.save(os.path.join(images_dir, image_filename))
 
-        # Create new event
         event = Event(
             name=form.name.data,
             category=form.category.data,
@@ -140,23 +138,6 @@ def create_event():
 
     return render_template('events/create.html', form=form)
 
-@main_bp.route('/event/<int:event_id>/comment', methods=['POST'])
-@login_required
-def add_comment(event_id):
-    content = request.form.get('content', '').strip()
-    if not content:
-        flash('Comment cannot be empty.')
-        return redirect(url_for('main.event_detail', event_id=event_id))
-
-    comment = Comment(
-        content=content,
-        user_id=current_user.id,
-        event_id=event_id
-    )
-    db.session.add(comment)
-    db.session.commit()
-    return redirect(url_for('main.event_detail', event_id=event_id) + '#comments')
-
 @main_bp.route('/acknowledgement')
 def acknowledgement():
     return render_template('events/acknowledgement.html')
@@ -168,29 +149,41 @@ def about():
 @main_bp.route('/event/<int:event_id>', methods=['GET', 'POST'])
 def event_detail(event_id):
     event = db.session.get(Event, event_id)
+    if event is None:
+        return render_template('errors/404.html'), 404
     form = BookingForm()
     comments = Comment.query.filter_by(event_id=event_id).all()
+    ratings = [c.rating for c in comments if c.rating is not None]
+    avg_rating = round(sum(ratings) / len(ratings), 1) if ratings else None
 
     if request.method == 'POST':
-        comment_text = request.form.get('comment')
+        comment_text = request.form.get('comment', '').strip()
         if comment_text and current_user.is_authenticated:
+            rating_val = request.form.get('rating')
+            rating = int(rating_val) if rating_val and rating_val.isdigit() and 1 <= int(rating_val) <= 5 else None
             comment = Comment(
                 content=comment_text,
+                rating=rating,
                 user_id=current_user.id,
                 event_id=event_id
             )
             db.session.add(comment)
             db.session.commit()
-            flash('Comment posted!')
+            flash('Review posted!')
         return redirect(url_for('main.event_detail', event_id=event_id))
 
-    return render_template('events/event-detail.html', event=event, form=form, comments=comments)
+    now = datetime.now()
+    return render_template('events/event-detail.html', event=event, form=form, comments=comments, avg_rating=avg_rating, now=now)
 
 @main_bp.route('/event/<int:event_id>/book', methods=['POST'])
 @login_required
 def book_event(event_id):
     event = Event.query.get_or_404(event_id)
-    quantity = int(request.form.get('quantity', 1))
+    try:
+        quantity = int(request.form.get('quantity', 1))
+    except (ValueError, TypeError):
+        flash('Invalid ticket quantity.')
+        return redirect(url_for('main.event_detail', event_id=event_id))
     if quantity < 1:
         flash('Invalid ticket quantity.')
         return redirect(url_for('main.event_detail', event_id=event.id))
@@ -272,8 +265,12 @@ def stories():
     return render_template('user/stories.html')
 
 
-@main_bp.route('/contact')
+@main_bp.route('/contact', methods=['GET', 'POST'])
 def contact():
+    if request.method == 'POST':
+        # No backend processing — acknowledge receipt and redirect
+        flash('Thank you for your message! We will get back to you within 2 business days.')
+        return redirect(url_for('main.contact'))
     return render_template('user/contact.html')
 
 @main_bp.route('/ticket/<int:order_id>/download')
