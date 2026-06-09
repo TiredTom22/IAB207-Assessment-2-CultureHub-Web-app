@@ -98,18 +98,10 @@
 
           <!-- Image upload -->
           <div class="mb-4">
-            <label class="create-label">
-              {{ form.image.label.text }}
+            <label class="create-label" for="image">
+              {{ form.image.label.text }} <span class="create-required">*</span>
             </label>
-            <label for="image" class="upload-box" id="uploadBox">
-              <div id="uploadPrompt">
-                <i class="bi bi-cloud-upload fs-3 d-block mb-1"></i>
-                Click to upload or drag and drop<br>
-                <small>PNG, JPG up to 10MB</small>
-              </div>
-              <div id="uploadedName" class="d-none upload-filename"></div>
-            </label>
-            {{ form.image(class="d-none", id="image") }}
+            {{ form.image(class="form-control create-file-input", id="image") }}
             {% if form.image.errors %}
               <div class="create-error">{{ form.image.errors[0] }}</div>
             {% endif %}
@@ -266,31 +258,18 @@
   }
   .prefix-input { padding-left: 26px; }
 
-  /* Upload box */
-  .upload-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: var(--cream-light);
-    border: 2px dashed var(--card-border);
-    border-radius: 10px;
-    height: 100px;
-    width: 100%;
-    cursor: pointer;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .upload-box:hover {
-    border-color: var(--accent);
-    background: var(--accent-pale);
-    color: var(--accent);
-  }
-  .upload-filename {
-    color: var(--accent);
-    font-weight: 600;
+  /* File input */
+  .create-file-input {
+    background-color: var(--cream-light);
+    border: 1px solid var(--card-border);
+    border-radius: 7px;
     font-size: 0.9rem;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .create-file-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(255,79,0,0.12);
   }
 
   /* Acknowledgement boxes */
@@ -308,6 +287,8 @@
   }
   .ack-box:hover { border-color: var(--card-border); background: #fff; }
   .ack-selected { border-color: var(--accent) !important; background: rgba(255,79,0,0.06) !important; }
+  /* CSS-only highlight when radio is checked — no JS needed */
+  .ack-box:has(input[type="radio"]:checked) { border-color: var(--accent) !important; background: rgba(255,79,0,0.06) !important; }
 
   .ack-radio {
     width: 18px;
@@ -402,30 +383,5 @@
     border: 1px solid rgba(45,122,69,0.18);
   }
 </style>
-
-<!-- Acknowledgement highlight + image upload JS -->
-<script>
-  // Highlight selected acknowledgement box
-  document.querySelectorAll('.ack-radio').forEach(function(radio) {
-    radio.addEventListener('change', function() {
-      document.querySelectorAll('.ack-box').forEach(b => b.classList.remove('ack-selected'));
-      this.closest('.ack-box').classList.add('ack-selected');
-    });
-  });
-
-  // Image upload file name display
-  document.getElementById('image').addEventListener('change', function() {
-    const prompt = document.getElementById('uploadPrompt');
-    const named = document.getElementById('uploadedName');
-    if (this.files.length > 0) {
-      prompt.classList.add('d-none');
-      named.classList.remove('d-none');
-      named.textContent = '✓ ' + this.files[0].name;
-    } else {
-      prompt.classList.remove('d-none');
-      named.classList.add('d-none');
-    }
-  });
-</script>
 
 {% endblock %}

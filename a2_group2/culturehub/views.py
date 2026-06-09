@@ -52,13 +52,14 @@ def profile():
         Event.date < now
     ).all()
     
-    return render_template('user/profile.html', 
-                           user=current_user, 
-                           hosted_events=hosted_events, 
+    return render_template('user/profile.html',
+                           user=current_user,
+                           hosted_events=hosted_events,
                            orders=orders,
                            upcoming_events=upcoming_events,
                            past_events=past_events,
-                           comments=comments)
+                           comments=comments,
+                           saved_events=[])
 
 @main_bp.route('/user/edit-profile', methods=['GET', 'POST'])
 @login_required
@@ -272,8 +273,12 @@ def stories():
     return render_template('user/stories.html')
 
 
-@main_bp.route('/contact')
+@main_bp.route('/contact', methods=['GET', 'POST'])
 def contact():
+    if request.method == 'POST':
+        # No backend processing — acknowledge receipt and redirect
+        flash('Thank you for your message! We will get back to you within 2 business days.')
+        return redirect(url_for('main.contact'))
     return render_template('user/contact.html')
 
 @main_bp.route('/ticket/<int:order_id>/download')

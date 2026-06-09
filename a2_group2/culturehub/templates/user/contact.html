@@ -41,48 +41,42 @@
   <div class="contact-form-card">
     <h2>Send Us a Message</h2>
 
-    <form class="contact-form" id="contactForm">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>{{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form class="contact-form" method="POST" action="{{ url_for('main.contact') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
       <div class="form-group">
         <label for="name">Full Name</label>
-        <input id="name" type="text" placeholder="Enter your full name" required>
+        <input id="name" name="name" type="text" placeholder="Enter your full name" required>
       </div>
 
       <div class="form-group">
         <label for="email">Email Address</label>
-        <input id="email" type="email" placeholder="Enter your email address" required>
+        <input id="email" name="email" type="email" placeholder="Enter your email address" required>
       </div>
 
       <div class="form-group">
         <label for="subject">Subject</label>
-        <input id="subject" type="text" placeholder="What is your enquiry about?" required>
+        <input id="subject" name="subject" type="text" placeholder="What is your enquiry about?" required>
       </div>
 
       <div class="form-group">
         <label for="message">Message</label>
-        <textarea id="message" rows="6" placeholder="Write your message here" required></textarea>
+        <textarea id="message" name="message" rows="6" placeholder="Write your message here" required></textarea>
       </div>
 
-      <button type="submit" id="sendBtn">Send Message</button>
-
-      <div id="contactSuccess" style="display:none;" class="contact-success-msg">
-        <i class="bi bi-check-circle-fill"></i>
-        <strong>Message sent!</strong> Thanks for reaching out. We'll get back to you soon.
-      </div>
+      <button type="submit">Send Message</button>
     </form>
-
-<script>
-  document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const btn = document.getElementById('sendBtn');
-    const success = document.getElementById('contactSuccess');
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
-    setTimeout(function() {
-      btn.style.display = 'none';
-      success.style.display = 'flex';
-    }, 900);
-  });
-</script>
   </div>
 
 </section>

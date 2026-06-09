@@ -9,16 +9,14 @@
     <section class="profile-header shadow-sm mb-4">
         <div class="profile-cover"></div>
         <div class="edit-profile-banner text-center">
-            <div class="profile-image-wrapper">
-                <img src="{{ url_for('static', filename='profile_pics/' + user.profile_image) 
+            <!-- Entire wrapper is a label — clicking image or button opens file picker, no JS needed -->
+            <label for="profileImageInput" class="profile-image-wrapper" style="cursor:pointer;">
+                <img src="{{ url_for('static', filename='profile_pics/' + user.profile_image)
                      if user.profile_image else 'https://placehold.co/160x160' }}" alt="Profile photo"
-                    class="edit-profile-photo" id="profileImagePreview">
-                <button type="button" class="camera-btn"
-                    onclick="document.getElementById('profileImageInput').click();">
-                    📷
-                </button>
+                    class="edit-profile-photo">
+                <span class="camera-btn">📷</span>
                 {{ form.profile_image(class="d-none", id="profileImageInput") }}
-            </div>
+            </label>
             <p class="upload-text">
                 Click camera icon to change photo
             </p>
@@ -344,18 +342,5 @@
         background-color: white;
     }
 </style>
-
-<script>
-    const profileImageInput = document.getElementById("profileImageInput");
-    const profileImagePreview = document.getElementById("profileImagePreview");
-
-    profileImageInput.addEventListener("change", function () {
-        const file = this.files[0];
-
-        if (file) {
-            profileImagePreview.src = URL.createObjectURL(file);
-        }
-    });
-</script>
 
 {% endblock %}

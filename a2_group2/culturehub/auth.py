@@ -12,11 +12,12 @@ auth_bp = Blueprint('auth', __name__)
 def login():
     login_form = LoginForm()
     if login_form.validate_on_submit():
-        user_name = login_form.user_name.data
+        email = login_form.email.data
         password = login_form.password.data
-        user = db.session.scalar(db.select(User).where(User.name == user_name))
+        # Look up user by email
+        user = db.session.scalar(db.select(User).where(User.email == email))
         if user is None:
-            flash('Incorrect username.')
+            flash('No account found with that email address.')
         elif not check_password_hash(user.password_hash, password):
             flash('Incorrect password.')
         else:
@@ -32,21 +33,24 @@ def login():
 def register():
     register_form = RegisterForm()
     if register_form.validate_on_submit():
-        # Check if username already taken
-        existing_user = db.session.scalar(db.select(User).where(User.name == register_form.user_name.data))
-        if existing_user:
-            flash('Username already taken. Please choose another.')
-            return render_template('auth/register.html', form=register_form)
-
         # Check if email already registered
         existing_email = db.session.scalar(db.select(User).where(User.email == register_form.email.data))
         if existing_email:
             flash('An account with that email already exists.')
             return render_template('auth/register.html', form=register_form)
 
+        # Combine first and last name as the display name
+        full_name = register_form.first_name.data.strip() + ' ' + register_form.last_name.data.strip()
+
+        # Check if this full name is already taken
+        existing_name = db.session.scalar(db.select(User).where(User.name == full_name))
+        if existing_name:
+            flash('An account with that name already exists. Please contact support.')
+            return render_template('auth/register.html', form=register_form)
+
         # Create and save new user
         new_user = User(
-            name=register_form.user_name.data,
+            name=full_name,
             email=register_form.email.data,
             phone=register_form.phone.data,
             address=register_form.address.data,

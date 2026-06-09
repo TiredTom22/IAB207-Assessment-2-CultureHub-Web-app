@@ -16,17 +16,24 @@ def strong_password(form, field):
     if not re.search(r'[!@#$%^&*(),.?\":{}|<>]', password):
         raise ValidationError('Password must contain at least one special character (!@#$%^&* etc).')
 
-# Login form
+# Login form — uses email as identifier
 class LoginForm(FlaskForm):
-    user_name = StringField("User Name", validators=[InputRequired('Enter user name')])
-    password = PasswordField("Password", validators=[InputRequired('Enter user password')])
+    email = StringField("Email Address", validators=[
+        InputRequired('Enter your email address'),
+        Email("Please enter a valid email address")
+    ])
+    password = PasswordField("Password", validators=[InputRequired('Enter your password')])
     submit = SubmitField("Login")
 
-# Registration form
+# Registration form — collects first name, surname as per spec
 class RegisterForm(FlaskForm):
-    user_name = StringField("Username", validators=[
-        InputRequired('Enter a username'),
-        Length(min=3, max=50, message='Username must be between 3 and 50 characters')
+    first_name = StringField("First Name", validators=[
+        InputRequired('Enter your first name'),
+        Length(min=2, max=50, message='First name must be between 2 and 50 characters')
+    ])
+    last_name = StringField("Surname", validators=[
+        InputRequired('Enter your surname'),
+        Length(min=2, max=50, message='Surname must be between 2 and 50 characters')
     ])
     email = StringField("Email Address", validators=[
         InputRequired('Enter your email'),
@@ -36,7 +43,7 @@ class RegisterForm(FlaskForm):
         InputRequired('Enter your phone number'),
         Length(min=8, max=15, message='Enter a valid phone number')
     ])
-    address = StringField("Address", validators=[
+    address = StringField("Street Address", validators=[
         InputRequired('Enter your address')
     ])
     password = PasswordField("Password", validators=[
