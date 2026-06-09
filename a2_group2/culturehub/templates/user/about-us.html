@@ -8,20 +8,15 @@
         Know All About Our Community
     </h1>
 
-    <section class="about-hero shadow-sm">
+    <!-- Hero card with logo -->
+    <section class="about-hero shadow-sm mb-5">
         <div class="row align-items-center">
 
             <div class="col-md-6 text-center">
                 <h2 class="welcome-title">Welcome</h2>
                 <p class="welcome-small">to</p>
-
-                <h1 class="culturehub-gradient-text">
-                    CultureHub
-                </h1>
-
-                <p class="culturehub-tagline">
-                    CELEBRATE. CONNECT. CREATE.
-                </p>
+                <h1 class="culturehub-gradient-text">CultureHub</h1>
+                <p class="culturehub-tagline">CELEBRATE. CONNECT. CREATE.</p>
             </div>
 
             <div class="col-md-6 text-center">
@@ -33,41 +28,55 @@
         </div>
     </section>
 
-    <section class=”about-content mt-5”>
-        <h4 class=”text-center mb-4”>Our Story</h4>
+    <!-- Content sections -->
+    <section class="about-content">
 
-        <p>
-            Australia is one of the most culturally diverse nations on earth, yet the stories,
-            traditions, and celebrations that make each community unique can be surprisingly hard
-            to find. CultureHub was built to change that. We created a single place where anyone
-            can discover, host, and experience the full range of cultural life happening right
-            across the country.
-        </p>
+        <div class="about-section-block">
+            <span class="about-label">Our Story</span>
+            <h4>A Single Place for All of Australia's Cultures</h4>
+            <p>
+                Australia is one of the most culturally diverse nations on earth, yet the stories,
+                traditions, and celebrations that make each community unique can be surprisingly hard
+                to find. CultureHub was built to change that. We created a single place where anyone
+                can discover, host, and experience the full range of cultural life happening right
+                across the country.
+            </p>
+        </div>
 
-        <h4 class=”mt-4”>What We Stand For</h4>
+        <div class="about-divider"></div>
 
-        <p>
-            We believe culture is not a museum exhibit. It is alive in the food people cook,
-            the music they play, the ceremonies they honour, and the stories they pass down.
-            CultureHub gives those living traditions a stage, connecting curious attendees with
-            the communities and hosts who keep them going.
-        </p>
+        <div class="about-section-block">
+            <span class="about-label">What We Stand For</span>
+            <h4>Culture Is Alive, Not Archived</h4>
+            <p>
+                We believe culture is not a museum exhibit. It is alive in the food people cook,
+                the music they play, the ceremonies they honour, and the stories they pass down.
+                CultureHub gives those living traditions a stage, connecting curious attendees with
+                the communities and hosts who keep them going.
+            </p>
+            <p>
+                Every event on CultureHub is created by a real person with a genuine connection to
+                what they are sharing. When you attend a tea ceremony, a language workshop, or a
+                food festival through CultureHub, you are not a tourist. You are a guest.
+            </p>
+        </div>
 
-        <p>
-            Every event on CultureHub is created by a real person with a genuine connection to
-            what they are sharing. That authenticity is what sets our community apart. When you
-            attend a tea ceremony, a language workshop, or a food festival through CultureHub,
-            you are not a tourist. You are a guest.
-        </p>
+        <div class="about-divider"></div>
 
-        <h4 class=”mt-4”>Join Us</h4>
+        <div class="about-section-block">
+            <span class="about-label">Join Us</span>
+            <h4>Every Background Has a Place at the Table</h4>
+            <p>
+                Whether you want to explore something new, share a tradition close to your heart,
+                or simply find your people in a new city, CultureHub is for you. Browse upcoming
+                events, host your own, and help us build a community where every culture is
+                celebrated.
+            </p>
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary mt-2">
+                Create an Account
+            </a>
+        </div>
 
-        <p>
-            Whether you want to explore something new, share a tradition close to your heart,
-            or simply find your people in a new city, CultureHub is for you. Browse upcoming
-            events, host your own, and help us build a community where every background has
-            a place at the table.
-        </p>
     </section>
 
 </div>
@@ -77,82 +86,119 @@
     font-family: 'Playfair Display', serif;
     color: var(--text);
     font-weight: 700;
+    font-size: 2rem;
 }
 
 .about-hero {
     background: #fff;
     border: 1px solid var(--card-border);
-    border-radius: 16px;
+    border-radius: var(--radius-lg);
     padding: 70px 60px;
-    max-width: 1200px;
-    min-height: 560px;
+    max-width: 1100px;
+    min-height: 480px;
     margin: 0 auto;
     box-shadow: var(--shadow-sm);
 }
 
 .welcome-title {
     font-family: 'Playfair Display', serif;
-    font-size: 5rem;
+    font-size: 4.5rem;
     font-weight: 900;
     color: var(--accent);
     margin-bottom: 0;
+    line-height: 1;
 }
 
 .welcome-small {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 700;
-    color: var(--accent);
-    margin: 0;
+    color: var(--text-muted);
+    margin: 4px 0;
 }
 
 .culturehub-gradient-text {
     font-family: 'Playfair Display', serif;
-    font-size: 5.5rem;
+    font-size: 5rem;
     font-weight: 900;
     margin-bottom: 0;
-    background: linear-gradient(90deg, var(--brown), var(--accent), var(--accent-dark));
+    line-height: 1;
+    background: linear-gradient(90deg, var(--brown), var(--accent));
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .culturehub-tagline {
-    font-size: 1.3rem;
+    font-size: 1rem;
     font-weight: 700;
     letter-spacing: 3px;
-    background: linear-gradient(90deg, var(--accent), var(--accent-dark));
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-muted);
+    margin-top: 10px;
 }
 
 .about-logo {
-    width: 420px;
-    height: 420px;
+    width: 360px;
+    height: 360px;
     object-fit: contain;
     border-radius: 50%;
 }
 
+/* Content area */
 .about-content {
-    max-width: 950px;
+    max-width: 860px;
     margin: 0 auto;
-    color: var(--text);
-    font-weight: 400;
-    line-height: 1.8;
-    font-size: 1.02rem;
 }
 
-.about-content h4 {
-    font-family: 'Playfair Display', serif;
+.about-label {
+    display: inline-block;
+    background: var(--cream);
     color: var(--accent);
+    font-size: 0.72rem;
     font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 4px 14px;
+    border-radius: 50px;
+    margin-bottom: 12px;
+}
+
+.about-section-block {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--card-border);
+    padding: 36px 40px;
+    box-shadow: var(--shadow-sm);
+}
+
+.about-section-block h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 14px;
+}
+
+.about-section-block p {
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.about-section-block p:last-of-type {
+    margin-bottom: 0;
+}
+
+.about-divider {
+    height: 20px;
 }
 
 @media (max-width: 768px) {
-    .about-hero { padding: 40px 25px; }
-    .culturehub-gradient-text { font-size: 2.7rem; }
-    .welcome-title { font-size: 2.3rem; }
-    .about-logo { width: 200px; height: 200px; margin-top: 25px; }
+    .about-hero { padding: 40px 25px; min-height: auto; }
+    .culturehub-gradient-text { font-size: 2.8rem; }
+    .welcome-title { font-size: 2.5rem; }
+    .about-logo { width: 200px; height: 200px; margin-top: 30px; }
+    .about-section-block { padding: 24px 22px; }
 }
 </style>
 
