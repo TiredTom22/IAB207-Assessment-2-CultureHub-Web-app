@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms.fields import SubmitField, StringField, PasswordField, TextAreaField, SelectField, IntegerField, FloatField, DateTimeLocalField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import InputRequired, Length, Email, EqualTo, NumberRange, ValidationError
+from datetime import datetime
 import re
 
 # ── Custom password validator ──
@@ -17,8 +18,8 @@ def strong_password(form, field):
         raise ValidationError('Password must contain at least one special character (!@#$%^&* etc).')
 
 class LoginForm(FlaskForm):
-    username = StringField("Username", validators=[
-        InputRequired('Enter your username')
+    username = StringField("Username or Email", validators=[
+        InputRequired('Enter your username or email')
     ])
     password = PasswordField("Password", validators=[InputRequired('Enter your password')])
     submit = SubmitField("Login")
@@ -94,6 +95,10 @@ class CreateEventForm(EventForm):
         FileRequired(message='Please upload an image for your event.'),
         FileAllowed(['jpg', 'png'], message='Images only — JPG or PNG.')
     ])
+
+    def validate_date(self, field):
+        if field.data and field.data < datetime.now():
+            raise ValidationError('Event date must be in the future.')
 
 # Edit profile form
 class EditProfileForm(FlaskForm):

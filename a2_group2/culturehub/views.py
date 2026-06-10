@@ -22,14 +22,17 @@ def index(category=None):
         event.status = 'Inactive'
     db.session.commit()
     
-    search = request.args.get('search')
+    search = request.args.get('search', '').strip()
+    status_filter = request.args.get('status', '')
     if search:
         events = Event.query.filter(Event.name.ilike(f'%{search}%')).all()
     elif category:
         events = Event.query.filter_by(category=category).all()
     else:
         events = Event.query.all()
-    return render_template('events/index.html', events=events, current_category=category)
+    if status_filter:
+        events = [e for e in events if e.status == status_filter]
+    return render_template('events/index.html', events=events, current_category=category, search=search, current_status=status_filter)
 
 @main_bp.route('/user/profile')
 @login_required

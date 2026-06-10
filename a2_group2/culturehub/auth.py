@@ -12,11 +12,13 @@ auth_bp = Blueprint('auth', __name__)
 def login():
     login_form = LoginForm()
     if login_form.validate_on_submit():
-        username = login_form.username.data
+        identifier = login_form.username.data
         password = login_form.password.data
-        user = db.session.scalar(db.select(User).where(User.name == username))
+        user = db.session.scalar(db.select(User).where(User.name == identifier))
         if user is None:
-            flash('No account found with that username.')
+            user = db.session.scalar(db.select(User).where(User.email == identifier))
+        if user is None:
+            flash('No account found with that username or email.')
         elif not check_password_hash(user.password_hash, password):
             flash('Incorrect password.')
         else:
