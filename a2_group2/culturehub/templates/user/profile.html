@@ -246,7 +246,7 @@
         </div>
 
         <div class="modal fade" id="ticketPreviewModal{{ order.id }}" tabindex="-1">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
@@ -257,9 +257,9 @@
                         </button>
                     </div>
 
-                    <div class="modal-body">
-                        <iframe src="{{ url_for('main.preview_ticket', order_id=order.id) }}" width="100%"
-                            height="600px" style="border: none;">
+                    <div class="modal-body" style="padding: 0;">
+                        <iframe src="{{ url_for('main.preview_ticket', order_id=order.id) }}"
+                            style="border: none; display: block; width: 100%; height: 70vh; min-height: 400px;">
                         </iframe>
                     </div>
 
@@ -272,8 +272,7 @@
                             Cancel
                         </button>
 
-                        <a href="{{ url_for('main.download_ticket', order_id=order.id) }}" class="btn btn-primary"
-                            data-bs-dismiss="modal">
+                        <a href="{{ url_for('main.download_ticket', order_id=order.id) }}" class="btn btn-primary">
                             Confirm Download
                         </a>
                     </div>
