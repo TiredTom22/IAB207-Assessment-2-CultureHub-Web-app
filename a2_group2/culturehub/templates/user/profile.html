@@ -11,7 +11,8 @@
                 if user.profile_image else 'https://placehold.co/120x120' }}" alt="Profile photo"
                 class="profile-photo" />
             <div class="profile-details">
-                <h2>{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.name }}{% endif %}</h2>
+                <h2>{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.name }}{% endif
+                    %}</h2>
                 <span class="username-tag">@{{ user.name }}</span>
                 <span class="email">{{ user.email }}</span>
                 <span class="phone">{{ user.phone }}</span>
@@ -31,13 +32,16 @@
     <!-- Summary Cards -->
     <section class="row text-center my-4">
         <div class="col-md-4 mb-3">
-            <div class="summary-card shadow-sm">{{ past_orders|length }} Event{% if past_orders|length != 1 %}s{% endif %} Attended</div>
+            <div class="summary-card shadow-sm">{{ past_orders|length }} Event{% if past_orders|length != 1 %}s{% endif
+                %} Attended</div>
         </div>
         <div class="col-md-4 mb-3">
-            <div class="summary-card shadow-sm">{{ hosted_events|length }} Event{% if hosted_events|length != 1 %}s{% endif %} Hosted</div>
+            <div class="summary-card shadow-sm">{{ hosted_events|length }} Event{% if hosted_events|length != 1 %}s{%
+                endif %} Hosted</div>
         </div>
         <div class="col-md-4 mb-3">
-            <div class="summary-card shadow-sm">{{ booked_upcoming|length }} Upcoming Booking{% if booked_upcoming|length != 1 %}s{% endif %}</div>
+            <div class="summary-card shadow-sm">{{ booked_upcoming|length }} Upcoming Booking{% if
+                booked_upcoming|length != 1 %}s{% endif %}</div>
         </div>
     </section>
 
@@ -49,7 +53,8 @@
         <div class="col-md-4 mb-4">
             <div class="event-card profile-event-card shadow-sm">
                 <div class="card-img-wrap">
-                    <span class="status-badge status-{{ event.status | lower | replace(' ', '-') }}">{{ event.status }}</span>
+                    <span class="status-badge status-{{ event.status | lower | replace(' ', '-') }}">{{ event.status
+                        }}</span>
                     <img src="{{ url_for('static', filename='images/' + event.image) if event.image else 'https://placehold.co/400x220' }}"
                         class="card-img-top" alt="{{ event.name }}">
                     <span class="origin-tag">{{ event.category }}</span>
@@ -62,13 +67,15 @@
                         <span>Hosted by: {{ event.user.name }}</span>
                     </div>
                     <div class="card-meta">
-                        <span><i class="bi bi-calendar3 mi"></i> {{ event.date.strftime('%a %d %b %Y, %I:%M %p') }}</span>
+                        <span><i class="bi bi-calendar3 mi"></i> {{ event.date.strftime('%a %d %b %Y, %I:%M %p')
+                            }}</span>
                         <span><i class="bi bi-geo-alt mi"></i> {{ event.location }}</span>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center">
                     <span class="event-price">${{ event.price }}</span>
-                    <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-primary btn-sm">View Details</a>
+                    <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-primary btn-sm">View
+                        Details</a>
                 </div>
             </div>
         </div>
@@ -236,49 +243,11 @@
                         View Details
                     </a>
 
-                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#ticketPreviewModal{{ order.id }}">
+                    <a href="{{ url_for('main.preview_ticket_page', order_id=order.id) }}" class="btn btn-light btn-sm">
                         Download Tickets
-                    </button>
+                    </a>
                 </div>
 
-            </div>
-        </div>
-
-        <div class="modal fade" id="ticketPreviewModal{{ order.id }}" tabindex="-1">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <h5 class="modal-title">
-                            Ticket Preview - BK-{{ "%06d"|format(order.id) }}
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal">
-                        </button>
-                    </div>
-
-                    <div class="modal-body">
-                        <iframe src="{{ url_for('main.preview_ticket', order_id=order.id) }}" width="100%"
-                            height="600px" style="border: none;">
-                        </iframe>
-                    </div>
-
-                    <div class="modal-footer">
-                        <span class="me-auto">
-                            Do you want to download ticket now?
-                        </span>
-
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-
-                        <a href="{{ url_for('main.download_ticket', order_id=order.id) }}" class="btn btn-primary"
-                            data-bs-dismiss="modal">
-                            Confirm Download
-                        </a>
-                    </div>
-
-                </div>
             </div>
         </div>
 
@@ -291,7 +260,9 @@
 
 <style>
     /* ── Profile Page ── */
-    .profile-page { color: var(--text); }
+    .profile-page {
+        color: var(--text);
+    }
 
     .profile-header {
         background: #fff;
@@ -327,7 +298,9 @@
         box-shadow: var(--shadow-sm);
     }
 
-    .profile-details { margin-top: 12px; }
+    .profile-details {
+        margin-top: 12px;
+    }
 
     .profile-details h2 {
         font-family: var(--font-display);
@@ -335,6 +308,7 @@
         font-weight: 800;
         margin-bottom: 2px;
     }
+
     .username-tag {
         display: inline-block;
         font-size: 0.82rem;
@@ -403,7 +377,10 @@
         transition: var(--transition);
     }
 
-    .profile-event-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+    .profile-event-card:hover {
+        box-shadow: var(--shadow);
+        transform: translateY(-2px);
+    }
 
     .profile-event-card .card-img-top {
         width: 100%;
@@ -419,7 +396,9 @@
         margin-bottom: 6px;
     }
 
-    .profile-event-card .card-body { padding: 14px 16px; }
+    .profile-event-card .card-body {
+        padding: 14px 16px;
+    }
 
     .profile-event-card .card-meta {
         display: flex;
@@ -448,7 +427,7 @@
         border-radius: 20px;
         font-size: 0.78rem;
         font-weight: 700;
-        background: rgba(255,255,255,0.92);
+        background: rgba(255, 255, 255, 0.92);
         color: var(--text-mid);
         border: 1px solid var(--card-border);
     }
@@ -460,7 +439,10 @@
         border-top: 1px solid var(--card-border);
     }
 
-    .card-actions .btn { flex: 1; font-weight: 600; }
+    .card-actions .btn {
+        flex: 1;
+        font-weight: 600;
+    }
 
     .host-info,
     .booking-host-row {
@@ -512,11 +494,13 @@
         font-size: 0.82rem;
         color: var(--text-mid);
         font-weight: 700;
-        background: rgba(255,255,255,0.92);
+        background: rgba(255, 255, 255, 0.92);
         border: 1px solid var(--card-border);
     }
 
-    .booking-card-body { padding: 14px 18px 6px; }
+    .booking-card-body {
+        padding: 14px 18px 6px;
+    }
 
     .booking-history-card .card-title {
         font-family: var(--font-display);
@@ -535,7 +519,9 @@
         margin-bottom: 6px;
     }
 
-    .booking-left { flex: 1; }
+    .booking-left {
+        flex: 1;
+    }
 
     .booking-id {
         display: inline-block;
@@ -610,8 +596,15 @@
             text-align: center;
             padding: 0 20px 25px;
         }
-        .edit-profile-btn { margin-left: 0; }
-        .profile-stats { justify-content: center; gap: 15px; }
+
+        .edit-profile-btn {
+            margin-left: 0;
+        }
+
+        .profile-stats {
+            justify-content: center;
+            gap: 15px;
+        }
     }
 </style>
 

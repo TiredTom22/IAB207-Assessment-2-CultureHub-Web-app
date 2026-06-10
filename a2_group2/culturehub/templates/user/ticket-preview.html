@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container my-4">
+
+    <h2 class="section-title">Ticket Preview</h2>
+
+    <div class="ticket-preview-card shadow-sm">
+
+        <iframe src="{{ url_for('main.preview_ticket', order_id=order.id) }}"
+                width="100%"
+                height="650px"
+                style="border: 1px solid #ddd; border-radius: 8px;">
+        </iframe>
+
+        <div class="ticket-confirm-box mt-4">
+            <h4>Do you want to download ticket now?</h4>
+
+            <div class="d-flex gap-3 mt-3">
+                <a href="{{ url_for('main.profile') }}"
+                   class="btn btn-light">
+                    Back To Profile to Cancel
+                </a>
+
+                <a href="{{ url_for('main.download_ticket', order_id=order.id) }}"
+                   class="btn btn-primary">
+                    Confirm Download
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    .ticket-preview-card {
+        background-color: #f5d3d4;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 25px;
+    }
+
+    .ticket-confirm-box {
+        background-color: #fffafa;
+        border-radius: 10px;
+        padding: 20px;
+        border: 1px solid #e0e0e0;
+    }
+
+    .section-title {
+        color: #1a1a2e;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+</style>
+
+{% endblock %}
