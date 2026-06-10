@@ -356,3 +356,17 @@ def preview_ticket(order_id):
         download_name=f"CultureHub_Ticket_BK-{order.id:06d}.pdf",
         mimetype='application/pdf'
     )
+
+@main_bp.route('/ticket/<int:order_id>/preview-page')
+@login_required
+def preview_ticket_page(order_id):
+    order = Order.query.get_or_404(order_id)
+
+    if order.user_id != current_user.id:
+        flash("You are not authorised to preview this ticket.")
+        return redirect(url_for('main.profile'))
+
+    return render_template(
+        'user/ticket-preview.html',
+        order=order
+    )
